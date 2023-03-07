@@ -1,0 +1,15 @@
+"Ongoing research on university faculty perceptions and practices of using Wikipedia as a teaching resource. Based on a Technology Acceptance Model, the relationships within the internal and external constructs of the model are analyzed. Both the perception of colleaguesƒ?? opinion about Wikipedia and the perceived quality of the information in Wikipedia play a central role in the obtained model."
+
+AGE: numericÿ
+GENDER: 0=Male; 1=Femaleÿ
+DOMAIN: 1=Arts & Humanities; 2=Sciences; 3=Health Sciences; 4=Engineering & Architecture; 5=Law & Politicsÿ
+PhD: 0=No; 1=Yesÿ
+YEARSEXP (years of university teaching experience): numericÿ
+
+The following survey items are Likert scale (1-5) ranging from strongly disagree / never (1) to strongly agree / always (5)ÿ
+Use behaviourÿ
+USE1: I use Wikipedia to develop my teaching materialsÿ
+USE2: I use Wikipedia as a platform to develop educational activities with studentsÿ
+USE3: I recommend my students to use Wikipediaÿ
+USE4: I recommend my colleagues to use Wikipediaÿ
+USE5: I agree my students use Wikipedia in my coursesÿ
