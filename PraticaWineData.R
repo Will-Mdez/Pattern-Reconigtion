@@ -109,3 +109,36 @@ dataWine3$`Total phenols`[is.na(dataWineNA$`Total phenols`)&dataWineNA$class==1]
 dataWine3$`Total phenols`[is.na(dataWineNA$`Total phenols`)&dataWineNA$class==2]<-meanFenolC2
 dataWine3$`Total phenols`[is.na(dataWineNA$`Total phenols`)&dataWineNA$class==3]<-meanFenolC3
 summary(dataWine3)
+
+#DISCRETIZACION
+dataWineDiscretizacion <- dataWine[order(dataWine$Proline,decreasing = FALSE), ]
+dim(dataWine)
+rango <- 178/3 
+rango1 <- c()
+for(i in 1:rango){
+  rango1 <- append(rango1,1)
+}
+for(i in 1:rango){
+  rango1 <- append(rango1,2)
+}
+for(i in 1:rango){
+  rango1 <- append(rango1,3)
+}
+rango1 <- append(rango1,3)
+dataWineDiscretizacion <- cbind(dataWineDiscretizacion,Discretizar=rango1)
+
+#Frecuencias
+freqClassWine <- table(dataWine$class)
+#Frecuencia por classes
+print(freqClassWine[1])
+print(freqClassWine[2])
+print(freqClassWine[3])
+
+freqClass_DFWine <- as.data.frame(freqClassWine)
+names(freqClass_DFWine)<-c("clase","freq")
+print(freqClass_DFWine)
+
+#gistograma de frecuencias
+library(ggplot2)
+p<-ggplot(data=freqClass_DFWine,aes(x=clase),y=freq)
+print(p)
