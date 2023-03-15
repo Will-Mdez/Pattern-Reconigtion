@@ -47,22 +47,3 @@ print(freqClass_DF)
 #gistograma de frecuencias
 library(ggplot2)
 p<-ggplot(data=freqClass_DF,aes(x=clase),y=freq)
-
-
-#DISCRETIZACION
-dataWineDiscretizacion <- dataWine[order(dataWine$Proline,decreasing = FALSE), ]
-dim(dataWine)
-rango <- 178/3 
-rango1 <- c()
-for(i in 1:rango){
-  rango1 <- append(rango1,1)
-}
-for(i in 1:rango){
-  rango1 <- append(rango1,2)
-}
-for(i in 1:rango){
-  rango1 <- append(rango1,3)
-}
-rango1 <- append(rango1,3)
-dataWineDiscretizacion <- cbind(dataWineDiscretizacion,Discretizar=rango1)
-head()
