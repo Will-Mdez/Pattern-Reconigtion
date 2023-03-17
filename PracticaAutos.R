@@ -32,3 +32,60 @@ summary(dataCars_Cualit)
 indicesNA <- which(rowSums(is.na(dataCars_Cualit))!=0)
 print(indicesNA)
 dataCars_Cualit<-dataCars_Cualit[rowSums(is.na(dataCars_Cualit))==0,]
+summary(dataCars_Cualit)
+table(dataCars_Cualit)
+
+obj1<-1
+obj4<-4
+indObj<-c(obj1,obj4)
+dataTwo<-dataCars_Cualit[indObj,]
+#caracteristica1
+tabCoinc1<-table(dataTwo[,1],dataTwo[,1])
+print(tabCoinc1)
+#caracteristica4
+tabCoinc4<-table(dataTwo[,4],dataTwo[,4])
+print(tabCoinc4)
+sum(tabCoinc1==2)
+sum(tabCoinc4==2)
+
+searchCoinc<-function(FC_objetosXY){
+  tabCoinc1<-table(FC_objetosXY,FC_objetosXY)
+  #print(tabCoinc1)
+  return(sum(tabCoinc1==2))
+}
+
+similEmpExt<-function(objetosXY_df){
+  namesFC<-names(objetosXY_df)
+  K<-length(names(dataTwo))
+  similFeatures<-sapply(namesFC,function(x) searchCoinc(objetosXY_df[,x]))
+ # print(similFeatures)
+  simil_xy<-sum(similFeatures)/K
+  return(simil_xy)
+}
+
+similEmpExt(dataTwo)
+obj1<-1
+obj2<-6
+
+indObj<-c(obj1,obj2)
+dataTwo<-dataCars_Cualit[indObj,]
+#MAtriz de similitudes dentre dlos diferentes objetos 
+N<-dim(dataCars_Cualit)[1]
+indObj<-seq(1:N)
+similMat<-sapply(indObj,function(x) sapply(indObj,function(y) similEmpExt(dataCars_Cualit[c(x,y),])))
+print(similMat)
+
+#_Similitud Cuantitativas Distancia Euclidena
+searchCoinCuant<-function(FC_objetosXY){
+  tabCoinc1<-table(FC_objetosXY,FC_objetosXY)
+  #print(tabCoinc1)
+  return(sum(tabCoinc1==2))
+}
+similEmpExtCuant<-function(objetosXY_df){
+  namesFC<-names(objetosXY_df)
+  K<-length(names(dataTwo))
+  similFeatures<-sapply(namesFC,function(x) searchCoinc(objetosXY_df[,x]))
+  # print(similFeatures)
+  simil_xy<-sum(similFeatures)/K
+  return(simil_xy)
+}
