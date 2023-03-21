@@ -20,12 +20,14 @@ names(dataCars)<-namesCarsD
 
 summary(dataCars)
 cualitatFeat<-seq(from=1,to=6)
-cuantitaFeat<-seq(form=7,to=11)
+cuantitaFeat<-seq(from=7,to=11)
 #convertir datos categoricos
 dataCars_Cualit<-lapply(cualitatFeat,function(x) factor(dataCars[,x]))
 names(dataCars_Cualit)<-namesCarsD[cualitatFeat]
 dataCars_Cualit<-as.data.frame(dataCars_Cualit)
+dataCars_Cuantitative<--dataCars[,7:11]
 summary(dataCars_Cualit)
+summary(dataCars_Cuantitative)
 
 #Eliminar NA
 
@@ -76,16 +78,11 @@ similMat<-sapply(indObj,function(x) sapply(indObj,function(y) similEmpExt(dataCa
 print(similMat)
 
 #_Similitud Cuantitativas Distancia Euclidena
-searchCoinCuant<-function(FC_objetosXY){
-  tabCoinc1<-table(FC_objetosXY,FC_objetosXY)
-  #print(tabCoinc1)
-  return(sum(tabCoinc1==2))
-}
-similEmpExtCuant<-function(objetosXY_df){
-  namesFC<-names(objetosXY_df)
-  K<-length(names(dataTwo))
-  similFeatures<-sapply(namesFC,function(x) searchCoinc(objetosXY_df[,x]))
-  # print(similFeatures)
-  simil_xy<-sum(similFeatures)/K
-  return(simil_xy)
-}
+a<-dataCars_Cuantitative[1,]
+b<-dataCars_Cuantitative[4,]
+euclidiana <- function(a,b) 1/(1+(sqrt ( sum ((a - b) ^ 2))))
+c<-euclidiana(a,b)
+N<-dim(dataCars_Cuantitative)[1]
+indObj<-seq(1:N)
+similMat2<-sapply(indObj,function(x) sapply(indObj,function(y) euclidiana(dataCars_Cualit[x,],dataCars_Cualit[y,])))
+
