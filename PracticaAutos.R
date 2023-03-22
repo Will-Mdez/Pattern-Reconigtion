@@ -78,11 +78,14 @@ similMat<-sapply(indObj,function(x) sapply(indObj,function(y) similEmpExt(dataCa
 print(similMat)
 
 #_Similitud Cuantitativas Distancia Euclidena
-a<-dataCars_Cuantitative[1,]
-b<-dataCars_Cuantitative[4,]
+a<-dataCars_Cuantitative[2,]
+b<-dataCars_Cuantitative[1,]
+d<-function(a,b) sqrt ( sum ((a - b) ^ 2))
+e<-d(a,b)
 euclidiana <- function(a,b) 1/(1+(sqrt ( sum ((a - b) ^ 2))))
 c<-euclidiana(a,b)
 N<-dim(dataCars_Cuantitative)[1]
 indObj<-seq(1:N)
 similMat2<-sapply(indObj,function(x) sapply(indObj,function(y) euclidiana(dataCars_Cualit[x,],dataCars_Cualit[y,])))
+similMatDE<-sapply(indObj,function(x) sapply(indObj,function(y) d(dataCars_Cualit[x,],dataCars_Cualit[y,])))
 
