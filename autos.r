@@ -121,5 +121,7 @@ grupo[distColum2<distColum9]<-1
 grupo[distColum2>=distColum9]<-2
 print(grupo)
 Medias<-grupo
-Medias[Medias==1]<-(dataCarsKMeans)
-print(Medias)
+indx1<-which(grupo %in% c(1))
+indx2<-which(grupo %in% c(2))
+
+Medias<-apply(indx1,function(x) dataCarsKMeans[x,], simplify = TRUE)
