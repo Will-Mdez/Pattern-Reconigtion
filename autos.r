@@ -124,4 +124,5 @@ Medias<-grupo
 indx1<-which(grupo %in% c(1))
 indx2<-which(grupo %in% c(2))
 
-Medias<-apply(indx1,function(x) dataCarsKMeans[x,], simplify = TRUE)
+kmediasc1<-apply(dataCarsKMeans[indx1,],2,mean)
+kmediasc2<-apply(dataCarsKMeans[indx2,],2,mean)
