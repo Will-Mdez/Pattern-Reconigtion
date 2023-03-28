@@ -25,6 +25,7 @@ distanciaMahalanobis<-function(a,b){
 
 N<-dim(dataHipTir_Cuanti)[1]
 indObj<-seq(1:N)
+
 distanciaObjetos<-sapply(indObj,function(x) sapply(indObj,function(y) distanciaMahalanobis(dataHipTir_Cuanti[x,],dataHipTir_Cuanti[y,])))
 
 centro1<-dataHipTir_Cuanti[9,]

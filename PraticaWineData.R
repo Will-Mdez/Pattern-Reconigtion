@@ -1,4 +1,4 @@
-nameFile <- "C://Users//Alumnos//Downloads//datasets-20230307T150614Z-001//datasets//wine.data";
+nameFile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//wine.data";
 dataWine <- read.table(nameFile, header = FALSE, sep = ",");
 
 ##Nombre a las columnas de datos
@@ -93,7 +93,7 @@ dataWine2$Alcohol[is.na(dataWineNA$Alcohol)]<-meanAlch
 dataWine2$`Total phenols`[is.na(dataWineNA$`Total phenols`)]<-meanFenol
 summary(dataWine2)
 
-#Imputacion con calor de la media condicionada
+#Imputacion con valor de la media condicionada
 dataWine3 <- dataWineNA
 indClase1 <- which(dataWine1$class==1)
 meanAlchC1 <- mean(dataWine1$Alcohol[dataWine1$class==1])
@@ -140,5 +140,5 @@ print(freqClass_DFWine)
 
 #gistograma de frecuencias
 library(ggplot2)
-p<-ggplot(data=freqClass_DFWine,aes(x=clase),y=freq)
+p<-ggplot(data=freqClass_DFWine,aes(x=clase,y=freq)) + geom_bar(stat = "identity",fill="#696969")
 print(p)

@@ -1,17 +1,17 @@
-autoFile <- "C://Users//Alumnos//Downloads//datasets-20230315T153433Z-001//datasets//autos.csv";
+autoFile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//autos.csv";
 dataAuto <- read.table(autoFile, header = TRUE, sep = ",");
 
 summary(dataAuto)
 
 
-autoFile2 <- "C://Users//Alumnos//Downloads//datasets-20230315T153433Z-001//datasets//imports-85.data";
+autoFile2 <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//imports-85.data";
 dataAuto2 <- read.table(autoFile2, header = TRUE, sep = ",");
 
 summary(dataAuto2)
 namesCarsDOrig<-c("symboling","normalized-losses","make","fuel-type","aspiration",
                   "num-of-doors","body-style","drive-wheels","engine-location","wheel-base",
                   "length","width","height","curb-weight","engine-type","num-of-cylinders","engine-size",
-                  "fuel-system","bore","stroke","compressio-ratio","horsepower","peak-rom","city-mpg","highway-mpg",
+                  "fuel-system", "bore","stroke","compressio-ratio","horsepower","peak-rom","city-mpg","highway-mpg",
                   "price");
 filtroCol<-seq(from=4,to=14)
 dataCars<-dataAuto2[,filtroCol]
@@ -80,12 +80,16 @@ print(similMat)
 #_Similitud Cuantitativas Distancia Euclidena
 a<-dataCars_Cuantitative[2,]
 b<-dataCars_Cuantitative[1,]
+
 d<-function(a,b) sqrt ( sum ((a - b) ^ 2))
+
 e<-d(a,b)
 euclidiana <- function(a,b) 1/(1+(sqrt ( sum ((a - b) ^ 2))))
 c<-euclidiana(a,b)
 N<-dim(dataCars_Cuantitative)[1]
 indObj<-seq(1:N)
-similMat2<-sapply(indObj,function(x) sapply(indObj,function(y) euclidiana(dataCars_Cualit[x,],dataCars_Cualit[y,])))
+#similMat2<-sapply(indObj,function(x) sapply(indObj,function(y) euclidiana(dataCars_Cualit[x,],dataCars_Cualit[y,])))
+#similMatDE<-sapply(indObj,function(x) sapply(indObj,function(y) d(dataCars_Cualit[x,],dataCars_Cualit[y,])))
 similMatDE<-sapply(indObj,function(x) sapply(indObj,function(y) d(dataCars_Cualit[x,],dataCars_Cualit[y,])))
+similMat2<-sapply(indObj,function(x) sapply(indObj,function(y) euclidiana(dataCars_Cualit[x,],dataCars_Cualit[y,])))
 
