@@ -29,10 +29,20 @@ distancia1<-sapply(seq(1:10),function(x) euclidiana(medias1,dataCarsKMeans[x,]))
 distancia1
 distancia2<-sapply(seq(1:10),function(x) euclidiana(medias2,dataCarsKMeans[x,]))
 distancia2
-sumadistancias1e2<-sum(((1/distancia1**2))**(1/(1.5-1)))
-sumadistancias1e2
 
-sumadistancias2e2<-sum(((1/distancia2**2))**(1/(1.5-1)))
-sumadistancias2e2
+colum1<-((1/distancia1**2))**(1/(1.5-1))
+colum1
 
-pertenencia1 <- (1/distancia1**2)/sumadistancias1e1
+colum2<-((1/distancia2**2))**(1/(1.5-1))
+colum2
+
+sumadistancias<-(((1/distancia1**2))**(1/(1.5-1)))+(((1/distancia2**2))**(1/(1.5-1)))
+sumadistancias
+
+
+
+pertenencia1 <- (1/distancia1**2)**(1/(1.5-1))/sumadistancias
+pertenencia1
+pertenencia2 <- (1/distancia2**2)**(1/(1.5-1))/sumadistancias
+pertenencia2
+
