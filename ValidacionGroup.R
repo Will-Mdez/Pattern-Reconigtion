@@ -36,6 +36,10 @@ mediaMetodo2_g1
 mediaMetodo2_g2<-apply(fulldatos[grupo2m2,],2, mean)
 mediaMetodo2_g2
 
+mediaglobalCaractM1<-(mediaMetodo1_g1*8+mediaMetodo1_g2*4)/12
+mediaglobalCaractM1
+mediaglobalCaractM2<-(mediaMetodo2_g1*4+mediaMetodo2_g2*8)/12
+mediaglobalCaractM2
 
 euclidiana <- function(a,b) (sqrt ( sum ((a - b) ^ 2)))
 
@@ -54,3 +58,17 @@ sumad1m1<-sum(distancia1m1g1**2)+sum(distancia1m1g2**2)
 sumad1m1
 sumad1m2<-sum(distancia1m2g1**2)+sum(distancia1m2g2**2)
 sumad1m2
+
+#Metrica tr(SB)
+trSBM1_g1<-8*euclidiana(mediaglobalCaractM1[1:4],mediaMetodo1_g1[1:4])
+trSBM1_g1
+trSBM1_g2<-4*euclidiana(mediaglobalCaractM1[1:4],mediaMetodo1_g2[1:4])
+trSBM1_g2
+sumtrSBM1<-trSBM1_g2+trSBM1_g1
+sumtrSBM1
+trSBM2_g1<-4*euclidiana(mediaglobalCaractM1[1:4],mediaMetodo2_g1[1:4])
+trSBM2_g1
+trSBM2_g2<-8*euclidiana(mediaglobalCaractM1[1:4],mediaMetodo2_g2[1:4])
+trSBM2_g2
+sumtrSBM2<-trSBM2_g2+trSBM2_g1
+sumtrSBM2
