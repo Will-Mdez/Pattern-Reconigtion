@@ -4,7 +4,7 @@ library(imager)
 
 setwd("C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//")
 nameFileG <- ".//pelotas.jpg";
-img<-readImage(nameFileG, resize =NULL, rotate=NULL)
+img<-readImage(nameFileG, resize =0.125, rotate=NULL)
 
 #dimensiones de la imagen
 dim(img)
@@ -79,11 +79,8 @@ distancia3
 
 colum1<-((1/distancia1**2))**(1/(1.5-1))
 colum1
-
 colum2<-((1/distancia2**2))**(1/(1.5-1))
 colum2
-
-
 colum3<-((1/distancia3**2))**(1/(1.5-1))
 colum3
 
@@ -98,6 +95,7 @@ pertenencia2 <- (1/distancia2**2)**(1/(1.5-1))/sumadistancias
 pertenencia2
 pertenencia3 <- (1/distancia3**2)**(1/(1.5-1))/sumadistancias
 pertenencia3
+
 medias1
 epsilon<-0.1
 medias1
@@ -159,5 +157,34 @@ while (difmedias > epsilon) {
 }
 difmedias
 medias1 
-medias2
-medias3
+asignaGrupo<-function(a,b) (if (sum(a>b)) 0 else 1 )
+
+asignaGrupoPorColor<-function(a,b) ifelse (a>b , 0, 1 )
+
+grupox<-asignaGrupo(dataPixels[1,],medias1)
+grupo <- sapply(seq(1:dim),function(x) asignaGrupo(mediasact1,dataPixels[x,]))
+grupoColores <- sapply(seq(1:dim),function(x) asignaGrupoPorColor(mediasact1,dataPixels[x,]))
+t(grupoColores)
+FRes<-matrix(grupo,ncol = dim(F1)[2])
+FRes
+img
+rojo<-matrix(grupoColores[,1],ncol = dim(F1)[2])
+verde<-matrix(grupoColores[,2],ncol = dim(F2)[2])
+azul<-matrix(grupoColores[,3],ncol = dim(F3)[2])
+
+grupo<-matrix(grupo)
+
+grupo
+dataPixels
+dim(img)
+x11()
+layout(matrix(1:4,nrow=2))
+par(mar = c(1,2,2,0))
+plotImageArray(img,main="original")
+plotImageArray(rojo,main ="red")
+plotImageArray(verde,main= "green")
+plotImageArray(azul,main ="blue")
+
+
+
+

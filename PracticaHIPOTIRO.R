@@ -40,7 +40,7 @@ distanciaObjetosC3<-sapply(indObj,function(x) distanciaMahalanobis(centro3,dataH
 distanciaObjetosC1
 
 matrizDistancias<-cbind(distanciaObjetosC1,distanciaObjetosC2,distanciaObjetosC3)
-
+matrizDistancias
 grupo <- apply(matrizDistancias,1,which.min)
 grupo
 
