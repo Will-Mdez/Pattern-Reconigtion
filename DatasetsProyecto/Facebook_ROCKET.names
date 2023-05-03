@@ -1,0 +1,45 @@
+1. Titulo: Perfiles de Facebook.
+
+2. Fuente:
+	Creado por: 
+		Brenda Negrete Sanchez. nesb990715@gs.utm.mx
+		Baruc Cisneros Cruz. cicb990222@gs.utm.mx
+		José E. Castellanos Narvaez. cane000305@gs.utm.mx
+	Fecha: Marzo del 2023
+
+3. Uso pasado:
+	No se tienen antecedentes del uso de esta base de datos, ya que
+	su creación es reciente. No se ha trabajo anteriormente con los datos
+	de esta base de datos.
+
+4. Inforación relevante:
+	Esta base de datos ha sido creada a partir de la recolección
+	de ciertos datos obtenidos de diferentes perfiles de Facebook
+	con el proposito de identificar ciertos patrones en la infomacion
+	y clasificar los perfiles en dos tipos: perfiles reales y perfiles
+	falsos.
+
+5. Número de instancias: 225
+
+6. Número de atributos: 11 atributos.
+
+7. Información de atributos:
+	1. caracteres_nombre: cantidad de caracteres usados
+		en el nombre del usuario (valor numérico).
+	2. foto_perfil: identifica si el perfil cuenta
+		con foto de usuario (SI/NO).
+	3. perfil_privado: identica si el perfil es privado (SI/NO).
+	4. num_amigos: cantidad de amigos con las que
+		cuenta el perfil (valor numérico).
+	5. seguidores: cantidad de seguidores para el perfil (valor numérico).
+	6. publicaciones_dia: cantidad de publicaciones en un dia
+	 	(valor numérico).
+	7. dias_masPublicaciones: nombre del dia en que se reslizan
+		la mayor cantidad de publicaciones (dias).
+	8. paginas_sigueOgusta: cantidad de páginas que el usuario
+		a indicado que le gustan o sigue (valor numérico).
+	9. amigos_comun: cantidad de amigos en común (valor numérico).
+	10. publicaciones_mes: cantidad de publicaciones 
+		realizadas en un mes (valor numérico).
+
+8. Valores de atributos faltantes: denotados con "NaN"

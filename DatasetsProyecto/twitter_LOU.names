@@ -1,0 +1,42 @@
+1. Title of Database: Twitter Data
+
+2. Sources:
+   (a) Guerrero Hernández Samuel Antonio
+       López Ituarte Austin
+       (2023)
+
+3. Past Usage:
+    Este dataset fue creado para la clase Reconocimiento de Patrones
+    de la Ingeniería en Computación en Universidad Tecnológica
+    de la Mixteca.
+
+4. Relevant Information:
+
+   Este data set fue extraído de diversos perfiles de Twitter, de los
+   cuales fueron extraídos sus códigos fuentes en HTML y por medio de
+   un programa en Python se extrajeron las características deseadas.
+
+   -- Los atributos son:
+ 	1) Nombre del perfil
+ 	2) Cantidad de letras del nombre de perfil
+ 	3) Tiene foto de perfil
+	4) Cantidad de seguidores  
+ 	5) Cantidad de seguidos
+	6) Promedio de publicaciones
+ 	7) Perfil privado
+ 	8) Día que más publica
+ 	9) Comenta publicaciones
+	10) Clase
+
+5. Number of Attributes 
+	
+	10
+
+6. Missing Attribute Values:
+
+	None
+
+7. Class Distribution: number of instances per class
+
+    class 1 75
+	class 2 75

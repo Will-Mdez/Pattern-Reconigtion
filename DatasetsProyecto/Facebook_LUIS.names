@@ -1,0 +1,52 @@
+1. Title of Database: Facebook user's recognition data
+	Updated March 28, 2022, by Miguel Matus and Luis Morales
+
+2. Sources:
+   (a) Most of the material was gathered by a form made with google forms and sent to people 
+	 willing to answer the questions
+
+   (b) Some of the material was gathered manually by analyzing random Facebook users individually  
+
+3. Past Usage:
+	(1) So far there is no usage of this dataset yet
+ 
+
+4. Relevant Information:
+
+	Feature Names
+	----
+ 	Nro Caracteres del nombre	
+	Foto de Perfil	
+	Tiempo en FB al día	
+	Publicaciones al día	
+	Amigos	
+	Páginas que siguen	
+	¿Comentas frecuentemente otras publicaciones?	
+	Día de la semana con más actividad          
+
+5. Number of Instances
+
+    There are two classes
+	0 for those who are not bots
+	1 for those who are bots
+
+6. Number of Attributes 
+	
+	8
+
+7. For Each Attribute:
+
+	Some attributes are continuous 
+	Some others are discrete 
+	
+
+	NOTE: You must factor the non continuous features
+
+8. Missing Attribute Values:
+
+	None
+
+9. Class Distribution: number of instances per class
+
+	class 0 121
+	class 1 29

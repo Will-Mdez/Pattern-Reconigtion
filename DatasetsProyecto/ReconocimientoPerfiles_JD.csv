@@ -1,0 +1,164 @@
+Edad,Genero,Region,Integrantes-Familia-num,Proveedor-Familia,Tutor,Vive-con-Familia,Enfermedad-CrÃ³nica,Carrera,Semestre,Preparatoria,Promedio-Preparatoria,Materias-Relacionadas,Carrera-Elegida-Ajusta-A-Gustos-Habilidades,Buena-RelaciÃ³n-Familiar,Buena-RelaciÃ³n-Amigos-CompaÃ±eros,Materias-Cursadas-Primer-Semestre,Promedio-Primer-Semestre,Materias-Aprobadas-Primer-Semestre,Materias-Reprobadas-De-ComputaciÃ³n,Materias-Reprobadas-De-MatemÃ¡ticas,Materias-Reprobadas-De-Ciensias-Sociales,Horas-Promedio-Estudio-Examenes,Horas-Promedio-Estudio-Actividades-Escolares,Cursos-Extra-Primer-Semestre,Noviazgo,Actividad-Cultural-o-Deportiva,Tiempo-con-sus-amigos-compaÃ±eros,Horas-Semana-Divertirse con-sus-amigos,ConsumÃ­a-Alcohol-Entre-semana,ConsumÃ­a-Alcohol-Fin-semana,Horas-DÃ­a-Dedicada-Redes-Sociales,Gustan-Videojuegos,Horas-Semana-Dedicada-Videojuegos,Horas-Semana-Dedicada-Actividades-Entretenimiento
+26,Masculino,Sierra Sur,6,Ambos,Madre,No,No,Ingeniería en Computación,Sexto,CBTIS,9.2,Sí,Sí,No,No,6,4,3,Sí,No,No,1,3,No,No,No,No,1,nunca,nunca,<1,No,0,1-3
+21,Masculino,Mixteca,5,Ambos,Padre,No,No,Ingeniería en Computación,Sexto,COBAO,9.6,No,Sí,Sí,Sí,6,8.5,0,No,No,No,1,2,No,No,No,Sí,1,casi-nunca,casi-nunca,1-2,Sí,1-3,1-3
+25,Masculino,Valles Centrales,3,Mamá,Madre,Sí,No,Ingeniería en Computación,Sexto,Preparatoria/Bachillerato particular,9,No,Sí,Sí,Sí,5,7,3,No,Sí,No,1,1,No,Sí,Sí,Sí,5,casi-nunca,a veces,>2,Sí,>3,1-3
+19,Masculino,Costa,9,Ambos,Padre,No,No,Ingeniería en Computación,Cuarto,Otro,9.9,Sí,Sí,Sí,No,5,6,4,Sí,No,No,5,3,No,No,No,No,0,nunca,nunca,<1,Sí,0,1-3
+21,Masculino,Otro estado,4,Papá,Padre,Sí,No,Ingeniería en Computación,Sexto,COBAO,8,No,Sí,Sí,Sí,6,8.4,6,No,No,No,1,2,No,Sí,No,Sí,1,casi-nunca,casi-nunca,1-2,Sí,1-3,1-3
+19,Masculino,Mixteca,7,Mamá,Madre,No,No,Ingeniería en Computación,Cuarto,Preparatoria/Bachillerato particular,9.1,Sí,No,Sí,Sí,5,7.1,3,Sí,No,No,0,3,No,No,Sí,Sí,2,a veces,regularmente,1-2,No,0,1-3
+20,Masculino,Mixteca,5,Papá,Madre,Sí,No,Ingeniería en Computación,Cuarto,COBAO,7.8,No,No,No,Sí,5,8.5,5,No,No,No,1,2,No,Sí,No,No,0,nunca,casi-nunca,1-2,Sí,>3,>3
+22,Masculino,Mixteca,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Cuarto,Preparatoria-UABJO,7.9,Sí,Sí,Sí,Sí,5,7.86,5,No,No,No,1,1,No,Sí,No,Sí,6,nunca,nunca,>2,Sí,1-3,1-3
+22,Masculino,Mixteca,7,Ambos,Padre,Sí,Sí,Ingeniería en Computación,Cuarto,Preparatoria-UABJO,7.8,Sí,No,No,No,5,7,1,Sí,Sí,Sí,2,1,No,No,Sí,Sí,8,nunca,nunca,>2,Sí,1-3,1-3
+21,Femenino,Valles Centrales,4,Papá,Padre,No,No,Ingeniería en Computación,Sexto,Otro,9,Sí,Sí,Sí,Sí,5,8,5,No,No,No,3,1,No,Sí,No,Sí,5,nunca,nunca,>2,Sí,>3,>3
+19,Femenino,Valles Centrales,3,Ambos,Madre,Sí,No,Ingeniería en Computación,Cuarto,CBTIS,9.6,Sí,Sí,Sí,Sí,6,8.9,6,No,No,No,1,2,No,No,Sí,Sí,3,nunca,nunca,<1,No,0,1-3
+23,Masculino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Octavo,COBAO,8,Sí,Sí,Sí,Sí,6,7.5,6,Sí,No,No,3,3,Sí,No,No,Sí,1,nunca,nunca,>2,No,0,1-3
+21,Masculino,Valles Centrales,2,Papá,Padre,Sí,No,Ingeniería en Computación,Sexto,COBAO,8,Sí,Sí,Sí,Sí,5,9,5,No,No,No,1,2,No,No,No,No,0,nunca,nunca,>2,Sí,>3,>3
+18,Masculino,Costa,6,Mamá,Madre,Sí,No,Ingeniería en Electrónica,Segundo,CBTIS,8.2,Sí,Sí,Sí,Sí,5,8,5,No,No,No,2,3,No,Sí,No,Sí,2,nunca,nunca,1-2,Sí,1-3,0
+20,Masculino,Valles Centrales,6,Ambos,Otra persona,No,No,Ingeniería en Electrónica,Segundo,CBTIS,8.8,Sí,Sí,Sí,Sí,6,7,5,No,Sí,Sí,15,4,No,No,No,No,6,a veces,regularmente,1-2,Sí,1-3,>3
+20,Masculino,Valles Centrales,3,Mamá,Madre,No,No,Ingeniería en Computación,Segundo,Preparatoria/Bachillerato particular,8,Sí,Sí,Sí,Sí,6,6.4,3,Sí,Sí,No,3,3,No,No,No,Sí,5,a veces,regularmente,1-2,Sí,1-3,>3
+19,Masculino,Mixteca,5,Ambos,Padre,Sí,No,Ingeniería en Computación,Segundo,COBAO,8.8,Sí,Sí,Sí,Sí,6,9.1,6,No,No,No,6,3,No,No,Sí,Sí,1,nunca,nunca,>2,Sí,1-3,>3
+19,Masculino,Mixteca,3,Mamá,Madre,Sí,No,Ingeniería en Computación,Segundo,COBAO,8,No,Sí,Sí,No,5,6.6,5,No,No,No,1,2,No,No,No,No,0,nunca,nunca,>2,No,0,>3
+24,Masculino,Valles Centrales,3,Papá,Padre,Sí,No,Ingeniería en Computación,Décimo,COBAO,7.2,Sí,Sí,Sí,Sí,5,7.5,4,No,Sí,No,2,2,No,No,No,Sí,4,a veces,a veces,>2,Sí,>3,>3
+18,Femenino,Mixteca,4,Mamá,Madre,Sí,No,Ingeniería en Computación,Segundo,Otro,9.2,No,No,Sí,No,5,6,5,Sí,Sí,No,2,2,Sí,No,No,No,0,nunca,nunca,1-2,No,0,1-3
+21,Masculino,Valles Centrales,3,Mamá,Madre,No,No,Licenciatura en Ciencias Empresariales,Cuarto,CBTIS,7.9,Sí,Sí,Sí,Sí,6,7.6,6,Sí,Sí,No,3,2,No,Sí,No,Sí,3,casi-nunca,casi-nunca,<1,No,0,1-3
+23,Masculino,Valles Centrales,5,Mamá,Padre,Sí,No,Ingeniería en Computación,Octavo,CBTIS,8.5,Sí,Sí,Sí,Sí,6,6.5,6,No,No,No,2,2,No,No,Sí,Sí,10,a veces,regularmente,1-2,No,0,1-3
+18,Masculino,Mixteca,11,Papá,Madre,No,No,Ingeniería en Electrónica,Segundo,COBAO,8,No,No,Sí,No,6,8,6,No,No,No,4,3,No,No,No,Sí,7,nunca,nunca,1-2,Sí,1-3,>3
+27,Masculino,Cañada,6,Papá,Padre,No,No,Ingeniería en Electrónica,Décimo,COBAO,7.6,No,No,Sí,No,5,6.5,4,Sí,No,No,15,4,Sí,No,No,No,0,nunca,nunca,>2,No,0,1-3
+20,Prefiero no decirlo,Mixteca,5,Papá,Madre,Sí,No,Ingeniería en Electrónica,Sexto,CONALEP,7.8,Sí,No,Sí,No,2,7.9,3,Sí,Sí,No,50,40,Sí,No,Sí,No,4,nunca,nunca,1-2,Sí,1-3,>3
+20,Masculino,Mixteca,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Cuarto,COBAO,8.7,Sí,Sí,Sí,Sí,6,8.6,6,No,No,No,1,1,No,Sí,No,No,0,nunca,nunca,>2,Sí,1-3,>3
+20,Masculino,Mixteca,6,Papá,Madre,No,No,Ingeniería en Computación,Cuarto,CONALEP,8,Sí,Sí,Sí,Sí,5,8,5,No,No,No,3,2,No,No,Sí,No,1,casi-nunca,casi-nunca,1-2,Sí,1-3,1-3
+21,Masculino,Mixteca,4,Papá,Padre,No,No,Ingeniería en Computación,Cuarto,Otro,8.1,No,Sí,No,Sí,5,6.3,5,Sí,No,No,5,2,No,Sí,No,Sí,3,nunca,regularmente,<1,Sí,0,0
+21,Masculino,Mixteca,5,Papá,Madre,Sí,No,Ingeniería en Computación,Cuarto,Preparatoria-UABJO,8.7,No,No,Sí,Sí,5,9.5,5,No,No,No,1,1,No,Sí,No,Sí,4,nunca,nunca,1-2,Sí,1-3,1-3
+19,Masculino,Sierra Norte,4,Mamá,Madre,No,No,Ingeniería en Computación,Cuarto,COBAO,7.4,Sí,Sí,Sí,Sí,6,7.9,5,No,No,Sí,0.5,1,No,Sí,No,Sí,6,nunca,nunca,1-2,Sí,>3,>3
+20,Femenino,Valles Centrales,7,Ambos,Otra persona,No,No,Ingeniería en Computación,Segundo,COBAO,8,No,Sí,No,No,5,7,5,No,No,No,1,2,No,Sí,No,No,3,casi-nunca,a veces,1-2,Sí,1-3,>3
+20,Masculino,Mixteca,4,Ambos,Madre,Sí,No,Ingeniería en Computación,Cuarto,CONALEP,9.2,Sí,Sí,No,Sí,5,8.5,5,No,No,No,0.1,2,No,No,No,Sí,4,a veces,a veces,1-2,Sí,1-3,1-3
+20,Masculino,Otro estado,5,Papá,Padre,Sí,No,Ingeniería en Computación,Cuarto,COBAO,8.8,Sí,Sí,Sí,Sí,5,9,5,No,No,No,1,3,Sí,No,No,Sí,3,nunca,nunca,<1,Sí,1-3,1-3
+19,Masculino,Mixteca,4,Mamá,Madre,No,Sí,Ingeniería en Computación,Segundo,CETIS,8.7,Sí,Sí,Sí,No,5,7.5,5,No,No,No,6,3,No,No,No,No,1,nunca,nunca,<1,Sí,1-3,1-3
+19,Masculino,Costa,4,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,Otro,7.8,No,Sí,Sí,Sí,5,6.2,4,Sí,No,No,3,2,No,No,No,Sí,3,nunca,nunca,>2,Sí,1-3,1-3
+22,Masculino,Mixteca,5,Ambos,Padre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8.5,Sí,Sí,Sí,Sí,6,8.5,6,No,No,No,2,2,No,No,No,No,1,nunca,nunca,>2,Sí,1-3,1-3
+23,Masculino,Mixteca,4,Ambos,Madre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8.5,Sí,Sí,Sí,Sí,5,8.5,5,Sí,No,No,3,2,No,No,No,No,3,nunca,nunca,1-2,Sí,1-3,1-3
+17,Masculino,Mixteca,4,Ambos,Padre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8.3,Sí,No,Sí,Sí,5,8.5,4,Sí,No,No,2,3,No,No,No,Sí,5,nunca,nunca,1-2,Sí,>3,>3
+18,Masculino,Otro estado,3,Ambos,Padre,Sí,No,Licenciatura en Matemáticas Aplicadas,Segundo,COBAO,9.9,Sí,Sí,Sí,Sí,4,9.9,4,No,No,No,3,3,No,No,Sí,Sí,1,nunca,nunca,<1,Sí,0,1-3
+22,Masculino,Valles Centrales,4,Ambos,Padre,Sí,No,Ingeniería en Computación,Octavo,COBAO,8,Sí,Sí,Sí,Sí,5,6.2,5,No,No,No,1,2,No,Sí,No,Sí,20,a veces,casi-nunca,1-2,No,0,1-3
+20,Masculino,Mixteca,5,Mamá,Madre,No,No,Ingeniería en Computación,Cuarto,COBAO,9.5,Sí,Sí,Sí,Sí,6,8,6,No,No,No,1,3,No,No,No,Sí,5,casi-nunca,casi-nunca,1-2,Sí,1-3,1-3
+22,Masculino,Valles Centrales,4,Papá,Padre,Sí,No,Ingeniería en Computación,Décimo,COBAO,9.3,No,Sí,Sí,Sí,5,9.2,5,No,No,No,1,1,No,No,No,Sí,2,nunca,nunca,>2,Sí,1-3,>3
+23,Masculino,Valles Centrales,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8,Sí,Sí,Sí,No,5,7,4,Sí,No,No,2,1,No,No,No,No,1,casi-nunca,casi-nunca,>2,No,0,>3
+22,Masculino,Costa,7,Ambos,Madre,Sí,No,Ingeniería en Física Aplicada,Sexto,COBAO,9.8,Sí,Sí,No,No,6,7.1,2,No,Sí,No,0.5,0.5,No,Sí,Sí,Sí,2,casi-nunca,a veces,1-2,Sí,1-3,1-3
+23,Femenino,Valles Centrales,5,Ambos,Padre,Sí,No,Ingeniería en Electrónica,Décimo,COBAO,8.5,No,Sí,Sí,Sí,5,8.8,4,Sí,No,No,2,4,No,No,No,No,0,nunca,nunca,1-2,No,0,1-3
+21,Masculino,Mixteca,3,Mamá,Madre,Sí,No,Ingeniería en Computación,Cuarto,CONALEP,8.7,Sí,Sí,No,No,6,8,6,No,No,No,1,1,No,No,No,No,0,nunca,nunca,<1,No,0,1-3
+25,Masculino,Mixteca,2,Papá,Padre,No,No,Ingeniería en Física Aplicada,Décimo,COBAO,8.5,Sí,Sí,Sí,No,5,6.9,3,No,Sí,No,4,9,No,Sí,No,No,0,casi-nunca,nunca,1-2,Sí,1-3,>3
+20,Masculino,Otro estado,4,Papá,Madre,Sí,No,Ingeniería en Computación,Cuarto,COBAO,9.1,Sí,Sí,Sí,Sí,5,9.3,5,No,No,No,1,1,No,No,No,No,0,nunca,nunca,>2,Sí,1-3,1-3
+21,Femenino,Valles Centrales,10,Ambos,Padre,No,No,Ingeniería en Computación,Cuarto,COBAO,9.1,Sí,Sí,No,No,5,7.7,5,No,No,No,1,3,No,Sí,No,No,0,nunca,nunca,1-2,Sí,1-3,1-3
+28,Masculino,Mixteca,7,Papá,Padre,No,No,Ingeniería en Computación,Décimo,Otro,8,No,Sí,Sí,Sí,4,4,1,Sí,Sí,No,2,3,No,No,Sí,Sí,8,nunca,nunca,>2,No,0,>3
+20,Masculino,Valles Centrales,8,Ambos,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,CETIS,7.3,No,Sí,Sí,Sí,6,6.7,2,Sí,Sí,No,2,2,Sí,Sí,Sí,No,4,nunca,nunca,1-2,Sí,1-3,1-3
+18,Masculino,Mixteca,4,Ambos,Padre,Sí,No,Ingeniería en Computación,Segundo,COBAO,8.9,Sí,Sí,Sí,Sí,5,9.2,5,No,No,No,1,4,No,No,Sí,Sí,15,nunca,nunca,<1,Sí,1-3,1-3
+19,Masculino,Costa,5,Papá,Madre,No,No,Licenciatura en Matemáticas Aplicadas,Cuarto,COBAO,9.9,Sí,Sí,Sí,Sí,4,9.8,4,No,No,No,2,4,No,No,No,Sí,4,nunca,nunca,1-2,Sí,1-3,1-3
+23,Masculino,Istmo,6,Ambos,Madre,No,No,Licenciatura en Matemáticas Aplicadas,Octavo,COBAO,9.7,Sí,Sí,Sí,Sí,4,9.5,4,No,No,No,4,3,No,Sí,No,Sí,5,nunca,nunca,1-2,Sí,1-3,1-3
+24,Masculino,Mixteca,5,Ambos,Padre,No,No,Ingeniería en Mecánica Automotriz,Décimo,Otro,8.2,No,No,No,Sí,5,8,4,No,No,Sí,2,4,No,No,Sí,No,1,casi-nunca,casi-nunca,<1,No,0,1-3
+24,Masculino,Mixteca,4,Papá,Madre,No,No,Ingeniería en Computación,Décimo,Otro,9.1,Sí,Sí,Sí,Sí,5,8.1,5,No,No,No,2,2,No,Sí,No,Sí,4,nunca,casi-nunca,1-2,No,0,1-3
+24,Masculino,Mixteca,3,Mamá,Madre,Sí,No,Licenciatura en Matemáticas Aplicadas,Décimo,Preparatoria-UABJO,8,Sí,Sí,Sí,Sí,4,7.8,4,No,No,No,1,1,No,Sí,Sí,Sí,1,nunca,nunca,1-2,Sí,0,>3
+22,Femenino,Valles Centrales,4,Papá,Madre,No,Sí,Ingeniería en Diseño,Segundo,COBAO,7.8,No,No,Sí,Sí,6,7,5,No,Sí,No,5,3,No,Sí,No,No,2,nunca,nunca,1-2,No,0,1-3
+23,Femenino,Valles Centrales,6,Ambos,Madre,No,No,Licenciatura en Ciencias Empresariales,Sexto,Preparatoria/Bachillerato particular,8,Sí,Sí,Sí,Sí,6,8.5,6,No,No,No,3,4,No,No,Sí,No,0,nunca,nunca,>2,No,0,1-3
+22,Masculino,Valles Centrales,4,Ambos,Madre,No,No,Ingeniería en Mecánica Automotriz,Octavo,CBTIS,8,No,No,Sí,Sí,5,8.2,4,Sí,No,No,2,2,No,No,Sí,Sí,8,a veces,a veces,1-2,Sí,1-3,1-3
+20,Masculino,Otro estado,5,Papá,Pariente,No,No,Ingeniería Industrial,Cuarto,Preparatoria-UABJO,8.5,Sí,Sí,Sí,Sí,6,8.4,6,No,No,No,1,3,No,Sí,Sí,Sí,5,nunca,nunca,1-2,Sí,>3,1-3
+23,Masculino,Costa,3,Ambos,Madre,No,No,Ingeniería en Computación,Décimo,Preparatoria/Bachillerato particular,8.9,Sí,Sí,Sí,Sí,5,9,5,No,No,No,2,0,No,Sí,No,Sí,10,a veces,regularmente,1-2,Sí,>3,>3
+19,Femenino,Valles Centrales,5,Ambos,Madre,No,No,Ingeniería en Mecatrónica,Segundo,Preparatoria-UABJO,8.4,No,No,Sí,Sí,6,6.5,4,Sí,Sí,No,1,1,No,Sí,No,Sí,3,nunca,nunca,>2,No,1-3,1-3
+19,Masculino,Mixteca,4,Ambos,Madre,Sí,No,Ingeniería Industrial,Cuarto,CONALEP,9.4,Sí,Sí,Sí,Sí,5,8.6,5,No,No,No,2,3,No,Sí,No,Sí,5,nunca,casi-nunca,1-2,Sí,1-3,1-3
+23,Masculino,Mixteca,4,Ambos,Madre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8.5,Sí,Sí,Sí,Sí,5,8.5,5,Sí,No,No,2,2,No,No,No,No,2,nunca,nunca,1-2,Sí,1-3,1-3
+20,Masculino,Valles Centrales,4,Papá,Madre,Sí,No,Ingeniería en Computación,Sexto,COBAO,8,Sí,Sí,Sí,Sí,6,7,6,No,No,No,1,3,No,Sí,No,No,0,nunca,nunca,1-2,No,0,1-3
+19,Masculino,Valles Centrales,5,Papá,Otra persona,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,9,Sí,No,Sí,No,7,5,4,No,Sí,No,2,2,Sí,No,Sí,Sí,0,nunca,nunca,>2,Sí,1-3,>3
+21,Masculino,Valles Centrales,3,Papá,Padre,No,No,Ingeniería en Computación,Sexto,COBAO,8,Sí,Sí,Sí,Sí,6,9,6,No,No,No,1,2,No,No,No,No,0,nunca,nunca,>2,Sí,>3,>3
+21,Masculino,Mixteca,5,Ambos,Padre,No,No,Ingeniería en Computación,Sexto,COBAO,9.6,No,Sí,Sí,Sí,6,8.4,6,No,No,No,2,2,No,No,No,Sí,3,casi-nunca,nunca,1-2,Sí,1-3,1-3
+19,Masculino,Mixteca,2,Mamá,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.3,Sí,Sí,Sí,No,5,6.4,4,Sí,No,No,0.5,1,No,No,No,Sí,5,a veces,regularmente,<1,Sí,0,>3
+19,Femenino,Valles Centrales,5,Ambos,Madre,Sí,No,Ingeniería en Alimentos,Cuarto,COBAO,8.3,Sí,Sí,No,Sí,6,7.9,5,No,Sí,No,2,3,No,Sí,No,Sí,3,casi-nunca,casi-nunca,>2,No,0,1-3
+23,Masculino,Valles Centrales,5,Ambos,Madre,No,No,Ingeniería en Computación,Octavo,Preparatoria/Bachillerato particular,9,No,No,No,No,6,9,6,No,No,No,0,2,No,Sí,Sí,No,1,regularmente,regularmente,>2,No,0,>3
+23,Masculino,Mixteca,4,Ambos,Padre,Sí,Sí,Ingeniería Industrial,Sexto,COBAO,9.7,No,Sí,No,No,5,7.5,4,No,Sí,No,5,6,No,No,No,Sí,0,nunca,nunca,<1,Sí,0,1-3
+22,Masculino,Valles Centrales,4,Ambos,Madre,No,No,Ingeniería en Mecatrónica,Cuarto,Otro,9,No,Sí,Sí,No,6,7,6,No,No,No,3,3,No,No,Sí,Sí,3,nunca,nunca,1-2,Sí,1-3,1-3
+22,Femenino,Valles Centrales,3,Papá,Madre,Sí,Sí,Ingeniería en Mecánica Automotriz,Cuarto,Preparatoria/Bachillerato particular,8.1,Sí,Sí,Sí,No,5,8.5,4,Sí,No,No,4,2,No,No,No,Sí,4,a veces,regularmente,>2,Sí,1-3,1-3
+22,Masculino,Mixteca,5,Ambos,Padre,Sí,No,Ingeniería en Computación,Octavo,Preparatoria-UABJO,8.2,Sí,Sí,Sí,Sí,5,7.8,5,No,No,No,1,1,No,No,No,No,0,nunca,nunca,>2,Sí,1-3,1-3
+22,Masculino,Valles Centrales,3,Mamá,Madre,No,Sí,Ingeniería en Computación,Octavo,COBAO,8.1,No,No,Sí,Sí,6,8.5,6,No,No,No,1,1,No,No,No,Sí,2,nunca,nunca,>2,Sí,0,>3
+22,Masculino,Valles Centrales,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Octavo,COBAO,8,Sí,Sí,Sí,Sí,6,7,5,No,Sí,No,2,2,No,Sí,Sí,Sí,8,a veces,regularmente,>2,No,0,1-3
+23,Masculino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Octavo,COBAO,8,Sí,No,Sí,Sí,6,7.4,5,Sí,No,No,1,2,No,No,No,Sí,2,nunca,nunca,>2,No,0,1-3
+21,Masculino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Octavo,Preparatoria-UABJO,8.4,Sí,Sí,No,Sí,5,7.4,5,No,No,No,2,3,Sí,Sí,No,Sí,2,casi-nunca,casi-nunca,>2,Sí,>3,>3
+19,Masculino,Valles Centrales,4,Ambos,Padre,No,No,Ingeniería Industrial,Cuarto,COBAO,7.9,Sí,Sí,No,Sí,5,7.6,5,No,No,No,3,2,Sí,No,No,No,2,casi-nunca,nunca,>2,Sí,>3,>3
+23,Femenino,Mixteca,6,Papá,Madre,Sí,No,Ingeniería en Computación,Décimo,Preparatoria-UABJO,9,Sí,No,Sí,No,6,6,4,Sí,No,No,12,6,No,No,Sí,No,0,nunca,nunca,1-2,Sí,0,1-3
+18,Masculino,Valles Centrales,3,Mamá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,CBTIS,8.2,Sí,Sí,Sí,No,5,7.9,5,Sí,No,No,1.5,2,No,No,No,No,1,nunca,nunca,1-2,Sí,>3,0
+20,Masculino,Mixteca,5,Papá,Padre,No,No,Ingeniería en Computación,Segundo,COBAO,7,No,Sí,Sí,Sí,5,6,2,Sí,Sí,No,3,2,Sí,No,Sí,Sí,2,casi-nunca,casi-nunca,<1,Sí,1-3,1-3
+18,Masculino,Mixteca,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,COBAO,9.5,Sí,Sí,Sí,Sí,1,6.2,5,No,No,No,2,5,Sí,No,No,Sí,2,nunca,nunca,1-2,Sí,1-3,1-3
+18,Masculino,Valles Centrales,6,Papá,Padre,Sí,No,Licenciatura en Matemáticas Aplicadas,Segundo,COBAO,9.2,Sí,Sí,Sí,Sí,4,8.3,4,No,No,No,1,2,No,No,Sí,Sí,1,nunca,nunca,>2,Sí,1-3,1-3
+18,Masculino,Mixteca,3,Ambos,Padre,Sí,No,Ingeniería en Computación,Segundo,COBAO,9.5,Sí,Sí,Sí,No,5,9.4,5,No,No,No,2,4,No,Sí,No,No,0,nunca,nunca,<1,Sí,1-3,1-3
+19,Masculino,Mixteca,6,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,COBAO,9.2,Sí,Sí,Sí,Sí,5,8.1,5,No,No,No,2,2,Sí,Sí,Sí,Sí,2,nunca,nunca,1-2,Sí,1-3,1-3
+19,Masculino,Otro estado,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,Otro,7.8,Sí,Sí,Sí,Sí,5,7.7,4,No,No,No,0,2,No,No,Sí,No,0,nunca,nunca,1-2,Sí,>3,1-3
+22,Masculino,Mixteca,5,Papá,Madre,Sí,No,Ingeniería en Computación,Décimo,COBAO,8.5,Sí,Sí,Sí,Sí,6,8,6,No,No,No,4,3,No,Sí,Sí,Sí,10,casi-nunca,a veces,1-2,Sí,1-3,>3
+19,Femenino,Mixteca,3,Mamá,Madre,No,No,Ingeniería en Computación,Segundo,COBAO,9.6,Sí,No,Sí,Sí,5,7,4,Sí,No,No,3,2,No,No,Sí,Sí,8,a veces,a veces,1-2,Sí,1-3,>3
+18,Masculino,Valles Centrales,4,Ambos,Madre,No,No,Ingeniería en Computación,Segundo,COBAO,9.1,Sí,Sí,Sí,Sí,5,7.56,5,No,No,No,2,2,No,No,Sí,Sí,20,casi-nunca,casi-nunca,>2,Sí,1-3,1-3
+18,Masculino,Valles Centrales,5,Ambos,Madre,No,No,Ingeniería en Computación,Segundo,Preparatoria-UABJO,8.6,Sí,Sí,Sí,Sí,5,6.4,5,Sí,Sí,No,1,1,No,Sí,Sí,Sí,2,nunca,nunca,1-2,Sí,0,1-3
+19,Masculino,Sierra Sur,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,Otro,7,Sí,Sí,Sí,Sí,5,7,5,Sí,Sí,No,13,4,No,No,No,Sí,1,nunca,nunca,>2,Sí,1-3,1-3
+18,Femenino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Computación,Segundo,Preparatoria-UABJO,8.4,No,No,Sí,Sí,5,6,5,Sí,No,Sí,5,3,No,Sí,Sí,Sí,1,nunca,nunca,1-2,Sí,1-3,1-3
+19,Masculino,Mixteca,3,Mamá,Madre,Sí,No,Ingeniería en Computación,Segundo,COBAO,8,No,Sí,Sí,No,5,6.6,5,No,No,No,1,2,No,No,No,No,0,nunca,nunca,>2,No,0,0
+18,Masculino,Costa,5,Ambos,Madre,No,No,Ingeniería en Computación,Segundo,CBTIS,8,No,Sí,Sí,Sí,0,7.9,5,No,No,No,1,1,No,No,No,No,0,nunca,nunca,<1,Sí,>3,1-3
+21,Masculino,Valles Centrales,5,Papá,Padre,No,No,Ingeniería en Computación,Segundo,Preparatoria/Bachillerato particular,9.8,Sí,Sí,No,No,2,7,2,Sí,No,No,3,5,No,No,Sí,Sí,4,nunca,nunca,>2,Sí,>3,>3
+19,Femenino,Mixteca,4,Ambos,Padre,No,No,Ingeniería en Computación,Segundo,Otro,9.3,Sí,Sí,Sí,Sí,5,8.8,5,No,No,No,4,5,Sí,Sí,No,Sí,3,nunca,nunca,1-2,No,0,1-3
+18,Masculino,Valles Centrales,3,Mamá,Madre,No,No,Ingeniería en Computación,Segundo,CBTIS,7,Sí,Sí,Sí,Sí,6,7,6,No,No,No,5,5,No,No,No,No,0,nunca,nunca,1-2,Sí,1-3,>3
+19,Masculino,Mixteca,5,Papá,Padre,Sí,No,Ingeniería en Computación,Segundo,COBAO,8.9,Sí,Sí,Sí,Sí,6,6.7,5,Sí,No,No,1,4,No,No,Sí,Sí,5,casi-nunca,casi-nunca,>2,Sí,>3,1-3
+21,Masculino,Valles Centrales,4,Papá,Otra persona,Sí,No,Ingeniería en Computación,Segundo,Preparatoria/Bachillerato particular,8.3,Sí,Sí,Sí,No,5,8,4,No,No,Sí,1,2,No,No,No,No,1,nunca,nunca,0,Sí,>3,>3
+20,Femenino,Istmo,6,Papá,Padre,No,No,Ingeniería en Diseño,Cuarto,CBTIS,8.5,No,Sí,Sí,Sí,6,7.5,6,Sí,Sí,No,6,3,Sí,No,Sí,Sí,2,nunca,a veces,1-2,No,0,1-3
+18,Femenino,Valles Centrales,4,Ambos,Madre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,8.5,Sí,Sí,Sí,Sí,5,7.8,5,No,No,No,4,2,No,No,Sí,Sí,3,a veces,nunca,1-2,No,0,1-3
+24,Femenino,Mixteca,3,Ambos,Madre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,7.8,No,Sí,Sí,Sí,7,8,7,No,No,No,4,2,Sí,No,No,Sí,4,nunca,a veces,1-2,No,0,1-3
+20,Masculino,Mixteca,4,Ambos,Padre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,7.9,Sí,Sí,Sí,Sí,5,7.4,5,No,Sí,No,3,4,No,No,No,Sí,7,nunca,nunca,>2,Sí,0,>3
+21,Masculino,Sierra Sur,4,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,COBAO,8.6,No,Sí,Sí,No,6,8.4,5,No,No,No,4,2,No,No,Sí,No,0,nunca,nunca,1-2,No,0,1-3
+21,Masculino,Valles Centrales,3,Mamá,Madre,Sí,No,Ingeniería en Diseño,Cuarto,Otro,9.2,Sí,Sí,Sí,Sí,5,8.6,5,No,No,No,2,1,No,No,No,No,0,nunca,nunca,>2,Sí,>3,>3
+22,Femenino,Costa,5,Ambos,Padre,Sí,No,Ingeniería en Diseño,Cuarto,CBTIS,7.8,No,Sí,No,Sí,5,8.5,5,No,No,No,2,2,No,No,Sí,Sí,7,nunca,nunca,>2,No,0,1-3
+21,Femenino,Mixteca,4,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,Otro,8,No,Sí,Sí,Sí,5,6.8,5,No,No,No,1,2,Sí,No,No,No,3,casi-nunca,casi-nunca,1-2,Sí,1-3,1-3
+19,Femenino,Mixteca,4,Papá,Madre,Sí,No,Ingeniería Industrial,Cuarto,COBAO,9.6,Sí,Sí,Sí,Sí,5,9.2,5,No,No,No,1,2,No,Sí,No,Sí,6,nunca,a veces,>2,No,0,>3
+20,Femenino,Mixteca,3,Mamá,Madre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,8.7,No,Sí,Sí,Sí,5,7,5,Sí,No,No,7,5,No,No,No,Sí,5,nunca,nunca,>2,No,0,>3
+20,Masculino,Otro estado,5,Mamá,Pariente,No,No,Ingeniería Industrial,Cuarto,Preparatoria-UABJO,8.5,Sí,Sí,Sí,Sí,6,8,6,No,No,No,1,2,No,Sí,Sí,Sí,3,nunca,nunca,1-2,Sí,1-3,1-3
+21,Masculino,Mixteca,4,Papá,Madre,Sí,No,Ingeniería Industrial,Cuarto,Preparatoria-UABJO,8,No,No,Sí,Sí,6,8.5,5,No,No,No,3,3,Sí,Sí,No,No,2,nunca,nunca,>2,Sí,>3,1-3
+20,Masculino,Mixteca,5,Papá,Padre,Sí,No,Ingeniería Industrial,Cuarto,COBAO,7.5,Sí,No,Sí,No,5,7.3,5,No,No,No,1,2,No,Sí,No,No,4,nunca,nunca,>2,Sí,1-3,1-3
+20,Femenino,Valles Centrales,5,Papá,Padre,No,No,Ingeniería Industrial,Cuarto,CBTIS,7.5,No,Sí,Sí,Sí,6,8,6,No,No,No,3,2,No,No,No,No,0,nunca,nunca,1-2,Sí,1-3,1-3
+22,Masculino,Valles Centrales,4,Mamá,Padre,Sí,No,Ingeniería en Electrónica,Cuarto,COBAO,7.9,No,Sí,Sí,Sí,5,8.2,5,No,No,No,3,2,No,No,No,Sí,1,nunca,nunca,>2,Sí,1-3,1-3
+19,Masculino,Mixteca,5,Mamá,Madre,No,No,Ingeniería Industrial,Cuarto,COBAO,8.7,Sí,Sí,No,Sí,6,7.5,6,No,No,No,3,1,No,Sí,No,No,0,nunca,a veces,>2,No,0,1-3
+20,Femenino,Mixteca,3,Mamá,Madre,Sí,No,Ingeniería Industrial,Cuarto,COBAO,8.8,Sí,Sí,Sí,Sí,5,8.2,5,No,No,No,2,3,No,No,No,Sí,1,nunca,nunca,1-2,No,0,1-3
+19,Masculino,Mixteca,4,Ambos,Madre,Sí,No,Ingeniería Industrial,Cuarto,CONALEP,9.3,Sí,Sí,Sí,Sí,5,8.6,5,No,No,No,2,3,No,Sí,No,Sí,6,nunca,nunca,1-2,Sí,1-3,1-3
+20,Masculino,Mixteca,4,Papá,Padre,No,No,Ingeniería Industrial,Cuarto,COBAO,8.6,No,Sí,Sí,No,6,8.5,5,No,No,No,2,1,No,Sí,No,No,2,a veces,regularmente,>2,No,0,1-3
+23,Masculino,Mixteca,4,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,COBAO,7.8,No,Sí,Sí,Sí,5,8,5,No,No,No,3,2,No,Sí,Sí,Sí,1,a veces,casi-nunca,>2,No,0,1-3
+21,Masculino,Istmo,5,Papá,Padre,Sí,No,Ingeniería Industrial,Cuarto,Otro,8,Sí,Sí,Sí,Sí,5,7.8,5,No,No,No,2,2,No,Sí,Sí,Sí,2,nunca,nunca,>2,Sí,1-3,1-3
+19,Masculino,Costa,05,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,Preparatoria/Bachillerato particular,8.7,Sí,Sí,Sí,Sí,05,8.68,5,No,No,No,2,3,No,No,Sí,Sí,4,nunca,casi-nunca,1-2,Sí,1-3,1-3
+24,Masculino,Otro estado,3,Mamá,Madre,Sí,No,Ingeniería en Diseño,Cuarto,Otro,8.7,No,Sí,Sí,Sí,5,7.3,5,No,No,No,2,5,No,No,No,No,1,nunca,casi-nunca,1-2,Sí,>3,1-3
+20,Masculino,Istmo,5,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,CBTIS,8,No,Sí,No,Sí,5,8.5,5,No,No,No,2,5,No,Sí,Sí,Sí,2,nunca,casi-nunca,>2,Sí,1-3,1-3
+19,Femenino,Mixteca,6,Ambos,Madre,No,No,Ingeniería en Diseño,Cuarto,COBAO,8.9,Sí,Sí,Sí,Sí,6,6,5,Sí,No,No,1,2,No,No,No,Sí,4,casi-nunca,casi-nunca,1-2,No,0,1-3
+19,Femenino,Valles Centrales,4,Ambos,Pariente,No,No,Ingeniería Industrial,Cuarto,COBAO,8.7,No,Sí,Sí,Sí,6,8,6,No,No,No,2,1,No,No,No,Sí,1,nunca,nunca,1-2,No,0,>3
+20,Femenino,Valles Centrales,7,Papá,Padre,Sí,Sí,Ingeniería en Diseño,Cuarto,CONALEP,9.2,No,Sí,Sí,Sí,5,7.5,5,No,No,No,2,5,Sí,No,No,No,1,nunca,nunca,1-2,No,0,1-3
+20,Femenino,Mixteca,5,Ambos,Padre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,8.5,Sí,Sí,Sí,Sí,6,8,6,No,No,No,1,4,No,No,Sí,Sí,3,nunca,casi-nunca,>2,Sí,0,1-3
+20,Femenino,Mixteca,6,Ambos,Padre,Sí,No,Ingeniería en Diseño,Cuarto,Preparatoria-UABJO,8,No,Sí,No,Sí,6,8.02,6,No,No,No,3,4,No,No,No,No,1,nunca,nunca,1-2,No,0,1-3
+20,Femenino,Otro estado,4,Papá,Otra persona,Sí,No,Ingeniería en Diseño,Cuarto,Otro,9,No,Sí,Sí,Sí,5,8.4,5,No,No,No,5,4,No,No,Sí,Sí,10,nunca,casi-nunca,>2,Sí,1-3,>3
+19,Femenino,Mixteca,5,Mamá,Madre,No,No,Ingeniería en Diseño,Cuarto,COBAO,8.9,Sí,Sí,Sí,No,6,8.8,5,No,No,No,1,2,No,Sí,Sí,Sí,6,casi-nunca,nunca,>2,No,0,>3
+19,Masculino,Valles Centrales,5,Ambos,Padre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.5,Sí,Sí,Sí,Sí,6,6.7,5,Sí,Sí,Sí,2,2,No,No,No,Sí,8,nunca,casi-nunca,<1,No,1-3,1-3
+18,Masculino,Valles Centrales,5,Ambos,Padre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.9,No,Sí,Sí,Sí,5,7.1,5,No,No,No,5,2,No,No,No,Sí,12,casi-nunca,casi-nunca,>2,No,0,>3
+20,Masculino,Valles Centrales,6,Papá,Padre,Sí,No,Ingeniería en Mecatrónica,Cuarto,COBAO,8,Sí,Sí,Sí,Sí,5,8.5,5,No,No,No,4,3,No,No,No,Sí,4,a veces,a veces,>2,Sí,1-3,1-3
+19,Masculino,Costa,3,Papá,Madre,Sí,No,Ingeniería en Mecatrónica,Cuarto,COBAO,9.1,Sí,Sí,Sí,Sí,5,8,5,No,No,No,3,2,Sí,No,No,Sí,5,nunca,a veces,1-2,Sí,1-3,>3
+18,Masculino,Mixteca,4,Mamá,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.2,Sí,Sí,Sí,Sí,6,7.2,6,Sí,No,No,3,4,No,Sí,Sí,Sí,8,nunca,nunca,>2,Sí,1-3,1-3
+18,Masculino,Sierra Sur,5,Ambos,Padre,No,No,Ingeniería en Mecatrónica,Segundo,CBTIS,10,Sí,Sí,Sí,Sí,6,8.6,6,No,No,No,3,4,No,No,No,Sí,14,nunca,nunca,>2,Sí,1-3,1-3
+19,Femenino,Valles Centrales,4,Papá,Padre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.7,Sí,Sí,Sí,Sí,6,7.7,6,No,No,No,1,1,No,No,No,Sí,3,nunca,nunca,1-2,No,0,1-3
+22,Masculino,Valles Centrales,4,Papá,Padre,Sí,No,Ingeniería en Mecatrónica,Segundo,Otro,7.2,No,Sí,Sí,Sí,5,6,3,Sí,Sí,No,2,2,Sí,No,No,Sí,4,nunca,nunca,1-2,Sí,>3,1-3
+19,Masculino,Valles Centrales,5,Papá,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,CBTIS,7.1,Sí,Sí,Sí,Sí,6,6.2,6,Sí,Sí,No,3,1,No,No,Sí,Sí,5,a veces,a veces,>2,Sí,1-3,1-3
+20,Masculino,Mixteca,5,Ambos,Otra persona,No,No,Ingeniería en Mecatrónica,Segundo,CBTIS,8.5,No,Sí,Sí,Sí,5,6,2,Sí,Sí,No,6,2,No,No,No,Sí,1,casi-nunca,nunca,<1,Sí,1-3,1-3
+21,Masculino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,CONALEP,8.7,Sí,Sí,Sí,Sí,3,7.5,3,Sí,No,No,2,3,Sí,Sí,No,Sí,3,a veces,a veces,1-2,Sí,1-3,1-3
+18,Femenino,Región Cuenca del Papaloapan,5,Papá,Padre,Sí,No,Ingeniería en Mecatrónica,Segundo,Preparatoria/Bachillerato particular,9.2,No,Sí,Sí,Sí,6,6.3,6,No,No,No,3,4,No,No,No,Sí,6,nunca,nunca,>2,Sí,>3,1-3
+18,Masculino,Valles Centrales,5,Ambos,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,COBAO,7.2,Sí,Sí,Sí,Sí,5,6,3,Sí,No,No,2,1,No,No,No,Sí,3,nunca,nunca,>2,Sí,1-3,1-3
+19,Masculino,Mixteca,5,Ambos,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.8,Sí,No,Sí,Sí,6,6.2,5,Sí,Sí,Sí,1,2,No,No,No,Sí,1,nunca,nunca,>2,No,0,1-3
+20,Femenino,Mixteca,4,Papá,Padre,Sí,No,Ingeniería en Diseño,Cuarto,COBAO,8.4,No,Sí,Sí,Sí,5,8,5,No,No,No,5,2,Sí,No,Sí,Sí,5,casi-nunca,nunca,>2,Sí,1-3,1-3
+19,Masculino,Istmo,5,Ambos,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,CBTIS,8.6,Sí,Sí,Sí,Sí,6,7.8,5,Sí,No,No,1,0.5,No,No,Sí,Sí,7,a veces,regularmente,>2,No,0,1-3
+20,Masculino,Región Cuenca del Papaloapan,4,Mamá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,Preparatoria/Bachillerato particular,8.7,No,Sí,No,Sí,5,7.5,5,Sí,No,No,1,1,No,Sí,No,Sí,20,casi-nunca,a veces,>2,Sí,1-3,1-3
+19,Femenino,Istmo,6,Ambos,Otra persona,No,No,Ingeniería en Diseño,Cuarto,CBTIS,9.6,No,No,No,No,6,7,6,No,No,No,3,1,No,No,Sí,Sí,4,nunca,nunca,>2,No,0,1-3
+21,Masculino,Valles Centrales,8,Papá,Padre,Sí,No,Ingeniería en Mecatrónica,Segundo,CBTIS,7.2,Sí,Sí,Sí,No,5,8,3,Sí,No,Sí,5,2,No,Sí,No,Sí,10,casi-nunca,a veces,1-2,Sí,1-3,1-3
+18,Femenino,Valles Centrales,4,Ambos,Padre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.8,Sí,No,Sí,Sí,6,8.2,6,Sí,Sí,No,1,2,No,No,No,Sí,1,nunca,nunca,>2,Sí,0,1-3
+21,Femenino,Valles Centrales,6,Ambos,Padre,Sí,Sí,Ingeniería en Diseño,Cuarto,COBAO,8.7,No,No,Sí,Sí,6,7.8,5,No,Sí,No,1,3,No,No,No,Sí,1,a veces,a veces,>2,No,0,1-3
+23,Masculino,Mixteca,4,Papá,Padre,No,No,Ingeniería en Mecatrónica,Segundo,Otro,7,Sí,Sí,Sí,Sí,5,4.8,3,Sí,Sí,No,1,2,No,No,No,Sí,2,a veces,casi-nunca,>2,Sí,1-3,1-3
+19,Masculino,Valles Centrales,6,Papá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,Preparatoria/Bachillerato particular,9.5,No,Sí,Sí,Sí,12,8.2,12,No,No,No,0,2,No,Sí,Sí,Sí,10,nunca,nunca,>2,Sí,0,>3
+19,Masculino,Valles Centrales,3,Mamá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,9,Sí,No,Sí,Sí,5,5.4,5,Sí,No,No,2,1,No,No,No,Sí,2,nunca,a veces,<1,No,0,1-3
+18,Masculino,Mixteca,7,Papá,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,Otro,8,No,Sí,Sí,Sí,4,6,1,No,Sí,No,3,4,No,No,No,No,2,nunca,nunca,0,Sí,1-3,0
+19,Masculino,Región Cuenca del Papaloapan,3,Mamá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,COBAO,8.6,Sí,No,Sí,Sí,5,6,4,No,Sí,No,2,4,No,No,No,No,2,nunca,nunca,<1,Sí,1-3,1-3
+19,Femenino,Costa,5,Papá,Madre,No,No,Ingeniería en Mecatrónica,Segundo,Otro,9.4,No,No,Sí,No,5,5.9,3,Sí,Sí,No,4,2,Sí,No,No,Sí,4,nunca,casi-nunca,>2,No,0,>3
+21,Masculino,Mixteca,1,Ambos,Pariente,No,No,Ingeniería en Mecatrónica,Segundo,Otro,7.8,No,No,No,No,5,5,4,Sí,Sí,No,3,2,No,No,No,No,0,nunca,nunca,0,No,0,1-3
+18,Masculino,Istmo,4,Ambos,Madre,No,No,Ingeniería en Mecatrónica,Segundo,CBTIS,9.2,Sí,Sí,Sí,Sí,5,7.1,5,No,No,No,2,2,No,No,Sí,Sí,3,nunca,nunca,>2,Sí,1-3,1-3
+18,Masculino,Mixteca,4,Mamá,Madre,Sí,No,Ingeniería en Mecatrónica,Segundo,CBTIS,8.8,Sí,No,Sí,Sí,5,5.8,4,Sí,Sí,No,2,2,No,No,No,No,3,nunca,nunca,>2,Sí,>3,>3

@@ -1,0 +1,73 @@
+1. Titulo: Rendimiento Escolar
+
+2. -- Creadores: David Germán Castro Ortiz(caod980904@gs.utm.mx) y Jesús Alejandro López Guevara(logj000826@gs.utm.mx)
+   -- Fecha: 28 de marzo de 2023
+   -- Fuentes:
+     1) Encuesta digital, realizada en la Universidad Tecnologica de la Mixteca(UTM)
+
+3. Usos pasados:
+   -- Prediccion para medir el rendmiento de los alumnos de la UTM
+
+4. Información relevante:
+   -- Descripción
+		Identificar los factores que caracterizan a los alumnos de la UTM con bajo y alto rendimiento escolar.
+
+5. Número de instancias:90
+
+6. Número de atributos: 35 en total.
+   -- 9 cuantitativos
+   -- 26 cualitativos
+
+7. Información de atributos:         
+     Atributo:                Rango de atributos:
+     ------------------        -----------------------------------------------
+  1. Edad:                     [17,28]
+  2. Genero:                   Masculino, Femenino y Prefiero no decirlo.
+  3. Region:                   Cañada, Costa, Istmo, Mixteca, Región Cuenca del Papaloapan
+                               Sierra Sur, Sierra Norte, Valles Centrales, Otro estado.
+  4. Integrantes-Familia-num:  [1,11].
+  5. Proveedor-Familia:        Papá, Mamá, Ambos.
+  6. Tutor:                    Padre, Madre, Pariente, Otra persona.
+  7. Vive-con-Familia:         Sí, No.    
+  8. Enfermedad-Crónica:       Sí, No.
+  9. Carrera:                  Ingeniería en Computación, Ingeniería en Electrónica
+                               Ingeniería en Mecatrónica, Ingeniería en Diseño
+                               Ingeniería en Alimentos, Ingeniería Industrial
+                               Ingeniería en Física Aplicada, Ingeniería en Mecánica Automotriz
+                               Ingeniería Civil, Licenciatura en Ciencias Empresariales
+                               Licenciatura en Matemáticas Aplicadas.
+ 10. Semestre:                 Segundo, Cuarto, Sexto, octavo, Decimo.
+ 11. Preparatoria:             COBAO,CETIS, CBTIS, Preparatoria-UABJO, CONALEP
+                               Preparatoria/Bachillerato particular, Otro.
+ 12. Promedio-Preparatoria:    [6.0,10,0].
+ 13. Materias-Relacionadas:    Sí, No.
+ 14. Carrera-Elegida-Ajusta-A-Gustos-Habilidades: Sí, No.
+ 15. Buena-Relación-Familiar:  Sí, No.
+ 16. Buena-Relación-Amigos-Compañeros:Sí, No.
+ 17. Materias-Cursadas-Primer-Semestre:[1,7].
+ 18. Promedio-Primer-Semestre: [4,0,10.0].
+ 19. Materias-Aprobadas-Primer-Semestre:[1,7].
+ 20. Materias-Reprobadas-De-Computación: Sí, No.
+ 21. Materias-Reprobadas-De-Matemáticas: Sí, No.
+ 22. Materias-Reprobadas-De-Ciensias-Sociales: Sí, No.
+ 23. Horas-Promedio-Estudio-Examenes:[0,16].
+ 24. Horas-Promedio-Estudio-Actividades-Escolares:[0,40].
+ 25. Cursos-Extra-Primer-Semestre: Sí, No
+ 26. Noviazgo:                 Sí, No.
+ 27. Actividad-Cultural-o-Deportiva: Sí, No.
+ 28. Tiempo-con-sus-amigos-compañeros: Sí, No.
+ 29. Horas-Semana-Divertirse con-sus-amigos: [0,40].
+ 30. Consumía-Alcohol-Entre-semana: nunca, casi-nunca, a veces, regularmente.
+ 31. Consumía-Alcohol-Fin-semana: nunca, casi-nunca, a veces, regularmente.
+ 32. Horas-Día-Dedicada-Redes-Sociales: 0,<1,1 a 2, >2
+ 33. Gustan-Videojuegos: Sí, No.
+ 34. Horas-Semana-Dedicada-Videojuegos: 0, 1 a 3, >3
+ 35. Horas-Semana-Dedicada-Actividades-Entretenimiento: 0, 1 a 3, >3
+
+8. Valores de atributos que faltan: (indicados con "?")
+   Atributo #: Número de casos en los que falta un valor:
+
+
+
+
+

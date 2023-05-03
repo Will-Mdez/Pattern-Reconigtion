@@ -1,0 +1,52 @@
+1. Título: Base de datos de perfiles de Twitter
+
+2. Fuentes:
+     (a) Creadores: Cruz Peralta Leonel y Méndez González William
+     (b) Fecha: Marzo, 2021
+
+3. Usos pasados:
+
+4. Información relevante:
+   --- Este dataset contiene 150 perfiles de Twitter.
+   --- This is perhaps the best known database to be found in the pattern
+       recognition literature.  Fisher's paper is a classic in the field
+       and is referenced frequently to this day.  (See Duda & Hart, for
+       example.)  The data set contains 3 classes of 50 instances each,
+       where each class refers to a type of iris plant.  One class is
+       linearly separable from the other 2; the latter are NOT linearly
+       separable from each other.
+   --- Atributo a predecir: Perfil verdadero o falso.
+
+5. Número de instancias: 150 
+
+6. Número de atributos: 5 numéricos, 4 categorico, 1 ID, 1 clase
+
+7. Información de las características:
+   1. nombre del usuario, cadena de caracteres
+   2. num_caracteres_nombre_usuario, numérico
+   3. foto_de_perfil, categórico
+   4. perfil_privado, categórico
+   5. seguidores, numérico
+   6. perfiles_seguidos, numérico
+   7. twitts_por_dia, numérico
+   8. dia_mayor_cantidad_twitts, categórico
+   9. comenta_publicaciones, categórico
+   10. cantidad_twitts, numérico
+   11. clase
+        --- falso
+        --- real
+
+8. Valores faltantes en características: 
+    --- 7 datos que no cuentan con twitts_por_dia,dia_mayor_cantidad_twitts,comenta_publicaciones,cantidad_twitts
+
+Descripción de características:
+	        num_caracteres_nombre_usuario	seguidores	perfiles_seguidos
+    count	150.000000	1.500000e+02	150.000000
+    mean	12.086667	2.717813e+04	362.526667
+    std	    2.770740	1.566466e+05	429.874427
+    min	    4.000000	0.000000e+00	0.000000
+    25%	    10.000000	7.350000e+01	99.250000
+    50%	    12.000000	2.095000e+02	243.500000
+    75%	    14.000000	5.257500e+02	463.750000
+    max	    16.000000	1.465000e+06	2893.000000
+

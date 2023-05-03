@@ -1,5 +1,7 @@
-nameFile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//wine.data";
-dataWine <- read.table(nameFile, header = FALSE, sep = ",");
+#nameFile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//wine.data";
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wine.data";
+
+dataWine <- read.table(namefile, header = FALSE, sep = ",");
 
 ##Nombre a las columnas de datos
 names(dataWine) <- c("class","Alcohol","Malic_acid","Ash","Alcalinity_of_ash","Mag",
