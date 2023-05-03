@@ -59,17 +59,15 @@ print(dim(dataTwitter1))
 
 
 
-
-
-
-
-
-
 #Discretizacion
 
 #ordenar de menor a mayor
 df_ordenado <- dataTwitter[order(dataTwitter$seguidores, decreasing = FALSE),]
 print(df_ordenado)
+
+k=3
+bite_size <- dim(df_ordenado)[1]/k
+df_ordenado$seguidores <- c(rep(c(1,2,3),each=trunc(bite_size)),3)
 write.csv(as.data.frame(df_ordenado), file = "Twitter_Ordernado.csv", row.names = names(dataTwitter)) # guarda un archivo csv
 
 
