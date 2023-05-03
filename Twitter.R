@@ -1,12 +1,13 @@
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
 
 #names Cuantitativos
-names<-c("num_caracteres_nombre_usuario","seguidores","perfiles_seguidos","twitts_por_dia","cantidad_twitts","clase")
+names<-c("num_caracteres_nombre_usuario","seguidores","perfiles_seguidos","twitts_por_dia","cantidad_twitts")
 
+names
 
 ##Nombre a las columnas de datos
 names(dataTwitter)
@@ -17,40 +18,59 @@ summary(dataTwitter)
 
 #Convertir los datos a Categoricos
 dataTwitter$clase<-factor(dataTwitter$clase)
+dataTwitter$perfil_privado<-factor(dataTwitter$perfil_privado)
+dataTwitter$foto_de_perfil<-factor(dataTwitter$foto_de_perfil)
+dataTwitter$dia_mayor_cantidad_twitts<-factor(dataTwitter$dia_mayor_cantidad_twitts)
+dataTwitter$comenta_publicaciones<-factor(dataTwitter$comenta_publicaciones)
+
 #Descripcion de los datos
 summary(dataTwitter)
 
+#hacer promedio y desv estandar a todas las caracteristicas
+mean_features <- sapply(names, function(x) mean(dataTwitter[[x]]))
+sd_features <- sapply(names, function(x) sd(dataTwitter[[x]]))
 
-#Eliminando Registros con NA
-dataTwitterNA <- dataTwitter
-dataTwitter1 <- dataTwitterNA[rowSums(is.na(dataTwitterNA))==0,]
-summary(dataTwitter1)
-print(dim(dataTwitter1))
-print(dim(dataTwitterNA))
-print(dim(dataTwitter))
-
-
-#NOrmalizacion
+#Normalizar datos 
 normalizeDataL <- function(dataF,meanF,stdF){
-  dataFN<- dataF
-  dataFN<- (dataFN-meanF)/stdF
+  dataFN <- dataF
+  dataFN <- (dataF - meanF)/stdF
   return(dataFN)
 }
 
-
-mean_features <- sapply(names,function(x) mean(dataTwitterNA[x]))
-sd_features <- sapply(names,function(x) sd(dataTwitterNA[[x]]))
-
 dataTwitterNorm <- lapply(names,function(x) normalizeDataL(dataTwitter[[x]],mean_features[x],sd_features[x]))
-names(dataWineNorm)<-names
-dataWineNorm<-as.data.frame(dataWineNorm)
-#head(dataWineNorm)
+names(dataTwitterNorm) <- names
+dataWineNorm <- as.data.frame(dataWineNorm)
+
+mean_features_norm <- sapply(names, function(x) mean(dataTwitterNorm[[x]]))
+sd_features_norm <- sapply(names, function(x) sd(dataTwitterNorm[[x]]))
+
+
+#Numero de registros en el conjunto de datos
+N <- dim(dataTwitter)[1]
+print(N)
+dataTwitterNA <- dataTwitter
+dataTwitterNA$twitts_por_dia[rbinom(N,1,0.1) == 1] <- NA
+dataTwitterNA$cantidad_twitts[rbinom(N,1,0.1) == 1] <- NA
+summary(dataTwitterNA)
+#Eliminar registros con NA
+dataTwitter1 <- dataTwitterNA[rowSums(is.na(dataTwitterNA)) == 0,]
+summary(dataTwitter1)
+print(dim(dataTwitter1))
 
 
 
 
 
 
+
+
+
+#Discretizacion
+
+#ordenar de menor a mayor
+df_ordenado <- dataTwitter[order(dataTwitter$seguidores, decreasing = FALSE),]
+print(df_ordenado)
+write.csv(as.data.frame(df_ordenado), file = "Twitter_Ordernado.csv", row.names = names(dataTwitter)) # guarda un archivo csv
 
 
 
