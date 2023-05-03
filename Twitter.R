@@ -1,6 +1,7 @@
 
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
 
 #names Cuantitativos
@@ -37,7 +38,7 @@ normalizeDataL <- function(dataF,meanF,stdF){
 }
 
 
-mean_features <- sapply(names,function(x) mean(dataTwitterNA[[x]]))
+mean_features <- sapply(names,function(x) mean(dataTwitterNA[x]))
 sd_features <- sapply(names,function(x) sd(dataTwitterNA[[x]]))
 
 dataTwitterNorm <- lapply(names,function(x) normalizeDataL(dataTwitter[[x]],mean_features[x],sd_features[x]))
