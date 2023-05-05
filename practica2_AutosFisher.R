@@ -84,10 +84,11 @@ correlacion_41
 correlacion_42 <- sum(dataAuto$highway.mpg*dataAuto$width)/sqrt(sum(dataAuto$highway.mpg**2)*sum(dataAuto$width**2))
 correlacion_42
 alpha1 <- 0.5
-Fs1 <- alpha1*FisherLength-alpha1*abs(correlacion_31)
-Fs1
-Fs2<- alpha1*FisherWidth-alpha1*abs(correlacion_32)
-Fs2
-Fs3 <- alpha1*FisherHighway-alpha1*abs(correlacion_34)
-Fs3
-#HighWay es la mejor ahora
+FisherLength
+Fs21 <- alpha1*FisherLength-(alpha1/2)*(abs(correlacion_41)+abs(correlacion_31))
+Fs21
+Fs22 <- alpha1*FisherWidth-(alpha1/2)*(abs(correlacion_42)+abs(correlacion_32))
+Fs22
+#Width es la mejor ahora
+
+

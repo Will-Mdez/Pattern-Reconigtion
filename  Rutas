@@ -12,14 +12,14 @@ PC WILL
 namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//autos.csv"
 
 
- "nombre_usuario"                "num_caracteres_nombre_usuario" "foto_de_perfil"                "perfil_privado"               
+ "nombre_usuario"                "num_caracteres_nombre_usuario" "foto_de_perfil"                "perfil_privado"            
  "seguidores"                    "perfiles_seguidos"      "comenta_publicaciones"   "dia_mayor_cantidad_twitts"     "clase"   
- 
+ SE QUEDA Twitts por dia
  "twitts_por_dia"                   "cantidad_twitts"              
  
  
  
  "nombre"                     "cantidad_caracteres_nombre" "tiene_foto_perfil"         "perfil_privado" 
  "cantidad_seguidores"        "cantidad_seguidos"    "comenta_publicaciones"    "dia_mas_publica"    "clase"   
- 
+ SE REdondea
  "promedio_publicaciones"                                
