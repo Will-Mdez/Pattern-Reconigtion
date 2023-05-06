@@ -2,33 +2,94 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
 namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
-
-#names Cuantitativos
-names<-c("num_caracteres_nombre_usuario","seguidores","perfiles_seguidos","twitts_por_dia","cantidad_twitts")
-
-names
+dataTwitter2 <- read.table(namefile2, header = TRUE, sep = ",")
 
 ##Nombre a las columnas de datos
 names(dataTwitter)
 #dimensiones
 dim(dataTwitter)
+
+
+columnas1<-c(2,3,4,5,6,7,8,9,11)
+columnas2<-c(2,3,7,4,5,6,8,9,10)
+dataTwitter<-dataTwitter[columnas1]
+nombresdata <- colnames(dataTwitter)
+dataTwitter2<-dataTwitter2[columnas2]
+names(dataTwitter2)<-nombresdata
+
+
+#Reasignamos, para empatar Valores
+dataTwitter[dataTwitter=="si"]<-"Sí"
+dataTwitter[dataTwitter=="no"]<-"No"
+dataTwitter[dataTwitter=="real"]<-"Real"
+dataTwitter[dataTwitter=="FALSO"]<-"Fake"
+
+dataTwitter[dataTwitter=="lunes"]<-"Lunes"
+dataTwitter[dataTwitter=="martes"]<-"Martes"
+dataTwitter[dataTwitter=="miercoles"]<-"Miércoles"
+dataTwitter[dataTwitter=="jueves"]<-"Jueves"
+dataTwitter[dataTwitter=="viernes"]<-"Viernes"
+dataTwitter[dataTwitter=="sabado"]<-"Sábado"
+dataTwitter[dataTwitter=="domingo"]<-"Domingo"
+
+#UNIMOS DATASES
+dataTwitterFinal <- rbind(dataTwitter,dataTwitter2)
 #Descripcion de datos
-summary(dataTwitter)
+summary(dataTwitterFinal)
 
 #Convertir los datos a Categoricos
-dataTwitter$clase<-factor(dataTwitter$clase)
-dataTwitter$perfil_privado<-factor(dataTwitter$perfil_privado)
-dataTwitter$foto_de_perfil<-factor(dataTwitter$foto_de_perfil)
-dataTwitter$dia_mayor_cantidad_twitts<-factor(dataTwitter$dia_mayor_cantidad_twitts)
-dataTwitter$comenta_publicaciones<-factor(dataTwitter$comenta_publicaciones)
+dataTwitterFinal$clase<-factor(dataTwitterFinal$clase)
+dataTwitterFinal$perfil_privado<-factor(dataTwitterFinal$perfil_privado)
+dataTwitterFinal$foto_de_perfil<-factor(dataTwitterFinal$foto_de_perfil)
+dataTwitterFinal$dia_mayor_cantidad_twitts<-factor(dataTwitterFinal$dia_mayor_cantidad_twitts)
+dataTwitterFinal$comenta_publicaciones<-factor(dataTwitterFinal$comenta_publicaciones)
+
 
 #Descripcion de los datos
-summary(dataTwitter)
+summary(dataTwitterFinal)
+dim(dataTwitterFinal)
+
+
+#IMPUTAR DATOS NA
+#Descripcion de los datos
+dataTwitterFinal$comenta_publicaciones[is.na(dataTwitterFinal$comenta_publicaciones)]<-"Sí"
+dataTwitterFinal$dia_mayor_cantidad_twitts[is.na(dataTwitterFinal$dia_mayor_cantidad_twitts)]<-"Viernes"
+
+summary(dataTwitterFinal)
+#sum(is.na(dataTwitterFinal))
+#dim(dataTwitterFinal)
+#dataTwitterFinal <- na.omit(dataTwitterFinal)
+#summary(dataTwitterFinal)
+dim(dataTwitterFinal)
+
+#names Cuantitativos
+namesCuali<-c("perfil_privado","seguidores","perfil_privado","dia_mayor_cantidad_twitts","comenta_publicaciones","clase")
+namesCuali
+
+dataTwitterCuanti<-dataTwitterFinal[c(1,4,5,6)]
 
 #hacer promedio y desv estandar a todas las caracteristicas
-mean_features <- sapply(names, function(x) mean(dataTwitter[[x]]))
-sd_features <- sapply(names, function(x) sd(dataTwitter[[x]]))
+
+meanDia1 <- mean(dataTwitterCuanti$twitts_por_dia[twitterTableFinal$clase == "Real"],na.rm = TRUE)
+meanDia2 <- mean(dataTwitterCuanti$twitts_por_dia[twitterTableFinal$clase == "Fake"],na.rm = TRUE)
+meanDia1
+meanDia2
+dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&twitterTableFinal$clase == "Real"] <- meanDia1
+dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&twitterTableFinal$clase == "Fake"] <- meanDia2
+
+
+#Normalización de datos
+FeatNames<-colnames(twitterTable[c(1,4,5,6)])
+mean_features <- sapply(FeatNames, function(x) mean(dataTwitterCuanti[[x]]))
+sd_features <- sapply(FeatNames, function(x) sd(dataTwitterCuanti[[x]]))
+mean_features
+sd_features
+
 
 #Normalizar datos 
 normalizeDataL <- function(dataF,meanF,stdF){
@@ -37,41 +98,14 @@ normalizeDataL <- function(dataF,meanF,stdF){
   return(dataFN)
 }
 
-dataTwitterNorm <- lapply(names,function(x) normalizeDataL(dataTwitter[[x]],mean_features[x],sd_features[x]))
-names(dataTwitterNorm) <- names
+dataTwitterNorm <- lapply(FeatNames, function (x) normalizeDataL(dataTwitterCuanti[[x]], mean_features[x], sd_features[x]))
+
+names(dataTwitterNorm)<- FeatNames  
 dataTwitterNorm <- as.data.frame(dataTwitterNorm)
 
-mean_features_norm <- sapply(names, function(x) mean(dataTwitterNorm[[x]]))
-sd_features_norm <- sapply(names, function(x) sd(dataTwitterNorm[[x]]))
-
-
-#Numero de registros en el conjunto de datos
-N <- dim(dataTwitter)[1]
-print(N)
-dataTwitterNA <- dataTwitter
-dataTwitterNA$twitts_por_dia[rbinom(N,1,0.1) == 1] <- NA
-dataTwitterNA$cantidad_twitts[rbinom(N,1,0.1) == 1] <- NA
-summary(dataTwitterNA)
-#Eliminar registros con NA
-dataTwitter1 <- dataTwitterNA[rowSums(is.na(dataTwitterNA)) == 0,]
-summary(dataTwitter1)
-print(dim(dataTwitter1))
-
-
-
-#Discretizacion
-
-#ordenar de menor a mayor
-df_ordenado <- dataTwitter[order(dataTwitter$seguidores, decreasing = FALSE),]
-print(df_ordenado)
-
-k=3
-bite_size <- dim(df_ordenado)[1]/k
-df_ordenado$seguidores <- c(rep(c(1,2,3),each=trunc(bite_size)),3)
-write.csv(as.data.frame(df_ordenado), file = "Twitter_Ordernado.csv", row.names = names(dataTwitter)) # guarda un archivo csv
-
-
-
+Clase<-twitterTableFinal$clase
+dataTwitterNorm<-cbind(dataTwitterNorm,Clase)
+summary(dataTwitterNorm)
 
 
 
