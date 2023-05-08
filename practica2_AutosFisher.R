@@ -91,4 +91,35 @@ Fs22 <- alpha1*FisherWidth-(alpha1/2)*(abs(correlacion_42)+abs(correlacion_32))
 Fs22
 #Width es la mejor ahora
 
+#SELECCION DE SUBCONJUNTOS DE CARACTERISTICAS
+#make --- fuel_type
+gas <- c(4,3,0,3)
+diesel <- c(0,0,2,0)
+observada<- c(gas,diesel)
 
+make_fuel_type <- cbind(make,gas,diesel)
+make_fuel_type
+
+gas_frec_esp <- c(3.33,2.5,1.66,2.5)
+diesel_frec_esp <- c(0.66,0.5,0.33,0.5)
+esperada <- c(gas_frec_esp,diesel_frec_esp)
+
+chi2 <- sum(sum((observada-esperada)**2/esperada))
+chi2
+correlacion <- sqrt(chi2/(chi2+12))
+correlacion
+
+#make-aspiration
+observada
+esperada2 <- c(c(4,3,0,1),c(0,0,1,2),c(0,0,1,0))
+esperada2
+observada2 <- c(c(2.66,2,1.33,2),c(1,0.75,0.5,0.75),c(0.33,0.25,0.166,0.25))
+
+chi22 <- sum(sum((observada2-esperada2)**2/esperada2))
+chi22
+correlacion2 <- sqrt(chi22/(chi22+12))
+correlacion2
+
+
+FSmake <- 0.5*1.28-0.5*0.7122
+FSmake
