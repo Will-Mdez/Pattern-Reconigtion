@@ -37,12 +37,12 @@ dataFacebook2<-dataFacebook2[c(2,3,5,9,8,12)]
 
 
 names(dataFacebook2)<-nombresTabla
-
 dataFacebook2[dataFacebook2=="SI"]<-"Sí"
+dataFacebook2[dataFacebook2=="si"]<-"Sí"
+dataFacebook[dataFacebook=="SÍ"]<-"Sí"
 dataFacebook2[dataFacebook2=="NO"]<-"No"
 dataFacebook2[dataFacebook2==TRUE]<-0
 dataFacebook2[dataFacebook2==FALSE]<-1
-
 dataFacebook2[dataFacebook2=="Miercoles"]<-"Miércoles"
 dataFacebook2[dataFacebook2=="Sabado"]<-"Sábado"
 summary(dataFacebook)
@@ -54,14 +54,27 @@ dataFacebookFinal <- rbind(dataFacebook,dataFacebook2)
 
 summary(dataFacebookFinal)
 
+#Convertir los datos a Categoricos
+dataFacebookFinal$clase<-factor(dataFacebookFinal$clase)
+dataFacebookFinal$`Día de la semana con más actividad`<-factor(dataFacebookFinal$`Día de la semana con más actividad`)
+dataFacebookFinal$`Foto de Perfil`<-factor(dataFacebookFinal$`Foto de Perfil`)
+dataFacebookFinal$`Páginas que siguen` <- as.numeric(dataFacebookFinal$`Páginas que siguen`)
+
+
+#Descripción de los datos
+
+summary(dataFacebookFinal)
+
 #Convertir los datos categóricos
 
+#Columnas con datos Cualitativos
 cualitativos <- c(2,5)
+
+#Columnas con datos cuantitativos
 cuantitativos<- c(1,3,4,6)
 
 #Separamos los datos categóricos
-dataFacebook_cualit <- lapply(cualitativos,
-                         function(x) factor(dataFacebookFinal[,x]))
+dataFacebook_cualit <- lapply(cualitativos,function(x) factor(dataFacebookFinal[,x]))
 
 names(dataFacebook_cualit) <- nombresTabla[cualitativos]
 dataFacebook_cualit <- as.data.frame(dataFacebook_cualit)
@@ -69,29 +82,33 @@ dataFacebook_cualit <- as.data.frame(dataFacebook_cualit)
 summary(dataFacebook_cualit)
 
 #Datos cuantitativos
-fb_cuanti<-dataFacebookFinal[cuantitativos]
-summary(fb_cuanti)
+dataFB_cuanti<-dataFacebookFinal[cuantitativos]
+summary(dataFB_cuanti)
 
 #Imputación de datos
 #Imputación con valor de la media condicionada
-dataFace <- fb_cuanti
+dataFace <- dataFB_cuanti
 
-meannumAmig1 <- mean(dataFace$Numero_Amigos[dataFacebookFinal$Clase == 0],na.rm = TRUE)
-meannumAmig2 <- mean(dataFace$Numero_Amigos[dataFacebookFinal$Clase == 1],na.rm = TRUE)
+meanAmig1 <- mean(dataFace$Amigos[dataFacebookFinal$clase == 0],na.rm = TRUE)
+meanAmig2 <- mean(dataFace$Amigos[dataFacebookFinal$clase == 1],na.rm = TRUE)
+dataFB_cuanti$Amigos[is.na(dataFB_cuanti$Amigos)&dataFacebookFinal$clase == 0] <- meanAmig1
+dataFB_cuanti$Amigos[is.na(dataFB_cuanti$Amigos)&dataFacebookFinal$clase == 1] <- meanAmig2
 
-fb_cuanti$Numero_Amigos[is.na(fb_cuanti$Numero_Amigos)&dataFacebookFinal$Clase == 0] <- meannumAmig1
-fb_cuanti$Numero_Amigos[is.na(fb_cuanti$Numero_Amigos)&dataFacebookFinal$Clase == 1] <- meannumAmig2
+meanPagSig1 <- mean(dataFace$`Páginas que siguen`[dataFacebookFinal$clase == 0],na.rm = TRUE)
+meanPagSig2 <- mean(dataFace$`Páginas que siguen`[dataFacebookFinal$clase == 1],na.rm = TRUE)
 
-meanpagsig1 <- mean(dataFace$Numero_paginas_seguidas[dataFacebookFinal$Clase == 0],na.rm = TRUE)
-meanpagsig2 <- mean(dataFace$Numero_paginas_seguidas[dataFacebookFinal$Clase == 1],na.rm = TRUE)
-
-fb_cuanti$Numero_paginas_seguidas[is.na(fb_cuanti$Numero_paginas_seguidas)&dataFacebookFinal$Clase == 0] <- meanpagsig1
-fb_cuanti$Numero_paginas_seguidas[is.na(fb_cuanti$Numero_paginas_seguidas)&dataFacebookFinal$Clase == 1] <- meanpagsig2
+dataFB_cuanti$`Páginas que siguen`[is.na(dataFB_cuanti$`Páginas que siguen`)&dataFacebookFinal$clase == 0] <- meanPagSig1
+dataFB_cuanti$`Páginas que siguen`[is.na(dataFB_cuanti$`Páginas que siguen`)&dataFacebookFinal$clase == 1] <- meanPagSig2
 
 #Normalización de datos
-FeatNames<-nombresTabla[cuantitativos]
-mean_features <- sapply(FeatNames, function(x) mean(fb_cuanti[[x]]))
-sd_features <- sapply(FeatNames, function(x) sd(fb_cuanti[[x]]))
+FeatNames<-names(dataFB_cuanti)
+FeatNames
+dataFB_cuanti$`Páginas que siguen` <- as.numeric(dataFB_cuanti$`Páginas que siguen`)
+dataFB_cuanti$`Nro Caracteres del nombre` <- as.numeric(dataFB_cuanti$`Nro Caracteres del nombre`)
+dataFB_cuanti$Amigos <- as.numeric(dataFB_cuanti$Amigos)
+dataFB_cuanti$clase <- as.numeric(dataFB_cuanti$clase)
+mean_features <- sapply(FeatNames, function(x) mean(dataFB_cuanti[[x]]))
+sd_features <- sapply(FeatNames, function(x) sd(dataFB_cuanti[[x]]))
 
 normalizeaDataL <- function (dataF, meanF, stdF){
   dataFN <- dataF
@@ -99,14 +116,58 @@ normalizeaDataL <- function (dataF, meanF, stdF){
   return(dataFN)
 }
 
-dataFBNorm <- lapply(FeatNames, function (x) normalizeaDataL(fb_cuanti[[x]], mean_features[x], sd_features[x]))
+dataFBNorm <- lapply(FeatNames, function (x) normalizeaDataL(dataFB_cuanti[[x]], mean_features[x], sd_features[x]))
 
 names(dataFBNorm)<- FeatNames  
 dataFBNorm <- as.data.frame(dataFBNorm)
 
 
 #Identificación de valores extremos
-dataSnEx<-filter(fb_cuanti,Numero_Caracteres<(mean_features[1]+3*sd_features[1]))
-dataSnEx<-filter(dataSnEx,Numero_Amigos<(mean_features[2]+3*sd_features[2]))
-dataSnEx<-filter(dataSnEx,Numero_paginas_seguidas<(mean_features[3]+3*sd_features[3]))
 
+dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
+dataFBSE<-filter(dataFBSE,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
+dataFBSE<-filter(dataFBSE,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
+names(dataFBSE)<-names(dataFB_cuanti)
+summary(dataFBSE)
+
+
+#DISCRETIZACION
+dataFB_ordenado <- dataFB_cuanti[order(dataFB_cuanti$`Nro Caracteres del nombre`, decreasing = FALSE),]
+dim(dataFB_ordenado)
+
+
+N <- dim(dataFB_ordenado)[1]
+division <- N/3
+print (division)
+
+
+#Discretizacion Numero de Caracteres
+dfFB_caracteres <- dataFB_ordenado$`Nro Caracteres del nombre`
+dfFB_caracteres[1:125] <- "Poco"
+dfFB_caracteres[126:253]<- "Normal"
+dfFB_caracteres[254:377]<- "Muchos"
+dfFB_caracteres
+
+#Discretizacion Amigos
+dataFB_ordenado <- dataFB_cuanti[order(dataFB_cuanti$Amigos, decreasing = FALSE),]
+
+dfFB_Amigos <- dataFB_ordenado$Amigos
+dfFB_Amigos[dataFB_ordenado$Amigos<400] <- "Pocos"
+dfFB_Amigos[dataFB_ordenado$Amigos>=400 & dataFB_ordenado$Amigos<=1000]<- "Normal"
+dfFB_Amigos[dataFB_ordenado$Amigos>1000]<- "Muchos"
+dfFB_Amigos
+
+#Discretizacion Seguidos
+dataFB_ordenado <- dataFB_cuanti[order(dataFB_cuanti$`Páginas que siguen`, decreasing = FALSE),]
+dfFB_Seguidos <- dataFB_ordenado$`Páginas que siguen`
+dfFB_Seguidos[dataFB_ordenado$`Páginas que siguen`<100] <- "Pocos"
+dfFB_Seguidos[dataFB_ordenado$`Páginas que siguen`>=100 & dataFB_ordenado$`Páginas que siguen`<=300]<- "Normal"
+dfFB_Seguidos[dataFB_ordenado$`Páginas que siguen`>300]<- "Muchos"
+dfFB_Seguidos
+
+
+#Asignamos valores
+dataFB_ordenado$`Páginas que siguen`<-dfFB_Seguidos
+dataFB_ordenado$`Nro Caracteres del nombre` <- dfFB_caracteres
+dataFB_ordenado$Amigos <- dfFB_Amigos
+dataFB_ordenado

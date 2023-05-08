@@ -14,7 +14,6 @@ names(dataTwitter)
 #dimensiones
 dim(dataTwitter)
 
-
 columnas1<-c(2,3,4,5,6,7,8,9,11)
 columnas2<-c(2,3,7,4,5,6,8,9,10)
 dataTwitter<-dataTwitter[columnas1]
@@ -75,16 +74,16 @@ dataTwitterCuanti<-dataTwitterFinal[c(1,4,5,6)]
 
 #hacer promedio y desv estandar a todas las caracteristicas
 
-meanDia1 <- mean(dataTwitterCuanti$twitts_por_dia[twitterTableFinal$clase == "Real"],na.rm = TRUE)
-meanDia2 <- mean(dataTwitterCuanti$twitts_por_dia[twitterTableFinal$clase == "Fake"],na.rm = TRUE)
+meanDia1 <- mean(dataTwitterCuanti$twitts_por_dia[dataTwitterFinal$clase == "Real"],na.rm = TRUE)
+meanDia2 <- mean(dataTwitterCuanti$twitts_por_dia[dataTwitterFinal$clase == "Fake"],na.rm = TRUE)
 meanDia1
 meanDia2
-dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&twitterTableFinal$clase == "Real"] <- meanDia1
-dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&twitterTableFinal$clase == "Fake"] <- meanDia2
+dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&dataTwitterFinal$clase == "Real"] <- meanDia1
+dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&dataTwitterFinal$clase == "Fake"] <- meanDia2
 
 
 #Normalización de datos
-FeatNames<-colnames(twitterTable[c(1,4,5,6)])
+FeatNames<-colnames(dataTwitterCuanti)
 mean_features <- sapply(FeatNames, function(x) mean(dataTwitterCuanti[[x]]))
 sd_features <- sapply(FeatNames, function(x) sd(dataTwitterCuanti[[x]]))
 mean_features
@@ -103,11 +102,20 @@ dataTwitterNorm <- lapply(FeatNames, function (x) normalizeDataL(dataTwitterCuan
 names(dataTwitterNorm)<- FeatNames  
 dataTwitterNorm <- as.data.frame(dataTwitterNorm)
 
-Clase<-twitterTableFinal$clase
+Clase<-dataTwitterFinal$clase
 dataTwitterNorm<-cbind(dataTwitterNorm,Clase)
 summary(dataTwitterNorm)
 
+summary(dataTwitterCuanti)
+mean_features
 
+#Identificación de valores extremos
+dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$num_caracteres_nombre_usuario<(mean_features[1]+3*sd_features[1]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$seguidores<(mean_features[2]+3*sd_features[2]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
+
+dataTwitterEx
 
 
 
