@@ -1,10 +1,10 @@
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
-#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
+#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
 dataTwitter2 <- read.table(namefile2, header = TRUE, sep = ",")
@@ -117,9 +117,71 @@ dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$twitts_por_dia<(mean_featu
 
 dataTwitterEx
 
+#Discretizamos para clase con Numero de Caracteres en el Usuario
+
+#DISCRETIZACION
+dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$num_caracteres_nombre_usuario, decreasing = FALSE),]
+dim(dataTw_Ord)
+N <- dim(dataTw_Ord)[1]
+N
+division <- N/3
+print (division) 
+
+#Discretizacion Numero de Caracteres
+dfTw_caracteres <- dataTw_Ord$`Nro Caracteres del nombre`
+dfTw_caracteres[1:105] <- "Poco"
+dfTw_caracteres[106:210]<- "Normal"
+dfTw_caracteres[211:315]<- "Muchos"
+dfTw_caracteres
+
+#Discretizacion Seguidos
+dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$perfiles_seguidos, decreasing = FALSE),]
+dataTw_Ord
+dfTW_Seguidos <- dataTw_Ord$perfiles_seguidos
+dfTW_Seguidos[dataTw_Ord$perfiles_seguidos<200] <- "Pocos"
+dfTW_Seguidos[dataTw_Ord$perfiles_seguidos>=200 & dataTw_Ord$perfiles_seguidos<=500]<- "Normal"
+dfTW_Seguidos[dataTw_Ord$perfiles_seguidos>500]<- "Muchos"
+dfTW_Seguidos
 
 
+#Discretizacion Seguidores
+dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$seguidores, decreasing = FALSE),]
+dataTw_Ord
+dfTW_Seguidores <- dataTw_Ord$seguidores
+dfTW_Seguidores[dataTw_Ord$seguidores<200] <- "Pocos"
+dfTW_Seguidores[dataTw_Ord$seguidores>=200 & dataTw_Ord$seguidores<=500]<- "Normal"
+dfTW_Seguidores[dataTw_Ord$seguidores>500]<- "Muchos"
+dfTW_Seguidores
 
+
+#Discretizacion Seguidores
+dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$twitts_por_dia, decreasing = FALSE),]
+dataTw_Ord
+dfTW_TwxD <- dataTw_Ord$twitts_por_dia
+dfTW_TwxD[dataTw_Ord$twitts_por_dia<2] <- "Pocos"
+dfTW_TwxD[dataTw_Ord$twitts_por_dia>=2 & dataTw_Ord$twitts_por_dia<=3]<- "Normal"
+dfTW_TwxD[dataTw_Ord$twitts_por_dia>3]<- "Muchos"
+dfTW_TwxD
+
+#Asignamos Valores
+
+dataTw_Ord$num_caracteres_nombre_usuario <- dfTw_caracteres
+dataTw_Ord$seguidores <- dfTW_Seguidores
+dataTw_Ord$twitts_por_dia <- dfTW_TwxD
+dataTw_Ord$perfiles_seguidos <- dfTW_Seguidos
+summary(dataTw_Ord)
+
+dataCopy <- dataTwitterFinal[c(2,3,7)]
+
+summary(dataCopy)
+
+valores <- c('No', 'Sí')
+dataCopy$foto_de_perfil <- match(dataCopy$foto_de_perfil, valores)
+dataCopy$perfil_privado <- match(dataCopy$perfil_privado, valores)
+valores <- c('Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado','Domingo')
+dataCopy$dia_mayor_cantidad_twitts <- match(dataCopy$dia_mayor_cantidad_twitts, valores)
+
+summary(dataCopy)
 
 
 
