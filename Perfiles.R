@@ -27,6 +27,7 @@ names(dataPerfiles2) <- namesP[cualitativos]
 dataPerfiles2 <- as.data.frame(dataPerfiles2)
 
 summary(dataPerfiles2)
+dim(dataPerfiles2)
 
 #Datos cuantitativos
 dataPerfiles_cuanti<-dataPerfiles[cuantitativos]
@@ -63,12 +64,14 @@ dataPerfiles_Norm <- lapply(FeatNames, function (x) normalizeaDataL(dataPerfiles
 
 names(dataPerfiles_Norm)<- FeatNames  
 dataPerfiles_Norm <- as.data.frame(dataPerfiles_Norm)
+summary(dataPerfiles_Norm)
 
-#Discretizamos para clase con promedio
+  #Discretizamos para clase con promedio
 dataP_Promedio <- dataPerfiles_cuanti$Promedio.Primer.Semestre
 dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre<6] <- "Malo"
 dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre>=6 & dataPerfiles_cuanti$Promedio.Primer.Semestre<8]<- "Regular"
 dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre>=8]<- "Bueno"
+dataP_Promedio
 
 #Aquí pasamos al df original
 dataPerfiles_cuanti['Clase'] <- dataP_Promedio
@@ -132,6 +135,7 @@ dataHrsDiversion[dataP_Ord$Horas.Semana.Divertirse.con.sus.amigos>=5]<- "Muchas"
 #Asignamos valores
 
 dataP_Ord$Edad <- dataEdad
+dataP_Ord$Promedio.Primer.Semestre <- dataP_Promedio
 dataP_Ord$Integrantes.Familia.num <- dataFamilia
 dataP_Ord$Promedio.Preparatoria <- dataP_PromedioPrepa
 dataP_Ord$Materias.Aprobadas.Primer.Semestre <- dataMateriasAprob
@@ -139,6 +143,7 @@ dataP_Ord$Horas.Promedio.Estudio.Examenes <- dataHrsEstudia
 dataP_Ord$Materias.Cursadas.Primer.Semestre <- dataMateriasCursa
 dataP_Ord$Horas.Promedio.Estudio.Actividades.Escolares <- dataHrsAct
 dataP_Ord$Horas.Semana.Divertirse.con.sus.amigos <- dataHrsDiversion
+summary(dataP_Ord)
 
 ##Discretizacion Datos Cualitativos
 dataCopy <- dataPerfiles2

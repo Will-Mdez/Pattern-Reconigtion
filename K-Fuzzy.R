@@ -1,4 +1,5 @@
-namefile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//autos.csv"
+#namefile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//autos.csv"
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//autosFeatureS.csv"
 dataAuto <- read.table(namefile, header = TRUE, sep = ",")
 dataCarsKMeans<-dataAuto[1:10,7:10]
 p1<-c(0.2,0.5,0.25,0.45,0.15,0.66,0.1,0.95,0.15,0.35)

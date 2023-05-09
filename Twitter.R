@@ -64,7 +64,7 @@ summary(dataTwitterFinal)
 #dim(dataTwitterFinal)
 #dataTwitterFinal <- na.omit(dataTwitterFinal)
 #summary(dataTwitterFinal)
-dim(dataTwitterFinal)
+#dim(dataTwitterFinal)
 
 #names Cuantitativos
 namesCuali<-c("perfil_privado","seguidores","perfil_privado","dia_mayor_cantidad_twitts","comenta_publicaciones","clase")
@@ -80,7 +80,8 @@ meanDia1
 meanDia2
 dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&dataTwitterFinal$clase == "Real"] <- meanDia1
 dataTwitterCuanti$twitts_por_dia[is.na(dataTwitterCuanti$twitts_por_dia)&dataTwitterFinal$clase == "Fake"] <- meanDia2
-
+summary(dataTwitterCuanti)
+dim(dataTwitterCuanti)
 
 #Normalización de datos
 FeatNames<-colnames(dataTwitterCuanti)
@@ -98,6 +99,7 @@ normalizeDataL <- function(dataF,meanF,stdF){
 }
 
 dataTwitterNorm <- lapply(FeatNames, function (x) normalizeDataL(dataTwitterCuanti[[x]], mean_features[x], sd_features[x]))
+summary(dataTwitterNorm)
 
 names(dataTwitterNorm)<- FeatNames  
 dataTwitterNorm <- as.data.frame(dataTwitterNorm)
@@ -170,7 +172,15 @@ dataTw_Ord$seguidores <- dfTW_Seguidores
 dataTw_Ord$twitts_por_dia <- dfTW_TwxD
 dataTw_Ord$perfiles_seguidos <- dfTW_Seguidos
 summary(dataTw_Ord)
+dataTw_Ord$num_caracteres_nombre_usuario<-factor(dataTw_Ord$num_caracteres_nombre_usuario)
+dataTw_Ord$seguidores<-factor(dataTw_Ord$seguidores)
+dataTw_Ord$twitts_por_dia<-factor(dataTw_Ord$twitts_por_dia)
+dataTw_Ord$perfiles_seguidos<-factor(dataTw_Ord$perfiles_seguidos)
+summary(dataTw_Ord)
 
+
+
+#Ahora Discretizamos datos Cualitativos
 dataCopy <- dataTwitterFinal[c(2,3,7)]
 
 summary(dataCopy)

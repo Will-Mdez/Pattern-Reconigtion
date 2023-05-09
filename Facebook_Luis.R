@@ -65,6 +65,7 @@ dataFacebookFinal$`Páginas que siguen` <- as.numeric(dataFacebookFinal$`Página
 #Descripción de los datos
 
 summary(dataFacebookFinal)
+dim(dataFacebookFinal)
 
 #Convertir los datos categóricos
 
@@ -87,6 +88,12 @@ dataFB_cuanti<-dataFacebookFinal[cuantitativos]
 summary(dataFB_cuanti)
 
 #Imputación de datos
+dataFacebookFinal$`Día de la semana con más actividad`[is.na(
+  dataFacebookFinal$`Día de la semana con más actividad`
+)] <- "Ninguno"
+summary(dataFacebookFinal)
+dim(dataFacebookFinal)
+
 #Imputación con valor de la media condicionada
 dataFace <- dataFB_cuanti
 
@@ -100,6 +107,8 @@ meanPagSig2 <- mean(dataFace$`Páginas que siguen`[dataFacebookFinal$clase == 1]
 
 dataFB_cuanti$`Páginas que siguen`[is.na(dataFB_cuanti$`Páginas que siguen`)&dataFacebookFinal$clase == 0] <- meanPagSig1
 dataFB_cuanti$`Páginas que siguen`[is.na(dataFB_cuanti$`Páginas que siguen`)&dataFacebookFinal$clase == 1] <- meanPagSig2
+summary(dataFB_cuanti)
+dim(dataFB_cuanti)
 
 #Normalización de datos
 FeatNames<-names(dataFB_cuanti)
@@ -121,7 +130,7 @@ dataFBNorm <- lapply(FeatNames, function (x) normalizeaDataL(dataFB_cuanti[[x]],
 
 names(dataFBNorm)<- FeatNames  
 dataFBNorm <- as.data.frame(dataFBNorm)
-
+summary(dataFBNorm)
 
 #Identificación de valores extremos
 
@@ -135,7 +144,6 @@ summary(dataFBSE)
 #DISCRETIZACION
 dataFB_ordenado <- dataFB_cuanti[order(dataFB_cuanti$`Nro Caracteres del nombre`, decreasing = FALSE),]
 dim(dataFB_ordenado)
-
 
 N <- dim(dataFB_ordenado)[1]
 division <- N/3
@@ -171,9 +179,12 @@ dfFB_Seguidos
 dataFB_ordenado$`Páginas que siguen`<-dfFB_Seguidos
 dataFB_ordenado$`Nro Caracteres del nombre` <- dfFB_caracteres
 dataFB_ordenado$Amigos <- dfFB_Amigos
-dataFB_ordenado
+summary(dataFB_ordenado)
 
-
+dataFB_ordenado$`Páginas que siguen`<-factor(dataFB_ordenado$`Páginas que siguen`)
+dataFB_ordenado$`Nro Caracteres del nombre`<-factor(dataFB_ordenado$`Nro Caracteres del nombre`)
+dataFB_ordenado$Amigos<-factor(dataFB_ordenado$Amigos)
+summary(dataFB_ordenado)
 #Discretizacion Datos Cualitativos
 dataCopy <- dataFacebookFinal[c(2,5)]
 
