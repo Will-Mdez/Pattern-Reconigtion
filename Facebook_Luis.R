@@ -53,6 +53,7 @@ dataFacebookFinal <- rbind(dataFacebook,dataFacebook2)
 #Descripción de los datos
 
 summary(dataFacebookFinal)
+dataFacebook2[dataFacebook2=="viernes"]<-"Viernes"
 
 #Convertir los datos a Categoricos
 dataFacebookFinal$clase<-factor(dataFacebookFinal$clase)
@@ -171,3 +172,42 @@ dataFB_ordenado$`Páginas que siguen`<-dfFB_Seguidos
 dataFB_ordenado$`Nro Caracteres del nombre` <- dfFB_caracteres
 dataFB_ordenado$Amigos <- dfFB_Amigos
 dataFB_ordenado
+
+
+#Discretizacion Datos Cualitativos
+dataCopy <- dataFacebookFinal[c(2,5)]
+
+summary(dataCopy)
+
+valores <- c('No', 'Sí')
+dataCopy$`Foto de Perfil` <- match(dataCopy$`Foto de Perfil`, valores)
+valores <- c('Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado','Domingo','Ninguno')
+dataCopy$`Día de la semana con más actividad` <- match(dataCopy$`Día de la semana con más actividad`, valores)
+
+summary(dataCopy)
+
+
+#Frecuencias
+#histograma de frecuencias
+
+freqClass <- table(dataFB_ordenado$Amigos)
+freqClass
+freqClass_df <- as.data.frame(freqClass)
+freqClass_df
+names(freqClass_df) <- c("Amigos","freq")
+library(ggplot2)
+p <- ggplot(data=freqClass_df,aes(x=Amigos, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
+p
+
+#histograma de frecuencias
+
+freqClass <- table(dataCopy$`Foto de Perfil`)
+freqClass
+freqClass_df <- as.data.frame(freqClass)
+freqClass_df
+names(freqClass_df) <- c("Foto de Perfil","freq")
+library(ggplot2)
+p <- ggplot(data=freqClass_df,aes(x=`Foto de Perfil`, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
+p
+
+

@@ -1,10 +1,10 @@
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
-namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
 dataTwitter2 <- read.table(namefile2, header = TRUE, sep = ",")
@@ -182,6 +182,31 @@ valores <- c('Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado','Doming
 dataCopy$dia_mayor_cantidad_twitts <- match(dataCopy$dia_mayor_cantidad_twitts, valores)
 
 summary(dataCopy)
+
+
+#Frecuencias
+#histograma de frecuencias
+
+freqClass <- table(dataTw_Ord$seguidores)
+freqClass
+freqClass_df <- as.data.frame(freqClass)
+freqClass_df
+names(freqClass_df) <- c("seguidores","freq")
+library(ggplot2)
+p <- ggplot(data=freqClass_df,aes(x=seguidores, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
+p
+
+#histograma de frecuencias
+
+freqClass <- table(dataCopy$foto_de_perfil)
+freqClass
+freqClass_df <- as.data.frame(freqClass)
+freqClass_df
+names(freqClass_df) <- c("foto_de_perfil","freq")
+library(ggplot2)
+p <- ggplot(data=freqClass_df,aes(x=foto_de_perfil, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
+p
+
 
 
 
