@@ -36,7 +36,7 @@ pert2<-runif(dim,min = 0,max = 1)
 pert3<-runif(dim,min = 0,max = 1)
 
 b<-1.5
-
+#NOrmalizacion
 beta<-1/(pert1+pert2+pert3)
 PBb1<-(pert1*beta)**1.5
 PBb2<-(pert2*beta)**1.5
@@ -155,35 +155,38 @@ while (difmedias > epsilon) {
   medias3<-mediasact3
   difmedias<-(sum(dif1,dif2,dif3))/3
 }
+
+pertenencia1
+pertenencia2
+pertenencia3
 difmedias
-medias1 
-asignaGrupo<-function(a,b) (if (sum(a>b)) 0 else 1 )
+medias1
+medias2
+medias3
 
-asignaGrupoPorColor<-function(a,b) ifelse (a>b , 0, 1 )
 
-grupox<-asignaGrupo(dataPixels[1,],medias1)
-grupo <- sapply(seq(1:dim),function(x) asignaGrupo(mediasact1,dataPixels[x,]))
-grupoColores <- sapply(seq(1:dim),function(x) asignaGrupoPorColor(mediasact1,dataPixels[x,]))
-t(grupoColores)
-FRes<-matrix(grupo,ncol = dim(F1)[2])
-FRes
-img
-rojo<-matrix(grupoColores[,1],ncol = dim(F1)[2])
-verde<-matrix(grupoColores[,2],ncol = dim(F2)[2])
-azul<-matrix(grupoColores[,3],ncol = dim(F3)[2])
+##Las medias son muy parecidas por lo que solo tomamos la primera
+#Ponemos a que grupo pertenece cada color de pixel
+calcularNumero <- function(a,b) ifelse(a < b, 0, 1)
+N <- dim(dataPixels)[1]
+N
+indObj <- seq(1:N)
+dataPixelsNuevo <- dist3 <- sapply(indObj,function(x) calcularNumero(dataPixels[x,],medias1))
+dataPixelsNuevo <- t(dataPixelsNuevo)
 
-grupo<-matrix(grupo)
-
-grupo
-dataPixels
-dim(img)
+C <- dim(dataPixels)
+C
+rojo <- matrix(dataPixelsNuevo[,1],ncol=dim(F1)[2])
+verde <- matrix(dataPixelsNuevo[,2],ncol=dim(F1)[2])
+azul <- matrix(dataPixelsNuevo[,3],ncol=dim(F1)[2])
+rojo
 x11()
-layout(matrix(1:4,nrow=2))
-par(mar = c(1,2,2,0))
-plotImageArray(img,main="original")
-plotImageArray(rojo,main ="red")
-plotImageArray(verde,main= "green")
-plotImageArray(azul,main ="blue")
+layout(matrix(1:4, nrow = 2))
+par(mar = c(1, 2, 2, 0))
+plotImageArray(img, main = "original")
+plotImageArray(rojo, main = "red")
+plotImageArray(verde, main = "green")
+plotImageArray(azul, main = "blue")
 
 
 

@@ -1,6 +1,6 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
-#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 
 
 dataPerfiles <- read.table(namefile, header = TRUE, sep =',')
@@ -15,6 +15,7 @@ summary(dataPerfiles)
 
 #Columnas con datos Cualitativos
 cualitativos <- c(2,3,5,6,7,8,9,10,11,13,14,15,16,20,21,22,25,26,27,28,30,31,32,33,34,35)
+length(cualitativos)
 #Columnas con datos Cuantitativos
 cuantitativos<- c(1,4,12,17,18,19,23,24,29)
 
@@ -66,7 +67,7 @@ names(dataPerfiles_Norm)<- FeatNames
 dataPerfiles_Norm <- as.data.frame(dataPerfiles_Norm)
 summary(dataPerfiles_Norm)
 
-  #Discretizamos para clase con promedio
+#Discretizamos para clase con promedio
 dataP_Promedio <- dataPerfiles_cuanti$Promedio.Primer.Semestre
 dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre<6] <- "Malo"
 dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre>=6 & dataPerfiles_cuanti$Promedio.Primer.Semestre<8]<- "Regular"
@@ -144,6 +145,7 @@ dataP_Ord$Materias.Cursadas.Primer.Semestre <- dataMateriasCursa
 dataP_Ord$Horas.Promedio.Estudio.Actividades.Escolares <- dataHrsAct
 dataP_Ord$Horas.Semana.Divertirse.con.sus.amigos <- dataHrsDiversion
 summary(dataP_Ord)
+
 
 ##Discretizacion Datos Cualitativos
 dataCopy <- dataPerfiles2
