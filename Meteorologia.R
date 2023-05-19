@@ -1,5 +1,6 @@
 
 #METODO ID3
+library(dplyr)
 
 Exterior <- c("Soleado","Soleado","Nublado","Lluvioso","Lluvioso","Lluvioso","Nublado","Soleado","Soleado","Lluvioso","Soleado","Nublado","Nublado","Lluvioso")
 
@@ -11,8 +12,10 @@ length(Exterior)
 length(Temperatura)
 length(Humedad)
 length(Viento)
-length()
 
-dataMeteorologia <- c(Exterior,Temperatura,Humedad,Viento,ClaseM)
+dataMeteorologia <- cbind(Exterior,Temperatura,Humedad,Viento,ClaseM)
 
-filter(dataMeteorologia,Exterior == "Soleado" & Clase == "N")
+dataMeteorologia
+summary(dataMeteorologia)
+filtro1 <- filter(dataMeteorologia[,1:16], Exterior == "Soleado" & ClaseM == "N")
+filtro1
