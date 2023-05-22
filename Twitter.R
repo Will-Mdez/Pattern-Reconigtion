@@ -41,6 +41,7 @@ dataTwitterFinal <- rbind(dataTwitter,dataTwitter2)
 #Descripcion de datos
 summary(dataTwitterFinal)
 
+
 #Convertir los datos a Categoricos
 dataTwitterFinal$clase<-factor(dataTwitterFinal$clase)
 dataTwitterFinal$perfil_privado<-factor(dataTwitterFinal$perfil_privado)
@@ -181,6 +182,7 @@ summary(dataTw_Ord)
 
 
 #Ahora Discretizamos datos Cualitativos
+
 dataCopy <- dataTwitterFinal[c(2,3,7)]
 
 summary(dataCopy)
@@ -188,7 +190,7 @@ summary(dataCopy)
 valores <- c('No', 'Sí')
 dataCopy$foto_de_perfil <- match(dataCopy$foto_de_perfil, valores)
 dataCopy$perfil_privado <- match(dataCopy$perfil_privado, valores)
-valores <- c('Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado','Domingo')
+valores <- c('Lunes', 'Jueves','Sábado')
 dataCopy$dia_mayor_cantidad_twitts <- match(dataCopy$dia_mayor_cantidad_twitts, valores)
 #Tranformar en
 
@@ -240,45 +242,45 @@ dataTwitterCuali<-dataTwitterFinal[cualitativos]
 summary(dataTwitterCuali)
 
 
-P_00<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Real"])
-P_01<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Fake"])
-P_00
-P_01
-P_10<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Real"])
-P_11<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Fake"])
-P_10
-P_11
-P_20<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Real"])
-P_21<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Fake"])
-P_20
-P_21
-P_30<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Real"])
-P_31<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Fake"])
-P_30<-P_30[2:9]
-P_31<-P_31[2:9]
+P00<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Real"])
+P01<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Fake"])
+P00
+P01
+P10<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Real"])
+P11<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Fake"])
+P10
+P11
+P20<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Real"])
+P21<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Fake"])
+P20
+P21
+P30<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Real"])
+P31<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Fake"])
+P30<-P30[2:9]
+P31<-P31[2:9]
 #Entropia Foto Perfil
-EV_00<--(P_00[1]/315*log2(P_00[1]/315)+P_01[1]/315*log2(P_01[1]/315))
-EV_01<--(P_00[2]/315*log2(P_00[2]/315)+P_01[2]/315*log2(P_01[2]/315))
-E0<-((P_00[1]+P_01[1])*EV_00+(P_00[2]+P_01[2])*EV_01)/315
+EV00<--(P00[1]/315*log2(P00[1]/315)+P01[1]/315*log2(P01[1]/315))
+EV01<--(P00[2]/315*log2(P00[2]/315)+P01[2]/315*log2(P01[2]/315))
+E0<-((P00[1]+P01[1])*EV00+(P00[2]+P01[2])*EV01)/315
 
-EV_10<--(P_10[1]/315*log2(P_10[1]/315)+P_11[1]/315*log2(P_11[1]/315))
-EV_11<--(P_10[2]/315*log2(P_10[2]/315)+P_11[2]/315*log2(P_11[2]/315))
-E1<-((P_10[1]+P_11[1])*EV_10+(P_10[2]+P_11[2])*EV_11)/315
+EV10<--(P10[1]/315*log2(P10[1]/315)+P11[1]/315*log2(P11[1]/315))
+EV11<--(P10[2]/315*log2(P10[2]/315)+P11[2]/315*log2(P11[2]/315))
+E1<-((P10[1]+P11[1])*EV10+(P10[2]+P11[2])*EV11)/315
 
-EV_20<--(P_21[1]/315*log2(P_21[1]/315))
-EV_21<--(P_20[2]/315*log2(P_20[2]/315)+P_21[2]/315*log2(P_21[2]/315))
-E2<-((P_20[1]+P_21[1])*EV_20+(P_20[2]+P_21[2])*EV_21)/315
+EV20<--(P21[1]/315*log2(P21[1]/315))
+EV21<--(P20[2]/315*log2(P20[2]/315)+P21[2]/315*log2(P21[2]/315))
+E2<-((P20[1]+P21[1])*EV20+(P20[2]+P21[2])*EV21)/315
 
-EV_30<--(P_30[1]/315*log2(P_30[1]/315)+P_31[1]/315*log2(P_31[1]/315))
-EV_31<--(P_30[2]/315*log2(P_30[2]/315)+P_31[2]/315*log2(P_31[2]/315))
-EV_32<--(P_30[3]/315*log2(P_30[3]/315)+P_31[3]/315*log2(P_31[3]/315))
-EV_33<--(P_30[4]/315*log2(P_30[4]/315)+P_31[4]/315*log2(P_31[4]/315))
-EV_34<--(P_30[5]/315*log2(P_30[5]/315)+P_31[5]/315*log2(P_31[5]/315))
-EV_35<--(P_30[6]/315*log2(P_30[6]/315)+P_31[6]/315*log2(P_31[6]/315))
-EV_36<--(P_30[7]/315*log2(P_30[7]/315)+P_31[7]/315*log2(P_31[7]/315))
-EV_37<--(P_30[8]/315*log2(P_30[8]/315)+P_31[8]/315*log2(P_31[8]/315))
-E3<-((P_30[1]+P_31[1])*EV_30+(P_30[2]+P_31[2])*EV_31+(P_30[3]+P_31[3])*EV_32+(P_30[4]+P_31[4])*EV_33+(P_30[5]+P_31[5])*EV_34)
-E3<-E3+((P_30[6]+P_31[6])*EV_35+(P_30[7]+P_31[7])*EV_36+(P_30[8]+P_31[8])*EV_37)
+EV30<--(P30[1]/315*log2(P30[1]/315)+P31[1]/315*log2(P31[1]/315))
+EV31<--(P30[2]/315*log2(P30[2]/315)+P31[2]/315*log2(P31[2]/315))
+EV32<--(P30[3]/315*log2(P30[3]/315)+P31[3]/315*log2(P31[3]/315))
+EV33<--(P30[4]/315*log2(P30[4]/315)+P31[4]/315*log2(P31[4]/315))
+EV34<--(P30[5]/315*log2(P30[5]/315)+P31[5]/315*log2(P31[5]/315))
+EV35<--(P30[6]/315*log2(P30[6]/315)+P31[6]/315*log2(P31[6]/315))
+EV36<--(P30[7]/315*log2(P30[7]/315)+P31[7]/315*log2(P31[7]/315))
+EV37<--(P30[8]/315*log2(P30[8]/315)+P31[8]/315*log2(P31[8]/315))
+E3<-((P30[1]+P31[1])*EV30+(P30[2]+P31[2])*EV31+(P30[3]+P31[3])*EV32+(P30[4]+P31[4])*EV33+(P30[5]+P31[5])*EV34)
+E3<-E3+((P30[6]+P31[6])*EV35+(P30[7]+P31[7])*EV36+(P30[8]+P31[8])*EV37)
 E3<-E3/315
 
 #Factor de Fisher
@@ -288,31 +290,31 @@ P2<-213/301
 mean_dataTwitterNorm <- sapply(c(1,2,3,4), function(x) mean(dataTwitterNorm[[x]]))
 sd_dataTwitterNorm <- sapply(c(1,2,3,4), function(x) sd(dataTwitterNorm[[x]]))
 
-#Se calculan las medias y desv.
-dataTW_Clase0<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Real")
-dataTW_Clase1<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Fake")
+#Medias y desviacion
+dataTwitter_Clase0<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Real")
+dataTwitter_Clase1<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Fake")
 
-meandataC0<-sapply(c(1,2,3,4), function(x) mean(dataTW_Clase0[[x]]))
-SDdataC0 <- sapply(c(1,2,3,4), function(x) sd(dataTW_Clase0[[x]]))
+meandataC0<-sapply(c(1,2,3,4), function(x) mean(dataTwitter_Clase0[[x]]))
+sddataC0 <- sapply(c(1,2,3,4), function(x) sd(dataTwitter_Clase0[[x]]))
 
-meandataC1<-sapply(c(1,2,3,4), function(x) mean(dataTW_Clase1[[x]]))
-SDdataC1 <- sapply(c(1,2,3,4), function(x) sd(dataTW_Clase1[[x]]))
+meandataC1<-sapply(c(1,2,3,4), function(x) mean(dataTwitter_Clase1[[x]]))
+sddataC1 <- sapply(c(1,2,3,4), function(x) sd(dataTwitter_Clase1[[x]]))
 
-#Se calcula el factor de Fisher
+#factor de Fisher
 FFNC<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
-FFNC<-FFNC/(P1*SDdataC0[1]^2+P2*SDdataC1[1]^2)
+FFNC<-FFNC/(P1*sddataC0[1]^2+P2*sddataC1[1]^2)
 
 FFS<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
-FFS<-FFS/(P1*SDdataC0[2]^2+P2*SDdataC1[2]^2)
+FFS<-FFS/(P1*sddataC0[2]^2+P2*sddataC1[2]^2)
 
 FFPS<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
-FFPS<-FFPS/(P1*SDdataC0[3]^2+P2*SDdataC1[3]^2)
+FFPS<-FFPS/(P1*sddataC0[3]^2+P2*sddataC1[3]^2)
 
 FFTD<-P1*meandataC0[4]^2+P2*meandataC1[4]^2
-FFTD<-FFTD/(P1*SDdataC0[4]^2+P2*SDdataC1[4]^2)
+FFTD<-FFTD/(P1*sddataC0[4]^2+P2*sddataC1[4]^2)
 
 #F1<-Perfiles Seguidos
-#Paso 3: Correlacion F1-Resto
+#Step 3: Correlacion F1-Todos
 
 F1_NumCarac<- sum(dataTwitterNorm$num_caracteres_nombre_usuario*dataTwitterNorm$perfiles_seguidos)
 F1_NumCarac<-F1_NumCarac/sqrt(sum(dataTwitterNorm$num_caracteres_nombre_usuario^2)*sum(dataTwitterNorm$perfiles_seguidos^2))
@@ -323,7 +325,7 @@ F1_Seguidores<-F1_Seguidores/sqrt(sum(dataTwitterNorm$seguidores^2)*sum(dataTwit
 F1_TwiDia<- sum(dataTwitterNorm$twitts_por_dia*dataTwitterNorm$perfiles_seguidos)
 F1_TwiDia<-F1_TwiDia/sqrt(sum(dataTwitterNorm$twitts_por_dia^2)*sum(dataTwitterNorm$perfiles_seguidos^2))
 
-#Paso 4: Seleccionar 2a Característica
+#Step 4: Seleccionar 2da Característica
 alpha1<-0.5
 alpha2<-0.5
 
