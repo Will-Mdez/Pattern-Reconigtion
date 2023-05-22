@@ -1,10 +1,10 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
-namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 
 dataFacebook <- read.table(namefile, header = TRUE, sep = ",")
 
@@ -45,6 +45,8 @@ dataFacebook2[dataFacebook2==TRUE]<-0
 dataFacebook2[dataFacebook2==FALSE]<-1
 dataFacebook2[dataFacebook2=="Miercoles"]<-"Miércoles"
 dataFacebook2[dataFacebook2=="Sabado"]<-"Sábado"
+dataFacebook2[dataFacebook2=="jueves"]<-"Jueves"
+dataFacebook2[dataFacebook2=="viernes"]<-"Viernes"
 summary(dataFacebook)
 summary(dataFacebook2)
 #UNIMOS DATASETS
@@ -137,8 +139,8 @@ summary(dataFBNorm)
 #Identificación de valores extremos
 
 dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
-dataFBSE<-filter(dataFBSE,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
-dataFBSE<-filter(dataFBSE,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
+dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
+dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
 names(dataFBSE)<-names(dataFB_cuanti)
 summary(dataFBSE)
 
@@ -223,4 +225,109 @@ library(ggplot2)
 p <- ggplot(data=freqClass_df,aes(x=`Foto de Perfil`, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
 p
 
+
+#Selección de características
+
+#Entropia
+N<-377
+P_00<-table(dataFacebook_cualit$Foto.de.Perfil[dataFacebookFinal$clase==0])
+P_00
+#P_00<-c(P_00[['No']],P_00[['Sí']])
+P_01<-table(dataFacebook_cualit$Foto.de.Perfil[dataFacebookFinal$clase==1])
+P_01
+#P_01<-c(P_01[['No']],P_01[['Sí']])
+
+P_10<-table(dataFacebook_cualit$Día.de.la.semana.con.más.actividad[dataFacebookFinal$clase==0])
+P_10
+#P_10<-c(P_10[['Domingo']],P_10[['Jueves']],P_10[['Lunes']],P_10[['Martes']],P_10[['Miércoles']],P_10[['Ninguno']],P_10[['Sábado']],P_10[['Viernes']])
+P_11<-table(dataFacebook_cualit$Día.de.la.semana.con.más.actividad[dataFacebookFinal$clase==1])
+P_11
+#P_11<-c(P_11[['Domingo']],P_11[['Jueves']],P_11[['Lunes']],P_11[['Martes']],P_11[['Miércoles']],P_11[['Ninguno']],P_11[['Sábado']],P_11[['Viernes']])
+
+#Entropia Foto Perfil
+EV_00<--(P_00[1]/377*log2(P_00[1]/377)+P_01[1]/377*log2(P_01[1]/377))
+EV_01<--(P_00[2]/377*log2(P_00[2]/377)+P_01[2]/377*log2(P_01[2]/377))
+Entropia0<-((P_00[1]+P_01[1])*EV_00+(P_00[2]+P_01[2])*EV_01)/377
+
+EV_10<--(P_10[1]/377*log2(P_10[1]/377)+P_11[1]/377*log2(P_11[1]/377))
+EV_11<--(P_10[2]/377*log2(P_10[2]/377)+P_11[2]/377*log2(P_11[2]/377))
+EV_12<--(P_10[3]/377*log2(P_10[3]/377)+P_11[3]/377*log2(P_11[3]/377))
+EV_13<--(P_10[4]/377*log2(P_10[4]/377)+P_11[4]/377*log2(P_11[4]/377))
+EV_14<--(P_10[5]/377*log2(P_10[5]/377)+P_11[5]/377*log2(P_11[5]/377))
+EV_15<--(P_10[8]/377*log2(P_10[8]/377)+P_11[8]/377*log2(P_11[8]/377))
+EV_16<--(P_10[9]/377*log2(P_10[9]/377)+P_11[9]/377*log2(P_11[9]/377))
+EV_10
+EV_11
+EV_12
+EV_13
+EV_14
+EV_15
+EV_16
+
+
+
+Entropia1<-((P_10[1]+P_11[1])*EV_10+(P_10[2]+P_11[2])*EV_11+(P_10[3]+P_11[3])*EV_12+(P_10[4]+P_11[4])*EV_13+(P_10[5]+P_11[5])*EV_14+(P_10[8]+P_11[8])*EV_15+(P_10[9]+P_11[9]))
+Entropia1<-Entropia1/377
+Entropia1
+
+#Factor de Fisher
+P1<-115/364
+P2<-249/364
+
+mean_featuresNorm <- sapply(c(1,2,3), function(x) mean(dataFBSE[[x]]))
+sd_featuresNorm <- sapply(c(1,2,3), function(x) sd(dataFBSE[[x]]))
+
+normalizeaDataL <- function (dataF, meanF, stdF){
+  dataFN <- dataF
+  dataFN <- (dataFN - meanF)/stdF
+  return(dataFN)
+}
+
+dataFBNorm <- lapply(c(1,2,3), function (x) normalizeaDataL(dataFBSE[[x]], mean_featuresNorm[x], sd_featuresNorm[x]))
+
+names(dataFBNorm)<- nombresTabla[c(1,3,4)]  
+dataFBNorm <- as.data.frame(dataFBNorm)
+Clase<-dataFBSE$clase
+dataFBNorm <-cbind(dataFBNorm,Clase)
+
+meandataNorm <- sapply(c(1,2,3), function(x) mean(dataFBNorm[[x]]))
+SDdataNorm <- sapply(c(1,2,3), function(x) sd(dataFBNorm[[x]]))
+
+#Se calculan las medias y desv.
+dataFB_Clase0<-filter(dataFBNorm,dataFBNorm$Clase==0)
+dataFB_Clase1<-filter(dataFBNorm,dataFBNorm$Clase==1)
+
+meandataC0<-sapply(c(1,2,3), function(x) mean(dataFB_Clase0[[x]]))
+SDdataC0 <- sapply(c(1,2,3), function(x) sd(dataFB_Clase0[[x]]))
+
+meandataC1<-sapply(c(1,2,3), function(x) mean(dataFB_Clase1[[x]]))
+SDdataC1 <- sapply(c(1,2,3), function(x) sd(dataFB_Clase1[[x]]))
+
+#Se calcula el factor de Fisher
+FFNC<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
+FFNC<-FFNC/(P1*SDdataC0[1]^2+P2*SDdataC1[1]^2)
+
+FFNA<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
+FFNA<-FFNA/(P1*SDdataC0[2]^2+P2*SDdataC1[2]^2)
+
+FFPS<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
+FFPS<-FFPS/(P1*SDdataC0[3]^2+P2*SDdataC1[3]^2)
+
+#F1<-Número Amigos
+#Paso 3: Correlacion F1-Resto
+
+F1_NumCarac<- sum(dataFBNorm$Numero_Caracteres*dataFBNorm$Numero_Amigos)
+F1_NumCarac<-F1_NumCarac/sqrt(sum(dataFBNorm$Numero_Caracteres^2)*sum(dataFBNorm$Numero_Amigos^2))
+
+F1_NumPagS<- sum(dataFBNorm$Numero_paginas_seguidas*dataFBNorm$Numero_Amigos)
+F1_NumPagS<-F1_NumPagS/sqrt(sum(dataFBNorm$Numero_paginas_seguidas^2)*sum(dataFBNorm$Numero_Amigos^2))
+
+#Paso 4: Seleccionar 2a Característica
+alpha1<-0.5
+alpha2<-0.5
+
+FS_nc<-alpha1*FFNC-alpha2*abs(F1_NumCarac)
+FS_nc
+FS_nps<-alpha1*FFNA-alpha2*abs(F1_NumPagS)
+FS_nps
 
