@@ -55,6 +55,17 @@ dataFacebookFinal <- rbind(dataFacebook,dataFacebook2)
 #Descripción de los datos
 
 summary(dataFacebookFinal)
+dataFacebookFinal <- as.data.frame(dataFacebookFinal)
+dataFacebookFinal[dataFacebookFinal=="NaN"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Lunes"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Martes"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Miércoles"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Jueves"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Viernes"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Sábado"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Domingo"]<-"Publica"
+dataFacebookFinal[dataFacebookFinal=="Ninguno"]<-"No Publica"
+summary(dataFacebookFinal)
 
 dim(dataFacebookFinal)
 dataFacebook2[dataFacebook2=="viernes"]<-"Viernes"
@@ -94,7 +105,7 @@ summary(dataFB_cuanti)
 #Imputación de datos
 dataFacebookFinal$`Día de la semana con más actividad`[is.na(
   dataFacebookFinal$`Día de la semana con más actividad`
-)] <- "Ninguno"
+)] <- "No Publica"
 summary(dataFacebookFinal)
 dim(dataFacebookFinal)
 
@@ -138,11 +149,11 @@ summary(dataFacebookNorm)
 
 #Identificación de valores extremos
 
-dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
-dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
-dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
-names(dataFBSE)<-names(dataFB_cuanti)
-summary(dataFBSE)
+#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
+#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
+#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
+#names(dataFBSE)<-names(dataFB_cuanti)
+#summary(dataFBSE)
 
 
 #DISCRETIZACION
@@ -194,14 +205,18 @@ dataCopy <- dataFacebookFinal[c(2,5)]
 
 summary(dataCopy)
 
+
+
+
 valores <- c('No', 'Sí')
 dataCopy$`Foto de Perfil` <- match(dataCopy$`Foto de Perfil`, valores)
-valores <- c('Lunes', 'Martes','Miércoles','Jueves','Viernes','Sábado','Domingo','Ninguno')
+valores <- c('Publica','No Publica')
 dataCopy$`Día de la semana con más actividad` <- match(dataCopy$`Día de la semana con más actividad`, valores)
 
 summary(dataCopy)
-
-
+dataFaceDiscretizado<-cbind(dataFB_ordenado[,1:3],dataFacebookFinal[,c(2,5)],dataFB_ordenado[4])
+summary(dataFaceDiscretizado)
+dim(dataFaceDiscretizado)
 #Frecuencias
 #histograma de frecuencias
 
@@ -226,103 +241,57 @@ p <- ggplot(data=freqClass_df,aes(x=`Foto de Perfil`, y=freq)) + geom_bar(stat="
 p
 
 
+
 #Selección de características
 
+#Rankeo
 #Entropia
-N<-377
-P00<-table(dataFacebook_cualit$Foto.de.Perfil[dataFacebookFinal$clase==0])
-P00
-P01<-table(dataFacebook_cualit$Foto.de.Perfil[dataFacebookFinal$clase==1])
-P01
+N<-364
 
-P10<-table(dataFacebook_cualit$Día.de.la.semana.con.más.actividad[dataFacebookFinal$clase==0])
-P10
-P11<-table(dataFacebook_cualit$Día.de.la.semana.con.más.actividad[dataFacebookFinal$clase==1])
-P11
+P_00<-table(FBTableFinal$Foto_Perfil[FBTableFinal$Clase==0])
+P_01<-table(FBTableFinal$Foto_Perfil[FBTableFinal$Clase==1])
+
+P_10<-table(FBTableFinal$Dia_mas_actividad[FBTableFinal$Clase==0])
+P_11<-table(FBTableFinal$Dia_mas_actividad[FBTableFinal$Clase==1])
+
+P_20<-table(FBTableFinal$Numero_Caracteres[FBTableFinal$Clase==0])
+P_21<-table(FBTableFinal$Numero_Caracteres[FBTableFinal$Clase==1])
+
+P_30<-table(FBTableFinal$Numero_Amigos[FBTableFinal$Clase==0])
+P_31<-table(FBTableFinal$Numero_Amigos[FBTableFinal$Clase==1])
+
+P_40<-table(FBTableFinal$Numero_paginas_seguidas[FBTableFinal$Clase==0])
+P_41<-table(FBTableFinal$Numero_paginas_seguidas[FBTableFinal$Clase==1])
 
 #Entropia Foto Perfil
-EV00<--(P00[1]/377*log2(P00[1]/377)+P01[1]/377*log2(P01[1]/377))
-EV01<--(P00[2]/377*log2(P00[2]/377)+P01[2]/377*log2(P01[2]/377))
-Entropia0<-((P00[1]+P01[1])*EV00+(P00[2]+P01[2])*EV01)/377
+EV_00<--(P_00[1]/N*log2(P_00[1]/N)+P_01[1]/N*log2(P_01[1]/N))
+EV_01<--(P_00[2]/N*log2(P_00[2]/N)+P_01[2]/N*log2(P_01[2]/N))
+E0<-((P_00[1]+P_01[1])*EV_00+(P_00[2]+P_01[2])*EV_01)/N
 
-EV10<--(P10[1]/377*log2(P10[1]/377)+P11[1]/377*log2(P11[1]/377))
-EV11<--(P10[2]/377*log2(P10[2]/377)+P11[2]/377*log2(P11[2]/377))
-EV12<--(P10[3]/377*log2(P10[3]/377)+P11[3]/377*log2(P11[3]/377))
-EV13<--(P10[4]/377*log2(P10[4]/377)+P11[4]/377*log2(P11[4]/377))
-EV14<--(P10[5]/377*log2(P10[5]/377)+P11[5]/377*log2(P11[5]/377))
-EV15<--(P10[8]/377*log2(P10[8]/377)+P11[8]/377*log2(P11[8]/377))
-EV16<--(P10[9]/377*log2(P10[9]/377)+P11[9]/377*log2(P11[9]/377))
-EV10
-EV11
-EV12
-EV13
-EV14
-EV15
-EV16
+EV_10<--(P_10[1]/N*log2(P_10[1]/N)+P_11[1]/N*log2(P_11[1]/N))
+EV_11<--(P_10[2]/N*log2(P_10[2]/N)+P_11[2]/N*log2(P_11[2]/N))
+EV_12<--(P_10[3]/N*log2(P_10[3]/N)+P_11[3]/N*log2(P_11[3]/N))
 
+E1<-((P_10[1]+P_11[1])*EV_10+(P_10[2]+P_11[2])*EV_11+(P_10[3]+P_11[3])*EV_12)/N
 
+EV_20<--(P_20[1]/N*log2(P_20[1]/N)+P_21[1]/N*log2(P_21[1]/N))
+EV_21<--(P_20[2]/N*log2(P_20[2]/N)+P_21[2]/N*log2(P_21[2]/N))
+EV_22<--(P_20[3]/N*log2(P_20[3]/N)+P_21[3]/N*log2(P_21[3]/N))
 
-Entropia1<-((P10[1]+P11[1])*EV10+(P10[2]+P11[2])*EV11+(P10[3]+P11[3])*EV12+(P10[4]+P11[4])*EV13+(P10[5]+P11[5])*EV14+(P10[8]+P11[8])*EV15+(P10[9]+P11[9]))
-Entropia1<-Entropia1/377
-Entropia1
+E2<-((P_20[1]+P_21[1])*EV_20+(P_20[2]+P_21[2])*EV_21+(P_20[3]+P_21[3])*EV_22)/N
 
-#Factor de Fisher
-P1<-115/364
-P2<-249/364
+EV_30<--(P_30[1]/N*log2(P_30[1]/N)+P_31[1]/N*log2(P_31[1]/N))
+EV_31<--(P_30[2]/N*log2(P_30[2]/N)+P_31[2]/N*log2(P_31[2]/N))
+EV_32<--(P_30[3]/N*log2(P_30[3]/N)+P_31[3]/N*log2(P_31[3]/N))
 
-mean_featuresNorm <- sapply(c(1,2,3), function(x) mean(dataFBSE[[x]]))
-sd_featuresNorm <- sapply(c(1,2,3), function(x) sd(dataFBSE[[x]]))
+E3<-((P_30[1]+P_31[1])*EV_30+(P_30[2]+P_31[2])*EV_31+(P_30[3]+P_31[3])*EV_32)/N
 
-normalizeaDataL <- function (dataF, meanF, stdF){
-  dataFN <- dataF
-  dataFN <- (dataFN - meanF)/stdF
-  return(dataFN)
-}
+EV_40<--(P_40[1]/N*log2(P_40[1]/N)+P_41[1]/N*log2(P_41[1]/N))
+EV_41<--(P_40[2]/N*log2(P_40[2]/N)+P_41[2]/N*log2(P_41[2]/N))
+EV_42<--(P_40[3]/N*log2(P_40[3]/N)+P_41[3]/N*log2(P_41[3]/N))
 
-dataFacebookNorm <- lapply(c(1,2,3), function (x) normalizeaDataL(dataFBSE[[x]], mean_featuresNorm[x], sd_featuresNorm[x]))
+E4<-((P_40[1]+P_41[1])*EV_40+(P_40[2]+P_41[2])*EV_41+(P_40[3]+P_41[3])*EV_42)/N
 
-names(dataFacebookNorm)<- nombresTabla[c(1,3,4)]  
-dataFacebookNorm <- as.data.frame(dataFacebookNorm)
-Clase<-dataFBSE$clase
-dataFacebookNorm <-cbind(dataFacebookNorm,Clase)
+#La menor entropía es la de E1 que corresponde a Día Más Actividad
 
-meandataNorm <- sapply(c(1,2,3), function(x) mean(dataFacebookNorm[[x]]))
-SDdataNorm <- sapply(c(1,2,3), function(x) sd(dataFacebookNorm[[x]]))
-
-dataFB_Clase0<-filter(dataFacebookNorm,dataFacebookNorm$Clase==0)
-dataFB_Clase1<-filter(dataFacebookNorm,dataFacebookNorm$Clase==1)
-
-meandataC0<-sapply(c(1,2,3), function(x) mean(dataFB_Clase0[[x]]))
-SDdataC0 <- sapply(c(1,2,3), function(x) sd(dataFB_Clase0[[x]]))
-
-meandataC1<-sapply(c(1,2,3), function(x) mean(dataFB_Clase1[[x]]))
-SDdataC1 <- sapply(c(1,2,3), function(x) sd(dataFB_Clase1[[x]]))
-
-#Factor de Fisher
-FFNC<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
-FFNC<-FFNC/(P1*SDdataC0[1]^2+P2*SDdataC1[1]^2)
-
-FFNA<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
-FFNA<-FFNA/(P1*SDdataC0[2]^2+P2*SDdataC1[2]^2)
-
-FFPS<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
-FFPS<-FFPS/(P1*SDdataC0[3]^2+P2*SDdataC1[3]^2)
-
-#F1<-Número Amigos
-#Correlacion F1-Resto
-
-F1_NumCarac<- sum(dataFacebookNorm$Numero_Caracteres*dataFacebookNorm$Numero_Amigos)
-F1_NumCarac<-F1_NumCarac/sqrt(sum(dataFacebookNorm$Numero_Caracteres^2)*sum(dataFacebookNorm$Numero_Amigos^2))
-
-F1_NumPagS<- sum(dataFacebookNorm$Numero_paginas_seguidas*dataFacebookNorm$Numero_Amigos)
-F1_NumPagS<-F1_NumPagS/sqrt(sum(dataFacebookNorm$Numero_paginas_seguidas^2)*sum(dataFacebookNorm$Numero_Amigos^2))
-
-#Seleccionar 2da Característica
-alpha1<-0.5
-alpha2<-0.5
-
-FS_nc<-alpha1*FFNC-alpha2*abs(F1_NumCarac)
-FS_nc
-FS_nps<-alpha1*FFNA-alpha2*abs(F1_NumPagS)
-FS_nps
 

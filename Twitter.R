@@ -46,11 +46,23 @@ summary(dataTwitterFinal)
 dataTwitterFinal$clase<-factor(dataTwitterFinal$clase)
 dataTwitterFinal$perfil_privado<-factor(dataTwitterFinal$perfil_privado)
 dataTwitterFinal$foto_de_perfil<-factor(dataTwitterFinal$foto_de_perfil)
-dataTwitterFinal$dia_mayor_cantidad_twitts<-factor(dataTwitterFinal$dia_mayor_cantidad_twitts)
+#dataTwitterFinal$dia_mayor_cantidad_twitts<-factor(dataTwitterFinal$dia_mayor_cantidad_twitts)
 dataTwitterFinal$comenta_publicaciones<-factor(dataTwitterFinal$comenta_publicaciones)
 
 
 #Descripcion de los datos
+summary(dataTwitterFinal)
+dataTwitterFinal <- as.data.frame(dataTwitterFinal)
+dataTwitterFinal[dataTwitterFinal=="Lunes"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Martes"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Miércoles"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Jueves"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Viernes"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Sábado"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Domingo"]<-"Publica"
+dataTwitterFinal[dataTwitterFinal=="Ninguno"]<-"No Publica"
+dataTwitterFinal[dataTwitterFinal==""]<-"No Publica"
+dataTwitterFinal$dia_mayor_cantidad_twitts<-factor(dataTwitterFinal$dia_mayor_cantidad_twitts)
 summary(dataTwitterFinal)
 dim(dataTwitterFinal)
 
@@ -58,7 +70,7 @@ dim(dataTwitterFinal)
 #IMPUTAR DATOS NA
 #Descripcion de los datos
 dataTwitterFinal$comenta_publicaciones[is.na(dataTwitterFinal$comenta_publicaciones)]<-"Sí"
-dataTwitterFinal$dia_mayor_cantidad_twitts[is.na(dataTwitterFinal$dia_mayor_cantidad_twitts)]<-"Viernes"
+dataTwitterFinal$dia_mayor_cantidad_twitts[is.na(dataTwitterFinal$dia_mayor_cantidad_twitts)]<-"Publica"
 
 summary(dataTwitterFinal)
 #sum(is.na(dataTwitterFinal))
@@ -139,7 +151,6 @@ dfTw_caracteres
 
 #Discretizacion Seguidos
 dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$perfiles_seguidos, decreasing = FALSE),]
-dataTw_Ord
 dfTW_Seguidos <- dataTw_Ord$perfiles_seguidos
 dfTW_Seguidos[dataTw_Ord$perfiles_seguidos<200] <- "Pocos"
 dfTW_Seguidos[dataTw_Ord$perfiles_seguidos>=200 & dataTw_Ord$perfiles_seguidos<=500]<- "Normal"
@@ -149,7 +160,6 @@ dfTW_Seguidos
 
 #Discretizacion Seguidores
 dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$seguidores, decreasing = FALSE),]
-dataTw_Ord
 dfTW_Seguidores <- dataTw_Ord$seguidores
 dfTW_Seguidores[dataTw_Ord$seguidores<200] <- "Pocos"
 dfTW_Seguidores[dataTw_Ord$seguidores>=200 & dataTw_Ord$seguidores<=500]<- "Normal"
@@ -190,13 +200,14 @@ summary(dataCopy)
 valores <- c('No', 'Sí')
 dataCopy$foto_de_perfil <- match(dataCopy$foto_de_perfil, valores)
 dataCopy$perfil_privado <- match(dataCopy$perfil_privado, valores)
-valores <- c('Lunes', 'Jueves','Sábado')
+valores <- c('Publica', 'No Publica')
 dataCopy$dia_mayor_cantidad_twitts <- match(dataCopy$dia_mayor_cantidad_twitts, valores)
 #Tranformar en
 
 summary(dataCopy)
 
-
+dataTw_Discretizada<-cbind(dataTw_Ord,dataCopy)
+summary(dataTw_Discretizada)
 #Frecuencias
 #histograma de frecuencias
 
