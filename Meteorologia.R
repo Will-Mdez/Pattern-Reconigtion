@@ -23,7 +23,7 @@ dataMeteorologia$Exterior <- factor(dataMeteorologia$Exterior)
 dataMeteorologia$Viento <- factor(dataMeteorologia$Viento)
 dataMeteorologia$ClaseM <- factor(dataMeteorologia$ClaseM)
 summary(dataMeteorologia)
-filter(dataMeteorologia, Exterior=="Soleado" & ClaseM == "N")
+filter(dataMeteorologia, dataMeteorologia$Exterior=="Soleado" & dataMeteorologia$ClaseM == "N")
 
 
 #CLASIFICADOR BAYESIANO
