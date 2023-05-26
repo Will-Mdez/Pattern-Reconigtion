@@ -7,7 +7,7 @@ Exterior <- c("Soleado","Soleado","Nublado","Lluvioso","Lluvioso","Lluvioso","Nu
 Temperatura <- c("Calor","Calor","Calor","Templado","Frio","Frio","Frio","Templado","Frio","Templado","Templado","Templado","Calor","Templado")
 Humedad <- c("Alta","Alta","Alta","Alta","Normal","Normal","Normal","Alta","Normal","Normal","Normal","Alta","Normal","Alta")
 Viento <- c("No","Sí","No","No","No","Sí","Sí","No","No","No","Sí","Sí","No","Sí")
-ClaseM <- c("N","N","P","P","P","N","P","N","P","N","P","P","P","P","P","N")
+ClaseM <- c("N","N","P","P","P","N","P","N","P","P","P","P","P","N")
 length(Exterior)
 length(Temperatura)
 length(Humedad)
@@ -16,6 +16,16 @@ length(Viento)
 dataMeteorologia <- cbind(Exterior,Temperatura,Humedad,Viento,ClaseM)
 
 dataMeteorologia
+
+dataMeteorologia <- as.data.frame(dataMeteorologia)
+dataMeteorologia$Temperatura <- factor(dataMeteorologia$Temperatura)
+dataMeteorologia$Exterior <- factor(dataMeteorologia$Exterior)
+dataMeteorologia$Viento <- factor(dataMeteorologia$Viento)
+dataMeteorologia$ClaseM <- factor(dataMeteorologia$ClaseM)
 summary(dataMeteorologia)
-filtro1 <- filter(dataMeteorologia[,1:16], Exterior == "Soleado" & ClaseM == "N")
-filtro1
+filter(dataMeteorologia, dataMeteorologia$Exterior=="Soleado" & dataMeteorologia$ClaseM == "N")
+
+
+#CLASIFICADOR BAYESIANO
+
+
