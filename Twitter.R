@@ -193,7 +193,7 @@ summary(dataTw_Ord)
 
 #Ahora Discretizamos datos Cualitativos
 
-dataCopy <- dataTwitterFinal[c(2,3,7)]
+dataCopy <- dataTwitterFinal[c(2,3,7,9)]
 
 summary(dataCopy)
 
@@ -206,7 +206,7 @@ dataCopy$dia_mayor_cantidad_twitts <- match(dataCopy$dia_mayor_cantidad_twitts, 
 
 summary(dataCopy)
 
-dataTw_Discretizada<-cbind(dataTw_Ord,dataCopy)
+dataTw_Discretizada<-cbind(dataTw_Ord,dataTwitterFinal[c(2,3,7,8,9)])
 summary(dataTw_Discretizada)
 #Frecuencias
 #histograma de frecuencias
@@ -253,22 +253,32 @@ dataTwitterCuali<-dataTwitterFinal[cualitativos]
 summary(dataTwitterCuali)
 
 
-P00<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Real"])
-P01<-table(dataTwitterCuali$foto_de_perfil[dataTwitterFinal$clase=="Fake"])
-P00
-P01
-P10<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Real"])
-P11<-table(dataTwitterCuali$perfil_privado[dataTwitterFinal$clase=="Fake"])
-P10
-P11
-P20<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Real"])
-P21<-table(dataTwitterCuali$comenta_publicaciones[dataTwitterFinal$clase=="Fake"])
-P20
-P21
-P30<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Real"])
-P31<-table(dataTwitterCuali$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Fake"])
-P30<-P30[2:9]
-P31<-P31[2:9]
+P00<-table(dataTw_Discretizada$foto_de_perfil[dataTwitterFinal$clase=="Real"])
+P01<-table(dataTw_Discretizada$foto_de_perfil[dataTwitterFinal$clase=="Fake"])
+
+P10<-table(dataTw_Discretizada$perfil_privado[dataTwitterFinal$clase=="Real"])
+P11<-table(dataTw_Discretizada$perfil_privado[dataTwitterFinal$clase=="Fake"])
+
+##
+P20<-table(dataTw_Discretizada$comenta_publicaciones[dataTwitterFinal$clase=="Real"])
+P21<-table(dataTw_Discretizada$comenta_publicaciones[dataTwitterFinal$clase=="Fake"])
+
+P30<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Real"])
+P31<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=="Fake"])
+
+P40<-table(dataTw_Discretizada$num_caracteres_nombre_usuario[dataTwitterFinal$clase=="Real"])
+P41<-table(dataTw_Discretizada$num_caracteres_nombre_usuario[dataTwitterFinal$clase=="Fake"])
+
+P50<-table(dataTw_Discretizada$seguidores[dataTwitterFinal$clase=="Real"])
+P51<-table(dataTw_Discretizada$seguidores[dataTwitterFinal$clase=="Fake"])
+
+P60<-table(dataTw_Discretizada$twitts_por_dia[dataTwitterFinal$clase=="Real"])
+P61<-table(dataTw_Discretizada$twitts_por_dia[dataTwitterFinal$clase=="Fake"])
+
+##
+P70<-table(dataTw_Discretizada$perfiles_seguidos[dataTwitterFinal$clase=="Real"])
+P71<-table(dataTw_Discretizada$perfiles_seguidos[dataTwitterFinal$clase=="Fake"])
+
 #Entropia Foto Perfil
 EV00<--(P00[1]/315*log2(P00[1]/315)+P01[1]/315*log2(P01[1]/315))
 EV01<--(P00[2]/315*log2(P00[2]/315)+P01[2]/315*log2(P01[2]/315))
@@ -278,21 +288,41 @@ EV10<--(P10[1]/315*log2(P10[1]/315)+P11[1]/315*log2(P11[1]/315))
 EV11<--(P10[2]/315*log2(P10[2]/315)+P11[2]/315*log2(P11[2]/315))
 E1<-((P10[1]+P11[1])*EV10+(P10[2]+P11[2])*EV11)/315
 
-EV20<--(P21[1]/315*log2(P21[1]/315))
-EV21<--(P20[2]/315*log2(P20[2]/315)+P21[2]/315*log2(P21[2]/315))
+EV20<--(P21[2]/315*log2(P21[2]/315)+P21[2]/315*log2(P21[2]/315))
+EV21<--(P20[3]/315*log2(P20[3]/315)+P21[3]/315*log2(P21[3]/315))
 E2<-((P20[1]+P21[1])*EV20+(P20[2]+P21[2])*EV21)/315
 
 EV30<--(P30[1]/315*log2(P30[1]/315)+P31[1]/315*log2(P31[1]/315))
 EV31<--(P30[2]/315*log2(P30[2]/315)+P31[2]/315*log2(P31[2]/315))
-EV32<--(P30[3]/315*log2(P30[3]/315)+P31[3]/315*log2(P31[3]/315))
-EV33<--(P30[4]/315*log2(P30[4]/315)+P31[4]/315*log2(P31[4]/315))
-EV34<--(P30[5]/315*log2(P30[5]/315)+P31[5]/315*log2(P31[5]/315))
-EV35<--(P30[6]/315*log2(P30[6]/315)+P31[6]/315*log2(P31[6]/315))
-EV36<--(P30[7]/315*log2(P30[7]/315)+P31[7]/315*log2(P31[7]/315))
-EV37<--(P30[8]/315*log2(P30[8]/315)+P31[8]/315*log2(P31[8]/315))
-E3<-((P30[1]+P31[1])*EV30+(P30[2]+P31[2])*EV31+(P30[3]+P31[3])*EV32+(P30[4]+P31[4])*EV33+(P30[5]+P31[5])*EV34)
-E3<-E3+((P30[6]+P31[6])*EV35+(P30[7]+P31[7])*EV36+(P30[8]+P31[8])*EV37)
-E3<-E3/315
+E3<-((P30[1]+P31[1])*EV30+(P30[2]+P31[2])*EV31)/315
+
+
+EV40<--(P40[1]/315*log2(P40[1]/315)+P41[1]/315*log2(P41[1]/315))
+EV41<--(P40[2]/315*log2(P40[2]/315)+P41[2]/315*log2(P41[2]/315))
+EV42<--(P40[3]/315*log2(P40[3]/315)+P41[3]/315*log2(P41[3]/315))
+E4<-((P40[1]+P41[1])*EV40+(P40[2]+P41[2])*EV41+(P40[3]+P41[3])*EV42)/315
+
+
+EV50<--(P50[1]/315*log2(P50[1]/315)+P51[1]/315*log2(P51[1]/315))
+EV51<--(P51[2]/315*log2(P51[2]/315))
+EV52<--(P50[3]/315*log2(P50[3]/315)+P51[3]/315*log2(P51[3]/315))
+E5<-((P50[1]+P51[1])*EV50+(P50[2]+P51[2])*EV51+(P50[3]+P51[3])*EV52)/315
+
+
+EV60<--(P60[1]/315*log2(P60[1]/315)+P61[1]/315*log2(P61[1]/315))
+EV61<--(P60[2]/315*log2(P60[2]/315)+P61[2]/315*log2(P61[2]/315))
+EV62<--(P60[3]/315*log2(P60[3]/315)+P61[3]/315*log2(P61[3]/315))
+E6<-((P60[1]+P61[1])*EV60+(P60[2]+P61[2])*EV61+(P60[3]+P61[3])*EV62)/315
+
+
+EV70<--(P70[1]/315*log2(P70[1]/315))
+EV71<--(P70[2]/315*log2(P70[2]/315)+P71[2]/315*log2(P71[2]/315))
+EV72<--(P70[3]/315*log2(P70[3]/315)+P71[3]/315*log2(P71[3]/315))
+E7<-((P70[1]+P71[1])*EV70+(P70[2]+P71[2])*EV71+(P70[3]+P71[3])*EV71)/315
+
+#Entropia->comenta_publicaciones
+EntropiasTW<-c(E0,E1,E2,E3,E4,E5,E6,E7)
+sort(EntropiasTW)
 
 #Factor de Fisher
 P1<-88/301
