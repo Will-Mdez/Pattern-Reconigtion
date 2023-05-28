@@ -241,9 +241,9 @@ summary(dataTwitterCuanti)
 dim(dataTwitterCuanti)
 #Identificación de valores extremos
 dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$num_caracteres_nombre_usuario<(mean_features[1]+3*sd_features[1]))
-dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$seguidores<(mean_features[2]+3*sd_features[2]))
-dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
-dataTwitterEx<-filter(dataTwitterEx,dataTwitterCuanti$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$seguidores<(mean_features[2]+3*sd_features[2]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
 summary(dataTwitterEx)
 dim(dataTwitterEx)
 
@@ -379,3 +379,4 @@ FS_seg<-alpha1*FFS-alpha2*abs(F1_Seguidores)
 FS_td<-alpha1*FFTD-alpha2*abs(F1_TwiDia)
 
 #F2-Seguidores
+
