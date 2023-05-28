@@ -1,11 +1,12 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
-namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
-
+#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 dataFacebook <- read.table(namefile, header = TRUE, sep = ",")
 
 dataFacebook2 <- read.table(namefile2, header = TRUE, sep = ",")
@@ -48,6 +49,8 @@ dataFacebook2[dataFacebook2=="Sabado"]<-"Sábado"
 dataFacebook2[dataFacebook2=="jueves"]<-"Jueves"
 dataFacebook2[dataFacebook2=="viernes"]<-"Viernes"
 summary(dataFacebook)
+dataFacebook2$`Páginas que siguen` <- as.numeric(dataFacebook2$`Páginas que siguen`)
+dataFacebook2[27,]
 summary(dataFacebook2)
 #UNIMOS DATASETS
 dataFacebookFinal <- rbind(dataFacebook,dataFacebook2)
@@ -56,7 +59,7 @@ dataFacebookFinal <- rbind(dataFacebook,dataFacebook2)
 
 summary(dataFacebookFinal)
 dataFacebookFinal <- as.data.frame(dataFacebookFinal)
-dataFacebookFinal[dataFacebookFinal=="NaN"]<-"Publica"
+dataFacebookFinal$`Día de la semana con más actividad`[dataFacebookFinal$`Día de la semana con más actividad`=="NaN"]<-"Publica"
 dataFacebookFinal[dataFacebookFinal=="Lunes"]<-"Publica"
 dataFacebookFinal[dataFacebookFinal=="Martes"]<-"Publica"
 dataFacebookFinal[dataFacebookFinal=="Miércoles"]<-"Publica"
@@ -97,7 +100,7 @@ names(dataFacebook_cualit) <- nombresTabla[cualitativos]
 dataFacebook_cualit <- as.data.frame(dataFacebook_cualit)
 
 summary(dataFacebook_cualit)
-
+dataFacebookFinal[375,3]
 #Datos cuantitativos
 dataFB_cuanti<-dataFacebookFinal[cuantitativos]
 summary(dataFB_cuanti)
@@ -128,9 +131,6 @@ dim(dataFB_cuanti)
 #Normalización de datos
 FeatNames<-names(dataFB_cuanti)
 FeatNames
-dataFB_cuanti$`Páginas que siguen` <- as.numeric(dataFB_cuanti$`Páginas que siguen`)
-dataFB_cuanti$`Nro Caracteres del nombre` <- as.numeric(dataFB_cuanti$`Nro Caracteres del nombre`)
-dataFB_cuanti$Amigos <- as.numeric(dataFB_cuanti$Amigos)
 dataFB_cuanti$clase <- as.numeric(dataFB_cuanti$clase)
 mean_features <- sapply(FeatNames, function(x) mean(dataFB_cuanti[[x]]))
 sd_features <- sapply(FeatNames, function(x) sd(dataFB_cuanti[[x]]))
@@ -149,14 +149,15 @@ summary(dataFacebookNorm)
 
 #Identificación de valores extremos
 
-#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
-#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$Amigos<(mean_features[2]+3*sd_features[2]))
-#dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
-#names(dataFBSE)<-names(dataFB_cuanti)
-#summary(dataFBSE)
+dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
+dataFBSE<-filter(dataFBSE,dataFBSE$Amigos<(mean_features[2]+3*sd_features[2]))
+dataFBSE<-filter(dataFBSE,dataFBSE$`Páginas que siguen`<(mean_features[3]+3*sd_features[3]))
+names(dataFBSE)<-names(dataFB_cuanti)
+summary(dataFBSE)
 
 
 #DISCRETIZACION
+
 dataFB_ordenado <- dataFB_cuanti[order(dataFB_cuanti$`Nro Caracteres del nombre`, decreasing = FALSE),]
 dim(dataFB_ordenado)
 
@@ -215,6 +216,7 @@ dataCopy$`Día de la semana con más actividad` <- match(dataCopy$`Día de la se
 
 summary(dataCopy)
 dataFaceDiscretizado<-cbind(dataFB_ordenado[,1:3],dataFacebookFinal[,c(2,5)],dataFB_ordenado[4])
+dataFaceDiscretizado$clase <- factor(dataFaceDiscretizado$clase)
 summary(dataFaceDiscretizado)
 dim(dataFaceDiscretizado)
 #Frecuencias
@@ -246,22 +248,23 @@ p
 
 #Rankeo
 #Entropia
-N<-364
+N<-377
+summary(dataFaceDiscretizado)
 
-P_00<-table(FBTableFinal$Foto_Perfil[FBTableFinal$Clase==0])
-P_01<-table(FBTableFinal$Foto_Perfil[FBTableFinal$Clase==1])
+P_00<-table(dataFaceDiscretizado$`Foto de Perfil`[dataFaceDiscretizado$clase==1])
+P_01<-table(dataFaceDiscretizado$`Foto de Perfil`[dataFaceDiscretizado$clase==2])
 
-P_10<-table(FBTableFinal$Dia_mas_actividad[FBTableFinal$Clase==0])
-P_11<-table(FBTableFinal$Dia_mas_actividad[FBTableFinal$Clase==1])
+P_10<-table(dataFaceDiscretizado$`Día de la semana con más actividad`[dataFaceDiscretizado$clase==1])
+P_11<-table(dataFaceDiscretizado$`Día de la semana con más actividad`[dataFaceDiscretizado$clase==2])
 
-P_20<-table(FBTableFinal$Numero_Caracteres[FBTableFinal$Clase==0])
-P_21<-table(FBTableFinal$Numero_Caracteres[FBTableFinal$Clase==1])
+P_20<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`[dataFaceDiscretizado$clase==1])
+P_21<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`[dataFaceDiscretizado$clase==2])
 
-P_30<-table(FBTableFinal$Numero_Amigos[FBTableFinal$Clase==0])
-P_31<-table(FBTableFinal$Numero_Amigos[FBTableFinal$Clase==1])
+P_30<-table(dataFaceDiscretizado$Amigos[dataFaceDiscretizado$clase==1])
+P_31<-table(dataFaceDiscretizado$Amigos[dataFaceDiscretizado$clase==2])
 
-P_40<-table(FBTableFinal$Numero_paginas_seguidas[FBTableFinal$Clase==0])
-P_41<-table(FBTableFinal$Numero_paginas_seguidas[FBTableFinal$Clase==1])
+P_40<-table(dataFaceDiscretizado$`Páginas que siguen`[dataFaceDiscretizado$clase==1])
+P_41<-table(dataFaceDiscretizado$`Páginas que siguen`[dataFaceDiscretizado$clase==2])
 
 #Entropia Foto Perfil
 EV_00<--(P_00[1]/N*log2(P_00[1]/N)+P_01[1]/N*log2(P_01[1]/N))
@@ -270,9 +273,8 @@ E0<-((P_00[1]+P_01[1])*EV_00+(P_00[2]+P_01[2])*EV_01)/N
 
 EV_10<--(P_10[1]/N*log2(P_10[1]/N)+P_11[1]/N*log2(P_11[1]/N))
 EV_11<--(P_10[2]/N*log2(P_10[2]/N)+P_11[2]/N*log2(P_11[2]/N))
-EV_12<--(P_10[3]/N*log2(P_10[3]/N)+P_11[3]/N*log2(P_11[3]/N))
 
-E1<-((P_10[1]+P_11[1])*EV_10+(P_10[2]+P_11[2])*EV_11+(P_10[3]+P_11[3])*EV_12)/N
+E1<-((P_10[1]+P_11[1])*EV_10+(P_10[2]+P_11[2])*EV_11)/N
 
 EV_20<--(P_20[1]/N*log2(P_20[1]/N)+P_21[1]/N*log2(P_21[1]/N))
 EV_21<--(P_20[2]/N*log2(P_20[2]/N)+P_21[2]/N*log2(P_21[2]/N))
@@ -292,6 +294,10 @@ EV_42<--(P_40[3]/N*log2(P_40[3]/N)+P_41[3]/N*log2(P_41[3]/N))
 
 E4<-((P_40[1]+P_41[1])*EV_40+(P_40[2]+P_41[2])*EV_41+(P_40[3]+P_41[3])*EV_42)/N
 
-#La menor entropía es la de E1 que corresponde a Día Más Actividad
+EntropiasFB<-c(E0,E1,E2,E3,E4)
+EntropiasFB
+sort(EntropiasFB)
+
+#La menor entropía es la de E1 que corresponde a Nro Caracteres del nombre`
 
 

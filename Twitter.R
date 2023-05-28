@@ -1,10 +1,14 @@
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+
 
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
 dataTwitter2 <- read.table(namefile2, header = TRUE, sep = ",")
@@ -126,16 +130,16 @@ mean_features
 
 #Identificación de valores extremos
 dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$num_caracteres_nombre_usuario<(mean_features[1]+3*sd_features[1]))
-dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$seguidores<(mean_features[2]+3*sd_features[2]))
-dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
-dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$seguidores<(mean_features[2]+3*sd_features[2]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
+dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
 
 summary(dataTwitterEx)
 
 #Discretizamos para clase con Numero de Caracteres en el Usuario
 
 #DISCRETIZACION
-dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$num_caracteres_nombre_usuario, decreasing = FALSE),]
+dataTw_Ord <- dataTwitterEx[order(dataTwitterEx$num_caracteres_nombre_usuario, decreasing = FALSE),]
 dim(dataTw_Ord)
 N <- dim(dataTw_Ord)[1]
 N
@@ -374,6 +378,4 @@ FS_nc<-alpha1*FFNC-alpha2*abs(F1_NumCarac)
 FS_seg<-alpha1*FFS-alpha2*abs(F1_Seguidores)
 FS_td<-alpha1*FFTD-alpha2*abs(F1_TwiDia)
 
-
-
-
+#F2-Seguidores
