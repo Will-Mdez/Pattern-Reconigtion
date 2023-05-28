@@ -1,4 +1,5 @@
-namefile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//autosFeatureS.csv"
+#namefile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//autosFeatureS.csv"
+namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//autosFeatureS.csv"
 dataAuto <- read.table(namefile, header = TRUE, sep = ",")
 
 #autoFile2 <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//imports-85.data";
@@ -93,6 +94,10 @@ Fs22
 
 #SELECCION DE SUBCONJUNTOS DE CARACTERISTICAS
 #make --- fuel_type
+
+table(dataAuto$make,dataAuto$fuel.type)
+
+
 gas <- c(4,3,0,3)
 diesel <- c(0,0,2,0)
 observada<- c(gas,diesel)

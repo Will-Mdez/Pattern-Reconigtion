@@ -294,10 +294,87 @@ EV_42<--(P_40[3]/N*log2(P_40[3]/N)+P_41[3]/N*log2(P_41[3]/N))
 
 E4<-((P_40[1]+P_41[1])*EV_40+(P_40[2]+P_41[2])*EV_41+(P_40[3]+P_41[3])*EV_42)/N
 
-EntropiasFB<-c(E0,E1,E2,E3,E4)
+EntropiasFB<-c(E2,E3,E4,E0,E1)
 EntropiasFB
 sort(EntropiasFB)
 
 #La menor entropía es la de E1 que corresponde a Nro Caracteres del nombre`
+
+
+summary(dataFaceDiscretizado)
+dim(dataFaceDiscretizado)
+
+N<-377
+tablaNC_A<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`,dataFaceDiscretizado$Amigos)
+sumRows_tablaNC_A<-rowSums(tablaNC_A)
+sumCols_tablaNC_A<-colSums(tablaNC_A)
+tablaNC_A_chi<-matrix(c((sumRows_tablaNC_A[1]*sumCols_tablaNC_A)/N,(sumRows_tablaNC_A[2]*sumCols_tablaNC_A)/N,(sumRows_tablaNC_A[3]*sumCols_tablaNC_A)/N),nrow=3)
+chi1<-chisq.test(tablaNC_A_chi)
+chi1<-chi1$p.value
+
+
+tablaNC_PS<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`,dataFaceDiscretizado$`Páginas que siguen`)
+sumRows_tablaNC_PS<-rowSums(tablaNC_PS)
+sumCols_tablaNC_PS<-colSums(tablaNC_PS)
+tablaNC_PS_chi<-matrix(c((sumRows_tablaNC_PS[1]*sumCols_tablaNC_PS)/N,(sumRows_tablaNC_PS[2]*sumCols_tablaNC_PS)/N,(sumRows_tablaNC_PS[3]*sumCols_tablaNC_PS)/N),nrow=3)
+chi2<-chisq.test(tablaNC_PS_chi)
+chi2<-chi2$p.value
+
+#mosaicplot(tablaNC_PS_chi, color=TRUE, main="Plot de mosaico")
+
+tablaNC_FP<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`,dataFaceDiscretizado$`Foto de Perfil`)
+sumRows_tablaNC_FP<-rowSums(tablaNC_FP)
+sumCols_tablaNC_FP<-colSums(tablaNC_FP)
+tablaNC_FP_chi<-matrix(c((sumRows_tablaNC_FP[1]*sumCols_tablaNC_FP)/N,(sumRows_tablaNC_FP[2]*sumCols_tablaNC_FP)/N),nrow=2)
+chi3<-chisq.test(tablaNC_FP_chi)
+chi3<-chi3$p.value
+
+tablaNC_DA<-table(dataFaceDiscretizado$`Nro Caracteres del nombre`,dataFaceDiscretizado$`Día de la semana con más actividad`)
+sumRows_tablaNC_DA<-rowSums(tablaNC_DA)
+sumCols_tablaNC_DA<-colSums(tablaNC_DA)
+tablaNC_DA_chi<-matrix(c((sumRows_tablaNC_DA[1]*sumCols_tablaNC_DA)/N,(sumRows_tablaNC_DA[2]*sumCols_tablaNC_DA)/N),nrow=2)
+chi4<-chisq.test(tablaNC_DA_chi)
+chi4<-chi4$p.value
+
+chichisFB<-c(chi1,chi2,chi3,chi4)
+max(EntropiasFB)
+FSFB<-(-0.5*EntropiasFB[2:5])-0.5*(abs(chichisFB))
+FSFB
+#F2 <-Num Caracteres
+max(FSFB)
+
+
+#3ra CAracteristica
+
+tablaA_PS<-table(dataFaceDiscretizado$Amigos,dataFaceDiscretizado$`Páginas que siguen`)
+sumRows_tablaA_PS<-rowSums(tablaA_PS)
+sumCols_tablaA_PS<-colSums(tablaA_PS)
+tablaA_PS_chi<-matrix(c((sumRows_tablaA_PS[1]*sumCols_tablaA_PS)/N,(sumRows_tablaA_PS[2]*sumCols_tablaA_PS)/N,(sumRows_tablaA_PS[3]*sumCols_tablaA_PS)/N),nrow=3)
+chi21<-chisq.test(tablaA_PS_chi)
+chi21<-chi21$p.value
+
+
+tablaA_FP<-table(dataFaceDiscretizado$Amigos,dataFaceDiscretizado$`Foto de Perfil`)
+sumRows_tablaA_FP<-rowSums(tablaA_FP)
+sumCols_tablaA_FP<-colSums(tablaA_FP)
+tablaA_NS_chi<-matrix(c((sumRows_tablaA_FP[1]*sumCols_tablaA_FP)/N,(sumRows_tablaA_FP[2]*sumCols_tablaA_FP)/N,(sumRows_tablaA_FP[3]*sumCols_tablaA_FP)/N),nrow=3)
+chi22<-chisq.test(tablaA_NS_chi)
+chi22<-chi22$p.value
+
+tablaA_DA<-table(dataFaceDiscretizado$Amigos,dataFaceDiscretizado$`Día de la semana con más actividad`)
+sumRows_tablaA_DA<-rowSums(tablaA_DA)
+sumCols_tablaA_DA<-colSums(tablaA_DA)
+tablaA_PS_chi<-matrix(c((sumRows_tablaA_DA[1]*sumCols_tablaA_DA)/N,(sumRows_tablaA_DA[2]*sumCols_tablaA_DA)/N,(sumRows_tablaA_DA[2]*sumCols_tablaA_DA)/N),nrow=3)
+chi23<-chisq.test(tablaA_PS_chi)
+chi23<-chi23$p.value
+
+
+chichisFB2<-c(chi21,chi22,chi23)
+sort(EntropiasFB)
+k<-1
+FS2<-(-0.5*(EntropiasFB[3:5]))-(0.5/k)*(abs(chichisFB2))
+FS2
+#F3 <-Foto PErfil
+max(FS2)
 
 

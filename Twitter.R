@@ -325,7 +325,7 @@ EV72<--(P70[3]/315*log2(P70[3]/315)+P71[3]/315*log2(P71[3]/315))
 E7<-((P70[1]+P71[1])*EV70+(P70[2]+P71[2])*EV71+(P70[3]+P71[3])*EV71)/315
 
 #Entropia->comenta_publicaciones
-EntropiasTW<-c(E0,E1,E2,E3,E4,E5,E6,E7)
+EntropiasTW<-c(E3,E4,E5,E7,E6,E0,E1,E2)
 sort(EntropiasTW)
 
 #Factor de Fisher
@@ -346,17 +346,17 @@ meandataC1<-sapply(c(1,2,3,4), function(x) mean(dataTwitter_Clase1[[x]]))
 sddataC1 <- sapply(c(1,2,3,4), function(x) sd(dataTwitter_Clase1[[x]]))
 
 #factor de Fisher
-FFNC<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
-FFNC<-FFNC/(P1*sddataC0[1]^2+P2*sddataC1[1]^2)
+FactFishNumCarc<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
+FactFishNumCarc<-FactFishNumCarc/(P1*sddataC0[1]^2+P2*sddataC1[1]^2)
 
-FFS<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
-FFS<-FFS/(P1*sddataC0[2]^2+P2*sddataC1[2]^2)
+FactFishSeg<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
+FactFishSeg<-FactFishSeg/(P1*sddataC0[2]^2+P2*sddataC1[2]^2)
 
-FFPS<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
-FFPS<-FFPS/(P1*sddataC0[3]^2+P2*sddataC1[3]^2)
+FactFishPerfSeg<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
+FactFishPerfSeg<-FactFishPerfSeg/(P1*sddataC0[3]^2+P2*sddataC1[3]^2)
 
-FFTD<-P1*meandataC0[4]^2+P2*meandataC1[4]^2
-FFTD<-FFTD/(P1*sddataC0[4]^2+P2*sddataC1[4]^2)
+FactFishTwDia<-P1*meandataC0[4]^2+P2*meandataC1[4]^2
+FactFishTwDia<-FactFishTwDia/(P1*sddataC0[4]^2+P2*sddataC1[4]^2)
 
 #F1<-Perfiles Seguidos
 #Step 3: Correlacion F1-Todos
@@ -374,9 +374,153 @@ F1_TwiDia<-F1_TwiDia/sqrt(sum(dataTwitterNorm$twitts_por_dia^2)*sum(dataTwitterN
 alpha1<-0.5
 alpha2<-0.5
 
-FS_nc<-alpha1*FFNC-alpha2*abs(F1_NumCarac)
-FS_seg<-alpha1*FFS-alpha2*abs(F1_Seguidores)
-FS_td<-alpha1*FFTD-alpha2*abs(F1_TwiDia)
+FS_nc<-alpha1*FactFishNumCarc-alpha2*abs(F1_NumCarac)
+FS_seg<-alpha1*FactFishSeg-alpha2*abs(F1_Seguidores)
+FS_td<-alpha1*FactFishTwDia-alpha2*abs(F1_TwiDia)
 
 #F2-Seguidores
+
+F1_NumCarac<- sum(dataTwitterNorm$num_caracteres_nombre_usuario*dataTwitterNorm$seguidores)
+F1_NumCarac<-F1_NumCarac/sqrt(sum(dataTwitterNorm$num_caracteres_nombre_usuario^2)*sum(dataTwitterNorm$seguidores^2))
+
+F1_TwiDia<- sum(dataTwitterNorm$twitts_por_dia*dataTwitterNorm$seguidores)
+F1_TwiDia<-F1_TwiDia/sqrt(sum(dataTwitterNorm$twitts_por_dia^2)*sum(dataTwitterNorm$seguidores^2))
+
+
+#Step 5: Seleccionar 3ra Característica
+alpha1<-0.5
+alpha2<-0.5
+
+FS_nc<-alpha1*FactFishNumCarc-alpha2*abs(F1_NumCarac)
+FS_td<-alpha1*FactFishTwDia-alpha2*abs(F1_TwiDia)
+FS_nc
+FS_td
+
+#F3-Numero Caracteres
+
+
+##CORRELACION PEARSON
+#Mayor Entropia
+dim(dataTw_Discretizada)
+N<-315
+tablaDT_NC<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$num_caracteres_nombre_usuario)
+sumRows_tablaDT_NC<-rowSums(tablaDT_NC)
+sumCols_tablaDT_NC<-colSums(tablaDT_NC)
+tablaDT_NC_chi<-matrix(c((sumRows_tablaDT_NC[1]*sumCols_tablaDT_NC)/N,(sumRows_tablaDT_NC[2]*sumCols_tablaDT_NC)/N),nrow=2)
+chi1<-chisq.test(tablaDT_NC_chi)
+chi1<-chi1$p.value
+
+
+tablaDT_NS<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$seguidores)
+sumRows_tablaDT_NS<-rowSums(tablaDT_NS)
+sumCols_tablaDT_NS<-colSums(tablaDT_NS)
+tablaDT_NS_chi<-matrix(c((sumRows_tablaDT_NS[1]*sumCols_tablaDT_NS)/N,(sumRows_tablaDT_NS[2]*sumCols_tablaDT_NS)/N),nrow=2)
+chi2<-chisq.test(tablaDT_NS_chi)
+chi2<-chi2$p.value
+
+tablaDT_PS<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$perfiles_seguidos)
+sumRows_tablaDT_PS<-rowSums(tablaDT_PS)
+sumCols_tablaDT_PS<-colSums(tablaDT_PS)
+tablaDT_PS_chi<-matrix(c((sumRows_tablaDT_PS[1]*sumCols_tablaDT_PS)/N,(sumRows_tablaDT_PS[2]*sumCols_tablaDT_PS)/N),nrow=2)
+chi3<-chisq.test(tablaDT_PS_chi)
+chi3<-chi3$p.value
+
+tablaDT_TD<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$twitts_por_dia)
+sumRows_tablaDT_TD<-rowSums(tablaDT_TD)
+sumCols_tablaDT_TD<-colSums(tablaDT_TD)
+tablaDT_TD_chi<-matrix(c((sumRows_tablaDT_TD[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_TD[2]*sumCols_tablaDT_TD)/N),nrow=2)
+chi4<-chisq.test(tablaDT_TD_chi)
+chi4<-chi4$p.value
+
+tablaDT_FP<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$foto_de_perfil)
+sumRows_tablaDT_FP<-rowSums(tablaDT_FP)
+sumCols_tablaDT_FP<-colSums(tablaDT_FP)
+tablaDT_FP_chi<-matrix(c((sumRows_tablaDT_FP[1]*sumCols_tablaDT_FP)/N,(sumRows_tablaDT_FP[2]*sumCols_tablaDT_FP)/N),nrow=2)
+chi5<-chisq.test(tablaDT_FP_chi)
+chi5<-chi5$p.value
+
+tablaDT_PP<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$perfil_privado)
+sumRows_tablaDT_PP<-rowSums(tablaDT_PP)
+sumCols_tablaDT_PP<-colSums(tablaDT_PP)
+tablaDT_PP_chi<-matrix(c((sumRows_tablaDT_PP[1]*sumCols_tablaDT_PP)/N,(sumRows_tablaDT_PP[2]*sumCols_tablaDT_PP)/N),nrow=2)
+chi6<-chisq.test(tablaDT_PP_chi)
+chi6<-chi6$p.value
+
+
+tablaDT_DT<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$comenta_publicaciones)
+sumRows_tablaDT_DT<-rowSums(tablaDT_DT)
+sumCols_tablaDT_DT<-colSums(tablaDT_DT)
+tablaDT_DT_chi<-matrix(c((sumRows_tablaDT_DT[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_DT[2]*sumCols_tablaDT_DT)/N),nrow=2)
+chi7<-chisq.test(tablaDT_DT_chi)
+chi7<-chi7$p.value
+chichis<-c(chi1,chi2,chi3,chi4,chi5,chi6,chi7)
+max(EntropiasTW)
+FS<-(-0.5*EntropiasTW[2:8])-0.5*(abs(chichis))
+FS
+#F2 <-Comenta Publicaciones
+max(FS)
+
+#3ra CAracteristica
+
+tablaDT_NC<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$num_caracteres_nombre_usuario)
+tablaDT_NC<-tablaDT_NC[2:3,]
+sumRows_tablaDT_NC<-rowSums(tablaDT_NC)
+sumCols_tablaDT_NC<-colSums(tablaDT_NC)
+tablaDT_NC_chi<-matrix(c((sumRows_tablaDT_NC[1]*sumCols_tablaDT_NC)/N,(sumRows_tablaDT_NC[2]*sumCols_tablaDT_NC)/N),nrow=2)
+chi21<-chisq.test(tablaDT_NC_chi)
+chi21<-chi21$p.value
+
+
+tablaDT_NS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$seguidores)
+tablaDT_NS<-tablaDT_NS[2:3,]
+sumRows_tablaDT_NS<-rowSums(tablaDT_NS)
+sumCols_tablaDT_NS<-colSums(tablaDT_NS)
+tablaDT_NS_chi<-matrix(c((sumRows_tablaDT_NS[1]*sumCols_tablaDT_NS)/N,(sumRows_tablaDT_NS[2]*sumCols_tablaDT_NS)/N),nrow=2)
+chi22<-chisq.test(tablaDT_NS_chi)
+chi22<-chi22$p.value
+
+tablaDT_PS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfiles_seguidos)
+tablaDT_PS<-tablaDT_PS[2:3,]
+sumRows_tablaDT_PS<-rowSums(tablaDT_PS)
+sumCols_tablaDT_PS<-colSums(tablaDT_PS)
+tablaDT_PS_chi<-matrix(c((sumRows_tablaDT_PS[1]*sumCols_tablaDT_PS)/N,(sumRows_tablaDT_PS[2]*sumCols_tablaDT_PS)/N),nrow=2)
+chi23<-chisq.test(tablaDT_PS_chi)
+chi23<-chi23$p.value
+
+
+tablaDT_TD<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$twitts_por_dia)
+tablaDT_TD<-tablaDT_TD[2:3,]
+sumRows_tablaDT_TD<-rowSums(tablaDT_TD)
+sumCols_tablaDT_TD<-colSums(tablaDT_TD)
+tablaDT_TD_chi<-matrix(c((sumRows_tablaDT_TD[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_TD[2]*sumCols_tablaDT_TD)/N),nrow=2)
+chi24<-chisq.test(tablaDT_TD_chi)
+chi24<-chi24$p.value
+
+tablaDT_FP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$foto_de_perfil)
+tablaDT_FP<-tablaDT_FP[2:3,]
+sumRows_tablaDT_FP<-rowSums(tablaDT_FP)
+sumCols_tablaDT_FP<-colSums(tablaDT_FP)
+tablaDT_FP_chi<-matrix(c((sumRows_tablaDT_FP[1]*sumCols_tablaDT_FP)/N,(sumRows_tablaDT_FP[2]*sumCols_tablaDT_FP)/N),nrow=2)
+chi25<-chisq.test(tablaDT_FP_chi)
+chi25<-chi25$p.value
+
+tablaDT_PP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfil_privado)
+tablaDT_PP<-tablaDT_PP[2:3,]
+sumRows_tablaDT_PP<-rowSums(tablaDT_PP)
+sumCols_tablaDT_PP<-colSums(tablaDT_PP)
+tablaDT_PP_chi<-matrix(c((sumRows_tablaDT_PP[1]*sumCols_tablaDT_PP)/N,(sumRows_tablaDT_PP[2]*sumCols_tablaDT_PP)/N),nrow=2)
+chi26<-chisq.test(tablaDT_PP_chi)
+chi26<-chi26$p.value
+
+chichis2<-c(chi21,chi22,chi23,chi24,chi25,chi26)
+sort(EntropiasTW)
+k<-1
+FS2<-(-0.5*(EntropiasTW[2:7]))-(0.5/k)*(abs(chichis2))
+FS2
+#F3 <-Perfiles Seguidos
+max(FS2)
+
+
+
+
 
