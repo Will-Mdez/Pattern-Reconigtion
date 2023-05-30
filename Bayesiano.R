@@ -66,12 +66,51 @@ verosimiFeatFeat_RT <- verosimiFeatClase[["ring-type"]]
 verosimiFeatFeat_P <- verosimiFeatClase[["population"]]
 verosimiFeatFeat_H <- verosimiFeatClase[["habitat"]]
 
-obj1 <- dataFungiTest[1,]
+obj1 <- dataFungiTest[1,][["population"]]
 obj1
 res1 <- verosimiFeatFeat_VC["e",obj1[["veil-color"]]]
-res1
+valClases <- levels(dataFungiF$clase)
+res1 <- sapply(namesFeatures, function(x) verosimiFeatClase[[x]][valClases[1],obj1[[x]]])
+verosimTotprod <- prod(res1)
 
+#prob posteriori
+verosimTotprod*Prob_clase[1]
+
+#OTRA PRUEBA
 #p(clase=e)=p(clase=e)p(v=w,r=e,p=v,h=p|clase=e)
-Resultado_test <- Prob_clase[1]*(verosimiFeatFeat_VC["e","w"]*verosimiFeatFeat_RT["e","e"]*verosimiFeatFeat_P["e","v"]*verosimiFeatFeat_H["e","p"])
+Resultado_test <- Prob_clase[1]*verosimiFeatFeat_VC["e","w"]*verosimiFeatFeat_RT["e","e"]*verosimiFeatFeat_P["e","v"]*verosimiFeatFeat_H["e","p"]
+indObj <- c(1:dim(dataFungiTest)[1])
+Result_Test<-sapply(indObj,function(x) sapply(namesFeatures,function(y) verosimiFeatClase[[y]][valClases[1],dataFungiTest[x,][[y]]]))
+dim(Result_Test)
+Result_Test <- t(Result_Test)
+Result_Test_prod <- sapply(c(1:dim(dataFungiTest)[1]), function(X) prod(Result_Test[X,])*Prob_clase[1])
 
+Result_Test2<-sapply(indObj,function(x) sapply(namesFeatures,function(y) verosimiFeatClase[[y]][valClases[2],dataFungiTest[x,][[y]]]))
+dim(Result_Test2)
+Result_Test2 <- t(Result_Test2)
+Result_Test2_prod <- sapply(c(1:dim(dataFungiTest)[1]), function(X) prod(Result_Test2[X,])*Prob_clase[2])
+
+
+claseEst <- data.frame(e=Result_Test_prod,p=Result_Test2_prod)
+claseEst$clase <- ifelse(claseEst$p > claseEst$e,'p','e')
+claseEst
+TablaFinal <- data.frame(PpostCe=Result_Test_prod,PpostCp=Result_Test2_prod,claseEst$clase,dataFungiTest$clase)
+TablaFinal$claseEst.clase <- factor(TablaFinal$claseEst.clase)
+summary(TablaFinal)
+
+TP <- table(TablaFinal$claseEst.clase,TablaFinal$dataFungiTest.clase)
+sumRows_TP<-rowSums(TP)
+sumCols_TP<-colSums(TP)
+
+Exactitud <- (TP[1,1]*TP[2,2])/sum(sumRows_TP)
+
+Error <-  (TP[1,2]*TP[2,1])/sum(sumRows_TP)
+
+Recall <-  (TP[1,1])/sumRows_TP[1]
+
+Especificidad <-  (TP[2,2])/sumRows_TP[2]
+
+Presicion <-  (TP[1,1])/TP[1,1]+TP[2,1]
+
+F_Score <- 2*Presicion*Recall/Presicion*Recall
 
