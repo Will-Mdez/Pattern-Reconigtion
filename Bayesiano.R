@@ -1,4 +1,5 @@
-namefile <-"C://Users//alumnos.SALAC6-05//Documents//Pattern-Reconigtion-main//datasets-20230307T150614Z-001//datasets//agaricus-lepiota.data"
+namefile <- "C://Users//alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//agaricus-lepiota.data"
+#namefile <-"C://Users//alumnos.SALAC6-05//Documents//Pattern-Reconigtion-main//datasets-20230307T150614Z-001//datasets//agaricus-lepiota.data"
 dataLepiota <- read.table(namefile, header = TRUE, sep = ",")
 colSelec <- c(1,18,20,22,23)
 dataFungi <- dataLepiota[,colSelec]
@@ -60,9 +61,17 @@ names(verosimiFeatClase) <- namesFeatures
 #PRUEBA CLASE
 
 dataFungiTest[1,]
-#p*(clase)
+verosimiFeatFeat_VC <- verosimiFeatClase[["veil-color"]]
+verosimiFeatFeat_RT <- verosimiFeatClase[["ring-type"]]
+verosimiFeatFeat_P <- verosimiFeatClase[["population"]]
+verosimiFeatFeat_H <- verosimiFeatClase[["habitat"]]
+
+obj1 <- dataFungiTest[1,]
+obj1
+res1 <- verosimiFeatFeat_VC["e",obj1[["veil-color"]]]
+res1
+
 #p(clase=e)=p(clase=e)p(v=w,r=e,p=v,h=p|clase=e)
-Resultado_test <- Prob_clase[1]*(verosimiFeatClase$`veil-color`[1,3],
-                                 )
+Resultado_test <- Prob_clase[1]*(verosimiFeatFeat_VC["e","w"]*verosimiFeatFeat_RT["e","e"]*verosimiFeatFeat_P["e","v"]*verosimiFeatFeat_H["e","p"])
 
 
