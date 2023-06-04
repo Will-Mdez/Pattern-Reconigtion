@@ -1,13 +1,13 @@
-
+library(dplyr) 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
-namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 
 
 dataTwitter <- read.table(namefile, header = TRUE, sep = ",")
@@ -45,7 +45,11 @@ dataTwitterFinal <- rbind(dataTwitter,dataTwitter2)
 #Descripcion de datos
 summary(dataTwitterFinal)
 
-
+#IMPUTAR DATOS NA
+#Descripcion de los datos
+dataTwitterFinal$comenta_publicaciones[dataTwitterFinal$comenta_publicaciones==""]<-"Sí"
+dataTwitterFinal$comenta_publicaciones[is.na(dataTwitterFinal$comenta_publicaciones)]<-"Sí"
+dataTwitterFinal$dia_mayor_cantidad_twitts[is.na(dataTwitterFinal$dia_mayor_cantidad_twitts)]<-"Publica"
 #Convertir los datos a Categoricos
 dataTwitterFinal$clase<-factor(dataTwitterFinal$clase)
 dataTwitterFinal$perfil_privado<-factor(dataTwitterFinal$perfil_privado)
@@ -71,10 +75,7 @@ summary(dataTwitterFinal)
 dim(dataTwitterFinal)
 
 
-#IMPUTAR DATOS NA
-#Descripcion de los datos
-dataTwitterFinal$comenta_publicaciones[is.na(dataTwitterFinal$comenta_publicaciones)]<-"Sí"
-dataTwitterFinal$dia_mayor_cantidad_twitts[is.na(dataTwitterFinal$dia_mayor_cantidad_twitts)]<-"Publica"
+
 
 summary(dataTwitterFinal)
 #sum(is.na(dataTwitterFinal))
@@ -124,7 +125,7 @@ dataTwitterNorm <- as.data.frame(dataTwitterNorm)
 Clase<-dataTwitterFinal$clase
 dataTwitterNorm<-cbind(dataTwitterNorm,Clase)
 summary(dataTwitterNorm)
-
+dataTwitterCuanti<- data.frame(dataTwitterCuanti)
 summary(dataTwitterCuanti)
 mean_features
 
@@ -133,7 +134,7 @@ dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$num_caracteres_nombre_
 dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$seguidores<(mean_features[2]+3*sd_features[2]))
 dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$perfiles_seguidos<(mean_features[3]+3*sd_features[3]))
 dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$twitts_por_dia<(mean_features[4]+3*sd_features[4]))
-
+dataTwitterEx<- as.data.frame(dataTwitterEx)
 summary(dataTwitterEx)
 
 #Discretizamos para clase con Numero de Caracteres en el Usuario
@@ -292,8 +293,8 @@ EV10<--(P10[1]/315*log2(P10[1]/315)+P11[1]/315*log2(P11[1]/315))
 EV11<--(P10[2]/315*log2(P10[2]/315)+P11[2]/315*log2(P11[2]/315))
 E1<-((P10[1]+P11[1])*EV10+(P10[2]+P11[2])*EV11)/315
 
-EV20<--(P21[2]/315*log2(P21[2]/315)+P21[2]/315*log2(P21[2]/315))
-EV21<--(P20[3]/315*log2(P20[3]/315)+P21[3]/315*log2(P21[3]/315))
+EV20<--(P21[1]/315*log2(P21[1]/315)+P21[1]/315*log2(P21[1]/315))
+EV21<--(P20[2]/315*log2(P20[2]/315)+P21[2]/315*log2(P21[2]/315))
 E2<-((P20[1]+P21[1])*EV20+(P20[2]+P21[2])*EV21)/315
 
 EV30<--(P30[1]/315*log2(P30[1]/315)+P31[1]/315*log2(P31[1]/315))
@@ -463,7 +464,7 @@ max(FS)
 #3ra CAracteristica
 
 tablaDT_NC<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$num_caracteres_nombre_usuario)
-tablaDT_NC<-tablaDT_NC[2:3,]
+
 sumRows_tablaDT_NC<-rowSums(tablaDT_NC)
 sumCols_tablaDT_NC<-colSums(tablaDT_NC)
 tablaDT_NC_chi<-matrix(c((sumRows_tablaDT_NC[1]*sumCols_tablaDT_NC)/N,(sumRows_tablaDT_NC[2]*sumCols_tablaDT_NC)/N),nrow=2)
@@ -472,7 +473,6 @@ chi21<-chi21$p.value
 
 
 tablaDT_NS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$seguidores)
-tablaDT_NS<-tablaDT_NS[2:3,]
 sumRows_tablaDT_NS<-rowSums(tablaDT_NS)
 sumCols_tablaDT_NS<-colSums(tablaDT_NS)
 tablaDT_NS_chi<-matrix(c((sumRows_tablaDT_NS[1]*sumCols_tablaDT_NS)/N,(sumRows_tablaDT_NS[2]*sumCols_tablaDT_NS)/N),nrow=2)
@@ -480,7 +480,6 @@ chi22<-chisq.test(tablaDT_NS_chi)
 chi22<-chi22$p.value
 
 tablaDT_PS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfiles_seguidos)
-tablaDT_PS<-tablaDT_PS[2:3,]
 sumRows_tablaDT_PS<-rowSums(tablaDT_PS)
 sumCols_tablaDT_PS<-colSums(tablaDT_PS)
 tablaDT_PS_chi<-matrix(c((sumRows_tablaDT_PS[1]*sumCols_tablaDT_PS)/N,(sumRows_tablaDT_PS[2]*sumCols_tablaDT_PS)/N),nrow=2)
@@ -489,7 +488,6 @@ chi23<-chi23$p.value
 
 
 tablaDT_TD<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$twitts_por_dia)
-tablaDT_TD<-tablaDT_TD[2:3,]
 sumRows_tablaDT_TD<-rowSums(tablaDT_TD)
 sumCols_tablaDT_TD<-colSums(tablaDT_TD)
 tablaDT_TD_chi<-matrix(c((sumRows_tablaDT_TD[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_TD[2]*sumCols_tablaDT_TD)/N),nrow=2)
@@ -497,7 +495,6 @@ chi24<-chisq.test(tablaDT_TD_chi)
 chi24<-chi24$p.value
 
 tablaDT_FP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$foto_de_perfil)
-tablaDT_FP<-tablaDT_FP[2:3,]
 sumRows_tablaDT_FP<-rowSums(tablaDT_FP)
 sumCols_tablaDT_FP<-colSums(tablaDT_FP)
 tablaDT_FP_chi<-matrix(c((sumRows_tablaDT_FP[1]*sumCols_tablaDT_FP)/N,(sumRows_tablaDT_FP[2]*sumCols_tablaDT_FP)/N),nrow=2)
@@ -505,7 +502,6 @@ chi25<-chisq.test(tablaDT_FP_chi)
 chi25<-chi25$p.value
 
 tablaDT_PP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfil_privado)
-tablaDT_PP<-tablaDT_PP[2:3,]
 sumRows_tablaDT_PP<-rowSums(tablaDT_PP)
 sumCols_tablaDT_PP<-colSums(tablaDT_PP)
 tablaDT_PP_chi<-matrix(c((sumRows_tablaDT_PP[1]*sumCols_tablaDT_PP)/N,(sumRows_tablaDT_PP[2]*sumCols_tablaDT_PP)/N),nrow=2)
@@ -520,6 +516,123 @@ FS2
 #F3 <-Perfiles Seguidos
 max(FS2)
 
+
+
+
+######KNN
+
+dia_mayor_cantidad_twitts <- dataTw_Discretizada$dia_mayor_cantidad_twitts
+comenta_publicaciones <- dataTw_Discretizada$comenta_publicaciones
+perfiles_seguidos <- dataTw_Discretizada$perfiles_seguidos
+clase <- dataTw_Discretizada$clase
+datasetKnnTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos,clase)
+summary(datasetKnnTwitter)
+datasetKnnTwitter <- as.data.frame(datasetKnnTwitter)
+
+
+datasetKnnTwitter$dia_mayor_cantidad_twitts <- ifelse(datasetKnnTwitter$dia_mayor_cantidad_twitts == "Publica", 1, 2)
+
+# Codificar la columna "comenta_publicaciones"
+datasetKnnTwitter$comenta_publicaciones <- ifelse(datasetKnnTwitter$comenta_publicaciones == "Sí", 1, 2)
+
+# Codificar la columna "perfiles_seguidos"
+datasetKnnTwitter$perfiles_seguidos <- ifelse(datasetKnnTwitter$perfiles_seguidos == "Pocos", 1, ifelse(datasetKnnTwitter$perfiles_seguidos == "Normal", 2, 3))
+
+FeatNames<-colnames(datasetKnnTwitter)
+mean_features <- sapply(FeatNames, function(x) mean(datasetKnnTwitter[[x]]))
+sd_features <- sapply(FeatNames, function(x) sd(datasetKnnTwitter[[x]]))
+mean_features
+sd_features
+315/3
+
+#Normalizar datos 
+normalizeDataL <- function(dataF,meanF,stdF){
+  dataFN <- dataF
+  dataFN <- (dataF - meanF)/stdF
+  return(dataFN)
+}
+
+datasetKnnTwitterNorm <- lapply(FeatNames, function (x) normalizeDataL(datasetKnnTwitter[[x]], mean_features[x], sd_features[x]))
+names(datasetKnnTwitterNorm) <- FeatNames
+datasetKnnTwitterNorm <- as.data.frame(datasetKnnTwitterNorm)
+summary(datasetKnnTwitterNorm)
+
+
+
+dataTwitterTrain <- datasetKnnTwitterNorm[1:210,]
+dataTwitterTest <- datasetKnnTwitterNorm[211:315,]
+
+####DISTANCIA GOVER
+
+#install.packages("cluster")
+library(cluster)
+
+# Calcular la matriz de distancias Gower
+distancias <- daisy(datasetKnnTwitter, metric = "gower")
+
+# Imprimir la matriz de distancias
+length(distancias)
+
+distanciasGover <- matrix(distancias, nrow = nrow(datasetKnnTwitter), ncol = nrow(datasetKnnTwitter))
+
+distanciasTw <- matrix(0, nrow = nrow(datasetKnnTwitterNorm), ncol = nrow(datasetKnnTwitterNorm))
+
+for (i in 1:(nrow(datasetKnnTwitterNorm) - 1)) {
+  for (j in (i + 1):nrow(datasetKnnTwitterNorm)) {
+    suma_distancias <- 0
+    for (k in 1:ncol(datasetKnnTwitterNorm)) {
+      # Compara el valor de la característica entre los dos objetos
+      if (datasetKnnTwitterNorm[i, k] == datasetKnnTwitterNorm[j, k]) {
+        distancia <- 0
+      } else if (k == 1) {
+        # Si la característica es "dia_mayor_cantidad_twitts", usa una distancia de 1
+        distancia <- 1
+      } else if (k == 2) {
+        # Si la característica es "comenta_publicaciones", usa una distancia de 1
+        distancia <- 1
+      } else {
+        # Si la característica es "perfiles_seguidos", usa una distancia de 0.5
+        distancia <- 0.5
+      }
+      suma_distancias <- suma_distancias + distancia
+    }
+    # Asigna la suma de las distancias ponderadas a la matriz de distancias
+    distanciasTw[i, j] <- suma_distancias
+    distanciasTw[j, i] <- suma_distancias
+  }
+}
+print(distanciasTw)
+distanciasTw <- as.matrix(distanciasTw)
+
+###CLASIFICADOR BAYESIANO
+
+library(e1071)
+
+datasetBayesTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos,clase)
+summary(datasetBayesTwitter)
+datasetBayesTwitter <- as.data.frame(datasetBayesTwitter)
+
+
+# Codificar las variables categóricas como factores
+datasetBayesTwitter$dia_mayor_cantidad_twitts <- factor(datasetBayesTwitter$dia_mayor_cantidad_twitts)
+datasetBayesTwitter$comenta_publicaciones <- factor(datasetBayesTwitter$comenta_publicaciones)
+datasetBayesTwitter$perfiles_seguidos <- factor(datasetBayesTwitter$perfiles_seguidos)
+
+# Entrenar el modelo de clasificación bayesiana
+modelo_bayesiano <- naiveBayes(clase ~ ., data = datasetBayesTwitter)
+
+# Imprimir el resumen del modelo
+print(modelo_bayesiano)
+
+# Realizar predicciones en nuevos datos
+nuevos_datos <- data.frame(dia_mayor_cantidad_twitts = c("Publica", "No Publica"),
+                           comenta_publicaciones = c("Sí", "No"),
+                           perfiles_seguidos = c("Pocos", "Normal"))
+
+predicciones <- predict(modelo_bayesiano, nuevos_datos)
+
+# Imprimir las predicciones
+print(predicciones)
 
 
 

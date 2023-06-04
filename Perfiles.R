@@ -1,7 +1,7 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
-namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
+#namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 
 dataPerfiles <- read.table(namefile, header = TRUE, sep =',')
 
@@ -909,6 +909,124 @@ names(EntropiasP[c(1:3,5,6,8:28)])
 FS<-(-0.5*EntropiasP[c(1:3,5,6,8:28)])-0.5*(abs(chichiPerfiles2))
 sort(FS,index.return=TRUE)
 EntropiasP[1]
-#F2 <-Materias.Aprobadas.Primer.Semestre
+#Edad <-Edad
 max(FS)
+
+
+
+
+
+######KNN
+
+Horas.Semana.Divertirse.con.sus.amigos <- dataPerfiles_Final$Horas.Semana.Divertirse.con.sus.amigos
+Materias.Aprobadas.Primer.Semestre <- dataPerfiles_Final$Materias.Aprobadas.Primer.Semestre
+Edad <- dataPerfiles_Final$Edad
+clasePerfiles <- dataPerfiles_Final$Clase
+datasetKnnPerfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos,Materias.Aprobadas.Primer.Semestre,Edad)
+datasetKnnPerfiles <- as.data.frame(datasetKnnPerfiles)
+summary(datasetKnnPerfiles)
+
+#install.packages("cluster")
+library(cluster)
+
+# Calcular la matriz de distancias Gower
+distancias <- daisy(datasetKnnPerfiles, metric = "gower")
+distancias <- as.matrix(distancias)
+# Imprimir la matriz de distancias
+length(distancias)
+distanciasGover <- matrix(distancias, nrow = nrow(datasetKnnPerfiles), ncol = nrow(datasetKnnPerfiles))
+
+
+
+datasetKnnPerfiles$Horas.Semana.Divertirse.con.sus.amigos <- ifelse(datasetKnnPerfiles$Horas.Semana.Divertirse.con.sus.amigos == "Pocos", 1, ifelse(datasetKnnPerfiles$Horas.Semana.Divertirse.con.sus.amigos == "Normal", 2, 3))
+
+# Codificar la columna "Materias.Aprobadas.Primer.Semestre"
+datasetKnnPerfiles$Materias.Aprobadas.Primer.Semestre <- ifelse(datasetKnnPerfiles$Materias.Aprobadas.Primer.Semestre == "Irregular", 1, 2)
+
+# Codificar la columna "Edad"
+datasetKnnPerfiles$Edad <- ifelse(datasetKnnPerfiles$Edad == "Group1", 1, ifelse(datasetKnnPerfiles$Edad == "Group2", 2, 3))
+
+FeatNames<-colnames(datasetKnnPerfiles)
+mean_features <- sapply(FeatNames, function(x) mean(datasetKnnPerfiles[[x]]))
+sd_features <- sapply(FeatNames, function(x) sd(datasetKnnPerfiles[[x]]))
+mean_features
+sd_features
+
+163/3
+
+#Normalizar datos 
+normalizeDataL <- function(dataF,meanF,stdF){
+  dataFN <- dataF
+  dataFN <- (dataF - meanF)/stdF
+  return(dataFN)
+}
+
+datasetKnnPerfilesNorm <- lapply(FeatNames, function (x) normalizeDataL(datasetKnnPerfiles[[x]], mean_features[x], sd_features[x]))
+names(datasetKnnPerfilesNorm) <- FeatNames
+datasetKnnPerfilesNorm <- as.data.frame(datasetKnnPerfilesNorm)
+summary(datasetKnnPerfilesNorm)
+
+
+
+dataTwitterTrain <- datasetKnnPerfilesNorm[1:109,]
+dataTwitterTest <- datasetKnnPerfilesNorm[110:163,]
+
+####DISTANCIA GOVER
+
+distanciasPerfiles <- matrix(0, nrow = nrow(datasetKnnPerfilesNorm), ncol = nrow(datasetKnnPerfilesNorm))
+
+for (i in 1:(nrow(datasetKnnPerfilesNorm) - 1)) {
+  for (j in (i + 1):nrow(datasetKnnPerfilesNorm)) {
+    suma_distancias <- 0
+    for (k in 1:ncol(datasetKnnPerfilesNorm)) {
+      # Compara el valor de la característica entre los dos objetos
+      if (datasetKnnPerfilesNorm[i, k] == datasetKnnPerfilesNorm[j, k]) {
+        distancia <- 0
+      } else if (k == 1) {
+        distancia <- 1
+      } else if (k == 2) {
+        distancia <- 1
+      } else {
+        distancia <- 0.5
+      }
+      suma_distancias <- suma_distancias + distancia
+    }
+    # Asigna la suma de las distancias ponderadas a la matriz de distancias
+    distanciasPerfiles[i, j] <- suma_distancias
+    distanciasPerfiles[j, i] <- suma_distancias
+  }
+}
+distanciasPerfiles <- as.matrix(distanciasPerfiles)
+
+
+
+###CLASIFICADOR BAYESIANO
+library(e1071)
+
+datasetBayesPerfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos,Materias.Aprobadas.Primer.Semestre,Edad,clasePerfiles)
+summary(datasetBayesPerfiles)
+datasetBayesPerfiles <- as.data.frame(datasetBayesPerfiles)
+
+
+# Codificar las variables categóricas como factores
+datasetBayesPerfiles$Horas.Semana.Divertirse.con.sus.amigos <- factor(datasetBayesPerfiles$Horas.Semana.Divertirse.con.sus.amigos)
+datasetBayesPerfiles$Materias.Aprobadas.Primer.Semestre <- factor(datasetBayesPerfiles$Materias.Aprobadas.Primer.Semestre)
+datasetBayesPerfiles$Edad <- factor(datasetBayesPerfiles$Edad)
+
+# Entrenar el modelo de clasificación bayesiana
+modelo_bayesiano_Perfiles <- naiveBayes(clasePerfiles ~ ., data = datasetBayesPerfiles)
+
+# Imprimir el resumen del modelo
+print(modelo_bayesiano_Perfiles)
+
+# Realizar predicciones en nuevos datos
+nuevos_datos_perfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos = c("Muchas", "Muchas"),
+                                    Materias.Aprobadas.Primer.Semestre = c("Regular", "Irregular"),
+                           Edad = c("Group2", "Group1"))
+
+prediccionesP <- predict(modelo_bayesiano_Perfiles, nuevos_datos_perfiles)
+
+# Imprimir las predicciones
+print(prediccionesP)
+
 

@@ -1,12 +1,12 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
-namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+#namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
-namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+#namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 dataFacebook <- read.table(namefile, header = TRUE, sep = ",")
 
 dataFacebook2 <- read.table(namefile2, header = TRUE, sep = ",")
@@ -376,5 +376,126 @@ FS2<-(-0.5*(EntropiasFB[3:5]))-(0.5/k)*(abs(chichisFB2))
 FS2
 #F3 <-Foto PErfil
 max(FS2)
+
+
+
+
+######KNN
+
+Nro_Caracteres <- dataFaceDiscretizado$`Nro Caracteres del nombre`
+Amigos <- dataFaceDiscretizado$Amigos
+Foto_Perfil <- dataFaceDiscretizado$`Foto de Perfil`
+claseFB <- dataFaceDiscretizado$clase
+datasetKnnFB <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil)
+dim(datasetKnnFB)
+datasetKnnFB <- as.data.frame(datasetKnnFB)
+#install.packages("cluster")
+library(cluster)
+
+# Calcular la matriz de distancias Gower
+distancias <- daisy(datasetKnnFB, metric = "gower")
+
+# Imprimir la matriz de distancias
+length(distancias)
+distanciasGover <- matrix(distancias, nrow = nrow(datasetKnnFB), ncol = nrow(datasetKnnFB))
+
+
+
+datasetKnnFB$Nro_Caracteres <- ifelse(datasetKnnFB$Nro_Caracteres == "Muchas", 1, ifelse(datasetKnnFB$Nro_Caracteres == "Normal", 2, 3))
+
+# Codificar la columna "Amigos"
+datasetKnnFB$Amigos <- ifelse(datasetKnnFB$Amigos == "Muchas", 1, ifelse(datasetKnnFB$Amigos == "Normal", 2, 3))
+
+# Codificar la columna "Foto_Perfil"
+datasetKnnFB$Foto_Perfil <- ifelse(datasetKnnFB$Foto_Perfil == "No", 1, 2)
+
+
+
+FeatNames<-colnames(datasetKnnFB)
+mean_features <- sapply(FeatNames, function(x) mean(datasetKnnFB[[x]]))
+sd_features <- sapply(FeatNames, function(x) sd(datasetKnnFB[[x]]))
+mean_features
+sd_features
+
+163/3
+
+#Normalizar datos 
+normalizeDataL <- function(dataF,meanF,stdF){
+  dataFN <- dataF
+  dataFN <- (dataF - meanF)/stdF
+  return(dataFN)
+}
+
+datasetKnnFBNorm <- lapply(FeatNames, function (x) normalizeDataL(datasetKnnFB[[x]], mean_features[x], sd_features[x]))
+names(datasetKnnFBNorm) <- FeatNames
+datasetKnnFBNorm <- as.data.frame(datasetKnnFBNorm)
+summary(datasetKnnFBNorm)
+
+
+
+datasetKnnFBTrain <- datasetKnnFBNorm[1:109,]
+datasetKnnFBTest <- datasetKnnFBNorm[110:163,]
+
+####DISTANCIA GOVER
+
+# Calcular la matriz de distancias Gower manualmente
+distanciasFB <- matrix(0, nrow = nrow(datasetKnnFBNorm), ncol = nrow(datasetKnnFBNorm))
+
+for (i in 1:(nrow(datasetKnnFBNorm) - 1)) {
+  for (j in (i + 1):nrow(datasetKnnFBNorm)) {
+    suma_distancias <- 0
+    for (k in 1:ncol(datasetKnnFBNorm)) {
+      # Compara el valor de la característica entre los dos objetos
+      if (datasetKnnFBNorm[i, k] == datasetKnnFBNorm[j, k]) {
+        distancia <- 0
+      } else if (k == 1 || k == 2) {
+        # Si la característica es "Nro_Caracteres" o "Amigos", usa una distancia de 0.5
+        distancia <- 0.5
+      } else {
+        # Si la característica es "Foto_Perfil", usa una distancia de 1
+        distancia <- 1
+      }
+      suma_distancias <- suma_distancias + distancia
+    }
+    # Asigna la suma de las distancias ponderadas a la matriz de distancias
+    distanciasFB[i, j] <- suma_distancias
+    distanciasFB[j, i] <- suma_distancias
+  }
+}
+print(distanciasFB)
+
+
+
+###CLASIFICADOR BAYESIANO
+library(e1071)
+
+datasetBayesFb <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil,claseFB)
+summary(datasetBayesFb)
+datasetBayesFb <- as.data.frame(datasetBayesFb)
+
+
+# Codificar las variables categóricas como factores
+datasetBayesFb$Nro_Caracteres <- factor(datasetBayesFb$Nro_Caracteres)
+datasetBayesFb$Amigos <- factor(datasetBayesFb$Amigos)
+datasetBayesFb$Foto_Perfil <- factor(datasetBayesFb$Foto_Perfil)
+
+# Entrenar el modelo de clasificación bayesiana
+modelo_bayesiano_Fb <- naiveBayes(claseFB ~ ., data = datasetBayesFb)
+
+# Imprimir el resumen del modelo
+print(modelo_bayesiano_Fb)
+
+# Realizar predicciones en nuevos datos
+nuevos_datos_Fb <- data.frame(Horas.Semana.Divertirse.con.sus.amigos = c("Muchas", "Muchas"),
+                                    Materias.Aprobadas.Primer.Semestre = c("Regular", "Irregular"),
+                                    Edad = c("Group2", "Group1"))
+
+prediccionesFb <- predict(modelo_bayesiano_Fb, nuevos_datos_Fb)
+
+# Imprimir las predicciones
+print(prediccionesFb)
+
+
+
 
 
