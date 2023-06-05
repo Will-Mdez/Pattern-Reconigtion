@@ -1,6 +1,6 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
-#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 
 dataPerfiles <- read.table(namefile, header = TRUE, sep =',')
@@ -1028,5 +1028,10 @@ prediccionesP <- predict(modelo_bayesiano_Perfiles, nuevos_datos_perfiles)
 
 # Imprimir las predicciones
 print(prediccionesP)
+
+
+
+#Aplicar Kfold - Leave one out
+#Training y Test
 
 

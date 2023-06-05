@@ -1,12 +1,12 @@
 library(dplyr) 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 
-#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 
 
@@ -525,7 +525,7 @@ dia_mayor_cantidad_twitts <- dataTw_Discretizada$dia_mayor_cantidad_twitts
 comenta_publicaciones <- dataTw_Discretizada$comenta_publicaciones
 perfiles_seguidos <- dataTw_Discretizada$perfiles_seguidos
 clase <- dataTw_Discretizada$clase
-datasetKnnTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos,clase)
+datasetKnnTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos)
 summary(datasetKnnTwitter)
 datasetKnnTwitter <- as.data.frame(datasetKnnTwitter)
 
@@ -636,4 +636,33 @@ print(predicciones)
 
 
 
+
+
+####
+# Instala los paquetes 'dbscan' y 'class' si no están instalados
+if (!require(dbscan)) {
+  install.packages("dbscan")
+}
+
+if (!require(class)) {
+  install.packages("class")
+}
+
+library(dbscan)
+library(class)
+datasetKNNTwitter <- datasetBayesTwitter
+summary(datasetKNNTwitter)
+# Codificar las variables categóricas como factores
+datasetKNNTwitter$dia_mayor_cantidad_twitts <- factor(datasetKNNTwitter$dia_mayor_cantidad_twitts)
+datasetKNNTwitter$comenta_publicaciones <- factor(datasetKNNTwitter$comenta_publicaciones)
+datasetKNNTwitter$perfiles_seguidos <- factor(datasetKNNTwitter$perfiles_seguidos)
+
+# Calcular la matriz de distancias de Gower utilizando la función 'classInt' del paquete 'dbscan'
+#distancias <- classInt(datasetKNNTwitter[, 1:3], method = "gower")
+
+# Realizar la clasificación k-NN utilizando la función 'knn' del paquete 'class'
+clasificacion_knn <- knn(train = distancias, test = distancias, cl = datasetKNNTwitter$clase, k = 5)
+
+# Imprimir las predicciones
+print(clasificacion_knn)
 

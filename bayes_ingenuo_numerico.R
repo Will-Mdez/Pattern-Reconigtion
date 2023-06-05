@@ -117,3 +117,6 @@ ProbClase <- table(dataImageNorm$clase)
 #hue = 1.12
 
 verosimIntensidad <- 1(sqrt(2*pi*var_cement_intensidad))*exp((0.1969-mean_cement_intensidad)**2/2*var_cement_intensidad)
+
+#Precision, FScore, Recall se Calcula por Clase, 
+#

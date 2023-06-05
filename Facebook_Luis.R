@@ -1,11 +1,11 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
-#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
-namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
+#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
-#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
-namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
+#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 #namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 dataFacebook <- read.table(namefile, header = TRUE, sep = ",")
 
@@ -494,6 +494,27 @@ prediccionesFb <- predict(modelo_bayesiano_Fb, nuevos_datos_Fb)
 
 # Imprimir las predicciones
 print(prediccionesFb)
+
+
+
+
+library(dbscan)
+library(class)
+datasetFb <- datasetBayesFb
+summary(datasetKNNTwitter)
+# Codificar las variables categóricas como factores
+datasetKNNTwitter$dia_mayor_cantidad_twitts <- factor(datasetKNNTwitter$dia_mayor_cantidad_twitts)
+datasetKNNTwitter$comenta_publicaciones <- factor(datasetKNNTwitter$comenta_publicaciones)
+datasetKNNTwitter$perfiles_seguidos <- factor(datasetKNNTwitter$perfiles_seguidos)
+
+# Calcular la matriz de distancias de Gower utilizando la función 'classInt' del paquete 'dbscan'
+#distancias <- classInt(datasetKNNTwitter[, 1:3], method = "gower")
+
+# Realizar la clasificación k-NN utilizando la función 'knn' del paquete 'class'
+clasificacion_knn <- knn(train = distancias, test = distancias, cl = datasetKNNTwitter$clase, k = 5)
+
+# Imprimir las predicciones
+print(clasificacion_knn)
 
 
 
