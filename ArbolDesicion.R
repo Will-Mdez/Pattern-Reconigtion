@@ -1,3 +1,5 @@
+
+#Algoritmo ID3
 Color <- c("Amarillo","Amarillo","Verde","Verde","Amarillo","Amarillo","Amarillo","Amarillo","Verde","Amarillo","Amarillo","Amarillo","Amarillo","Amarillo","Amarillo","Amarillo")
 Tamano <-c("Pequeña","Pequeña","Pequeña","Grande","Grande","Pequeña","Pequeña","Pequeña","Pequeña","Grande","Grande","Grande","Grande","Grande","Pequeña","Grande")
 Forma <- c("Redonda","Redonda","Irregular","Irregular","Redonda","Redonda","Redonda","Redonda","Redonda","Redonda","Redonda","Redonda","Redonda","Redonda","Irregular","Irregular")
@@ -17,10 +19,11 @@ P11<-table(dataHongos$Tamano[dataHongos$ClaseComestible=="No"])
 P20<-table(dataHongos$Forma[dataHongos$ClaseComestible=="Si"])
 P21<-table(dataHongos$Forma[dataHongos$ClaseComestible=="No"])
 N <- 16
-
-EV00<--(P00[1]/N*log2(P00[1]/N)+P01[1]/N*log2(P01[1]/N))
-EV01<--(P00[2]/N*log2(P00[2]/N)+P01[2]/N*log2(P01[2]/N))
-E0<-((P00[1]+P01[1])*EV00+(P00[2]+P01[2])*EV01)/N
+Pakj_00 <- sum(P00)/N
+Pakj_01 <- sum(P01)/N
+EV00<-Pakj_00*(-(P00[1]/N*log2(P00[1]/N)+P01[1]/N*log2(P01[1]/N)))
+EV01<-Pakj_00*(-(P00[2]/N*log2(P00[2]/N)+P01[2]/N*log2(P01[2]/N)))
+E0<-(EV00+EV01)
 
 EV10<--(P10[1]/N*log2(P10[1]/N)+P11[1]/N*log2(P11[1]/N))
 EV11<--(P10[2]/N*log2(P10[2]/N)+P11[2]/N*log2(P11[2]/N))
@@ -80,3 +83,15 @@ dataHongos$Forma <- factor(dataHongos$Forma)
 dataHongos$ClaseComestible <- factor(dataHongos$ClaseComestible)
 entropy_A <- entropy(dataHongos$Color)
 
+
+calcular_entropia <- function(data, feature, class) {
+  contingency_table <- table(data[, feature], data[, class])
+  relative_frequency <- prop.table(contingency_table, margin = 1)
+  entropy <- entropy::entropy(relative_frequency)
+  return(entropy)
+}
+table(dataHongos[, "Color"], dataHongos[, "ClaseComestible"])
+
+entropia_feature1 <- calcular_entropia(dataHongos, "Color", "ClaseComestible")
+entropia_feature2 <- calcular_entropia(df, "feature2", "class")
+entropia_feature3 <- calcular_entropia(df, "feature3", "class")
