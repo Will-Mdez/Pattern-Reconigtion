@@ -1054,3 +1054,19 @@ predicciones <- predict(modelo, newdata = X)
 confusionMatrix(predicciones, y)
 
 
+
+#APLICANDO LEAVE ONE OUT
+library(naivebayes)
+library(caret)
+
+# Paso 4: Crear el modelo de clasificador bayesiano
+modelo <- naive_bayes(x = X, y = y)
+
+# Paso 5: Realizar Leave-One-Out Cross Validation con train()
+loocv <- train(x = X, y = y, method = "nb", trControl = trainControl(method = "LOOCV"))
+
+# Paso 6: Evaluar el modelo
+predicciones <- predict(loocv, newdata = X)
+
+confusionMatrix(predicciones, y)
+
