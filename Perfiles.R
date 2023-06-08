@@ -1004,7 +1004,7 @@ distanciasPerfiles <- as.matrix(distanciasPerfiles)
 library(e1071)
 
 datasetBayesPerfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos,Materias.Aprobadas.Primer.Semestre,Edad,clasePerfiles)
-summary(datasetBayesPerfiles)
+dim(datasetBayesPerfiles)
 datasetBayesPerfiles <- as.data.frame(datasetBayesPerfiles)
 
 
@@ -1033,5 +1033,24 @@ print(prediccionesP)
 
 #Aplicar Kfold - Leave one out
 #Training y Test
+
+library(naivebayes)
+library(caret)
+
+# Paso 4: Definir los parámetros de K-Fold Cross Validation
+k <- 5
+
+# Paso 5: Crear el objeto de control para K-Fold Cross Validation
+ctrl <- trainControl(method = "cv", number = k)
+
+# Paso 6: Crear el modelo de clasificador bayesiano
+X <- datasetBayesPerfiles[, c("Horas.Semana.Divertirse.con.sus.amigos", "Materias.Aprobadas.Primer.Semestre", "Edad")]
+y <- datasetBayesPerfiles$clasePerfiles
+
+modelo <- train(x = X, y = y, method = "nb", trControl = ctrl)
+
+# Paso 7: Evaluar el modelo
+predicciones <- predict(modelo, newdata = X)
+confusionMatrix(predicciones, y)
 
 
