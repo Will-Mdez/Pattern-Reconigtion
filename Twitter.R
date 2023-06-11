@@ -1,12 +1,12 @@
 library(dplyr) 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv";
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_BuenaOnda.csv"
 
-namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 #namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//twitter_LOU.csv"
 
 
@@ -273,7 +273,6 @@ P31<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts[dataTwitterFinal$clase=
 
 P40<-table(dataTw_Discretizada$num_caracteres_nombre_usuario[dataTwitterFinal$clase=="Real"])
 P41<-table(dataTw_Discretizada$num_caracteres_nombre_usuario[dataTwitterFinal$clase=="Fake"])
-
 P50<-table(dataTw_Discretizada$seguidores[dataTwitterFinal$clase=="Real"])
 P51<-table(dataTw_Discretizada$seguidores[dataTwitterFinal$clase=="Fake"])
 
@@ -326,85 +325,17 @@ EV72<--(P70[3]/315*log2(P70[3]/315)+P71[3]/315*log2(P71[3]/315))
 E7<-((P70[1]+P71[1])*EV70+(P70[2]+P71[2])*EV71+(P70[3]+P71[3])*EV71)/315
 
 #Entropia->comenta_publicaciones
-EntropiasTW<-c(E3,E4,E5,E7,E6,E0,E1,E2)
+
+orden <- c("num_caracteres_nombre_usuario","dia_mayor_cantidad_twitts","seguidores","twitts_por_dia","foto_de_perfil","perfil_privado","comenta_publicaciones","perfiles_seguidos")
+EntropiasTW<-c(E4,E3,E5,E6,E0,E1,E2,E7)
 sort(EntropiasTW)
-
-#Factor de Fisher
-P1<-88/301
-P2<-213/301
-
-mean_dataTwitterNorm <- sapply(c(1,2,3,4), function(x) mean(dataTwitterNorm[[x]]))
-sd_dataTwitterNorm <- sapply(c(1,2,3,4), function(x) sd(dataTwitterNorm[[x]]))
-
-#Medias y desviacion
-dataTwitter_Clase0<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Real")
-dataTwitter_Clase1<-filter(dataTwitterNorm,dataTwitterNorm$Clase=="Fake")
-
-meandataC0<-sapply(c(1,2,3,4), function(x) mean(dataTwitter_Clase0[[x]]))
-sddataC0 <- sapply(c(1,2,3,4), function(x) sd(dataTwitter_Clase0[[x]]))
-
-meandataC1<-sapply(c(1,2,3,4), function(x) mean(dataTwitter_Clase1[[x]]))
-sddataC1 <- sapply(c(1,2,3,4), function(x) sd(dataTwitter_Clase1[[x]]))
-
-#factor de Fisher
-FactFishNumCarc<-P1*meandataC0[1]^2+P2*meandataC1[1]^2
-FactFishNumCarc<-FactFishNumCarc/(P1*sddataC0[1]^2+P2*sddataC1[1]^2)
-
-FactFishSeg<-P1*meandataC0[2]^2+P2*meandataC1[2]^2
-FactFishSeg<-FactFishSeg/(P1*sddataC0[2]^2+P2*sddataC1[2]^2)
-
-FactFishPerfSeg<-P1*meandataC0[3]^2+P2*meandataC1[3]^2
-FactFishPerfSeg<-FactFishPerfSeg/(P1*sddataC0[3]^2+P2*sddataC1[3]^2)
-
-FactFishTwDia<-P1*meandataC0[4]^2+P2*meandataC1[4]^2
-FactFishTwDia<-FactFishTwDia/(P1*sddataC0[4]^2+P2*sddataC1[4]^2)
-
-#F1<-Perfiles Seguidos
-#Step 3: Correlacion F1-Todos
-
-F1_NumCarac<- sum(dataTwitterNorm$num_caracteres_nombre_usuario*dataTwitterNorm$perfiles_seguidos)
-F1_NumCarac<-F1_NumCarac/sqrt(sum(dataTwitterNorm$num_caracteres_nombre_usuario^2)*sum(dataTwitterNorm$perfiles_seguidos^2))
-
-F1_Seguidores<- sum(dataTwitterNorm$seguidores*dataTwitterNorm$perfiles_seguidos)
-F1_Seguidores<-F1_Seguidores/sqrt(sum(dataTwitterNorm$seguidores^2)*sum(dataTwitterNorm$perfiles_seguidos^2))
-
-F1_TwiDia<- sum(dataTwitterNorm$twitts_por_dia*dataTwitterNorm$perfiles_seguidos)
-F1_TwiDia<-F1_TwiDia/sqrt(sum(dataTwitterNorm$twitts_por_dia^2)*sum(dataTwitterNorm$perfiles_seguidos^2))
-
-#Step 4: Seleccionar 2da Característica
-alpha1<-0.5
-alpha2<-0.5
-
-FS_nc<-alpha1*FactFishNumCarc-alpha2*abs(F1_NumCarac)
-FS_seg<-alpha1*FactFishSeg-alpha2*abs(F1_Seguidores)
-FS_td<-alpha1*FactFishTwDia-alpha2*abs(F1_TwiDia)
-
-#F2-Seguidores
-
-F1_NumCarac<- sum(dataTwitterNorm$num_caracteres_nombre_usuario*dataTwitterNorm$seguidores)
-F1_NumCarac<-F1_NumCarac/sqrt(sum(dataTwitterNorm$num_caracteres_nombre_usuario^2)*sum(dataTwitterNorm$seguidores^2))
-
-F1_TwiDia<- sum(dataTwitterNorm$twitts_por_dia*dataTwitterNorm$seguidores)
-F1_TwiDia<-F1_TwiDia/sqrt(sum(dataTwitterNorm$twitts_por_dia^2)*sum(dataTwitterNorm$seguidores^2))
-
-
-#Step 5: Seleccionar 3ra Característica
-alpha1<-0.5
-alpha2<-0.5
-
-FS_nc<-alpha1*FactFishNumCarc-alpha2*abs(F1_NumCarac)
-FS_td<-alpha1*FactFishTwDia-alpha2*abs(F1_TwiDia)
-FS_nc
-FS_td
-
-#F3-Numero Caracteres
 
 
 ##CORRELACION PEARSON
 #Mayor Entropia
 dim(dataTw_Discretizada)
 N<-315
-tablaDT_NC<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$num_caracteres_nombre_usuario)
+tablaDT_NC<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$num_caracteres_nombre_usuario)
 sumRows_tablaDT_NC<-rowSums(tablaDT_NC)
 sumCols_tablaDT_NC<-colSums(tablaDT_NC)
 tablaDT_NC_chi<-matrix(c((sumRows_tablaDT_NC[1]*sumCols_tablaDT_NC)/N,(sumRows_tablaDT_NC[2]*sumCols_tablaDT_NC)/N),nrow=2)
@@ -412,35 +343,35 @@ chi1<-chisq.test(tablaDT_NC_chi)
 chi1<-chi1$p.value
 
 
-tablaDT_NS<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$seguidores)
+tablaDT_NS<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$dia_mayor_cantidad_twitts)
 sumRows_tablaDT_NS<-rowSums(tablaDT_NS)
 sumCols_tablaDT_NS<-colSums(tablaDT_NS)
 tablaDT_NS_chi<-matrix(c((sumRows_tablaDT_NS[1]*sumCols_tablaDT_NS)/N,(sumRows_tablaDT_NS[2]*sumCols_tablaDT_NS)/N),nrow=2)
 chi2<-chisq.test(tablaDT_NS_chi)
 chi2<-chi2$p.value
 
-tablaDT_PS<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$perfiles_seguidos)
+tablaDT_PS<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$seguidores)
 sumRows_tablaDT_PS<-rowSums(tablaDT_PS)
 sumCols_tablaDT_PS<-colSums(tablaDT_PS)
 tablaDT_PS_chi<-matrix(c((sumRows_tablaDT_PS[1]*sumCols_tablaDT_PS)/N,(sumRows_tablaDT_PS[2]*sumCols_tablaDT_PS)/N),nrow=2)
 chi3<-chisq.test(tablaDT_PS_chi)
 chi3<-chi3$p.value
 
-tablaDT_TD<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$twitts_por_dia)
+tablaDT_TD<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$twitts_por_dia)
 sumRows_tablaDT_TD<-rowSums(tablaDT_TD)
 sumCols_tablaDT_TD<-colSums(tablaDT_TD)
 tablaDT_TD_chi<-matrix(c((sumRows_tablaDT_TD[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_TD[2]*sumCols_tablaDT_TD)/N),nrow=2)
 chi4<-chisq.test(tablaDT_TD_chi)
 chi4<-chi4$p.value
 
-tablaDT_FP<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$foto_de_perfil)
+tablaDT_FP<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$foto_de_perfil)
 sumRows_tablaDT_FP<-rowSums(tablaDT_FP)
 sumCols_tablaDT_FP<-colSums(tablaDT_FP)
 tablaDT_FP_chi<-matrix(c((sumRows_tablaDT_FP[1]*sumCols_tablaDT_FP)/N,(sumRows_tablaDT_FP[2]*sumCols_tablaDT_FP)/N),nrow=2)
 chi5<-chisq.test(tablaDT_FP_chi)
 chi5<-chi5$p.value
 
-tablaDT_PP<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$perfil_privado)
+tablaDT_PP<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$perfil_privado)
 sumRows_tablaDT_PP<-rowSums(tablaDT_PP)
 sumCols_tablaDT_PP<-colSums(tablaDT_PP)
 tablaDT_PP_chi<-matrix(c((sumRows_tablaDT_PP[1]*sumCols_tablaDT_PP)/N,(sumRows_tablaDT_PP[2]*sumCols_tablaDT_PP)/N),nrow=2)
@@ -448,7 +379,7 @@ chi6<-chisq.test(tablaDT_PP_chi)
 chi6<-chi6$p.value
 
 
-tablaDT_DT<-table(dataTw_Discretizada$dia_mayor_cantidad_twitts,dataTw_Discretizada$comenta_publicaciones)
+tablaDT_DT<-table(dataTw_Discretizada$perfiles_seguidos,dataTw_Discretizada$comenta_publicaciones)
 sumRows_tablaDT_DT<-rowSums(tablaDT_DT)
 sumCols_tablaDT_DT<-colSums(tablaDT_DT)
 tablaDT_DT_chi<-matrix(c((sumRows_tablaDT_DT[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_DT[2]*sumCols_tablaDT_DT)/N),nrow=2)
@@ -456,14 +387,14 @@ chi7<-chisq.test(tablaDT_DT_chi)
 chi7<-chi7$p.value
 chichis<-c(chi1,chi2,chi3,chi4,chi5,chi6,chi7)
 max(EntropiasTW)
-FS<-(-0.5*EntropiasTW[2:8])-0.5*(abs(chichis))
+FS<-(-0.5*EntropiasTW[1:7])-(0.5/2)*(abs(chichis))
 FS
-#F2 <-Comenta Publicaciones
-max(FS)
+#F2 <-Seguidores
+sort(FS)
 
 #3ra CAracteristica
 
-tablaDT_NC<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$num_caracteres_nombre_usuario)
+tablaDT_NC<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$num_caracteres_nombre_usuario)
 
 sumRows_tablaDT_NC<-rowSums(tablaDT_NC)
 sumCols_tablaDT_NC<-colSums(tablaDT_NC)
@@ -472,14 +403,14 @@ chi21<-chisq.test(tablaDT_NC_chi)
 chi21<-chi21$p.value
 
 
-tablaDT_NS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$seguidores)
+tablaDT_NS<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$comenta_publicaciones)
 sumRows_tablaDT_NS<-rowSums(tablaDT_NS)
 sumCols_tablaDT_NS<-colSums(tablaDT_NS)
 tablaDT_NS_chi<-matrix(c((sumRows_tablaDT_NS[1]*sumCols_tablaDT_NS)/N,(sumRows_tablaDT_NS[2]*sumCols_tablaDT_NS)/N),nrow=2)
 chi22<-chisq.test(tablaDT_NS_chi)
 chi22<-chi22$p.value
 
-tablaDT_PS<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfiles_seguidos)
+tablaDT_PS<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$dia_mayor_cantidad_twitts)
 sumRows_tablaDT_PS<-rowSums(tablaDT_PS)
 sumCols_tablaDT_PS<-colSums(tablaDT_PS)
 tablaDT_PS_chi<-matrix(c((sumRows_tablaDT_PS[1]*sumCols_tablaDT_PS)/N,(sumRows_tablaDT_PS[2]*sumCols_tablaDT_PS)/N),nrow=2)
@@ -487,182 +418,237 @@ chi23<-chisq.test(tablaDT_PS_chi)
 chi23<-chi23$p.value
 
 
-tablaDT_TD<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$twitts_por_dia)
+tablaDT_TD<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$twitts_por_dia)
 sumRows_tablaDT_TD<-rowSums(tablaDT_TD)
 sumCols_tablaDT_TD<-colSums(tablaDT_TD)
 tablaDT_TD_chi<-matrix(c((sumRows_tablaDT_TD[1]*sumCols_tablaDT_TD)/N,(sumRows_tablaDT_TD[2]*sumCols_tablaDT_TD)/N),nrow=2)
 chi24<-chisq.test(tablaDT_TD_chi)
 chi24<-chi24$p.value
 
-tablaDT_FP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$foto_de_perfil)
+tablaDT_FP<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$foto_de_perfil)
 sumRows_tablaDT_FP<-rowSums(tablaDT_FP)
 sumCols_tablaDT_FP<-colSums(tablaDT_FP)
 tablaDT_FP_chi<-matrix(c((sumRows_tablaDT_FP[1]*sumCols_tablaDT_FP)/N,(sumRows_tablaDT_FP[2]*sumCols_tablaDT_FP)/N),nrow=2)
 chi25<-chisq.test(tablaDT_FP_chi)
 chi25<-chi25$p.value
 
-tablaDT_PP<-table(dataTw_Discretizada$comenta_publicaciones,dataTw_Discretizada$perfil_privado)
+tablaDT_PP<-table(dataTw_Discretizada$seguidores,dataTw_Discretizada$perfil_privado)
 sumRows_tablaDT_PP<-rowSums(tablaDT_PP)
 sumCols_tablaDT_PP<-colSums(tablaDT_PP)
 tablaDT_PP_chi<-matrix(c((sumRows_tablaDT_PP[1]*sumCols_tablaDT_PP)/N,(sumRows_tablaDT_PP[2]*sumCols_tablaDT_PP)/N),nrow=2)
 chi26<-chisq.test(tablaDT_PP_chi)
 chi26<-chi26$p.value
 
+
 chichis2<-c(chi21,chi22,chi23,chi24,chi25,chi26)
-sort(EntropiasTW)
+
 k<-1
-FS2<-(-0.5*(EntropiasTW[2:7]))-(0.5/k)*(abs(chichis2))
+FS2<-(-0.5*(EntropiasTW[c(1,7,2,4,5,6)]))-(0.5/k)*(abs(chichis2))
 FS2
-#F3 <-Perfiles Seguidos
+#F3 <-twitts_por_dia
 max(FS2)
 
+summary(dataTw_Discretizada)
 
 
 
 ######KNN
+library(e1071)
+library(naivebayes)
+library(caret)
+library(FNN)
+library(sp)
+library(raster)
+library(dismo)
+library(proxy)
 
-dia_mayor_cantidad_twitts <- dataTw_Discretizada$dia_mayor_cantidad_twitts
-comenta_publicaciones <- dataTw_Discretizada$comenta_publicaciones
-perfiles_seguidos <- dataTw_Discretizada$perfiles_seguidos
-clase <- dataTw_Discretizada$clase
-datasetKnnTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos)
+#install.packages("proxy")
+twitts_por_dia <- factor(dataTw_Discretizada$twitts_por_dia)
+seguidores <- factor(dataTw_Discretizada$seguidores)
+perfiles_seguidos <- factor(dataTw_Discretizada$perfiles_seguidos)
+claseTwitter <- factor(dataTw_Discretizada$clase)
+
+datasetKnnTwitter <- data.frame(twitts_por_dia,seguidores,perfiles_seguidos,claseTwitter)
 summary(datasetKnnTwitter)
-datasetKnnTwitter <- as.data.frame(datasetKnnTwitter)
 
 
-datasetKnnTwitter$dia_mayor_cantidad_twitts <- ifelse(datasetKnnTwitter$dia_mayor_cantidad_twitts == "Publica", 1, 2)
+X <- datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")]
+y <- datasetKnnTwitter$claseTwitter
 
-# Codificar la columna "comenta_publicaciones"
-datasetKnnTwitter$comenta_publicaciones <- ifelse(datasetKnnTwitter$comenta_publicaciones == "Sí", 1, 2)
-
-# Codificar la columna "perfiles_seguidos"
-datasetKnnTwitter$perfiles_seguidos <- ifelse(datasetKnnTwitter$perfiles_seguidos == "Pocos", 1, ifelse(datasetKnnTwitter$perfiles_seguidos == "Normal", 2, 3))
-
-FeatNames<-colnames(datasetKnnTwitter)
-mean_features <- sapply(FeatNames, function(x) mean(datasetKnnTwitter[[x]]))
-sd_features <- sapply(FeatNames, function(x) sd(datasetKnnTwitter[[x]]))
-mean_features
-sd_features
-315/3
-
-#Normalizar datos 
-normalizeDataL <- function(dataF,meanF,stdF){
-  dataFN <- dataF
-  dataFN <- (dataF - meanF)/stdF
-  return(dataFN)
-}
-
-datasetKnnTwitterNorm <- lapply(FeatNames, function (x) normalizeDataL(datasetKnnTwitter[[x]], mean_features[x], sd_features[x]))
-names(datasetKnnTwitterNorm) <- FeatNames
-datasetKnnTwitterNorm <- as.data.frame(datasetKnnTwitterNorm)
-summary(datasetKnnTwitterNorm)
-
-
-
-dataTwitterTrain <- datasetKnnTwitterNorm[1:210,]
-dataTwitterTest <- datasetKnnTwitterNorm[211:315,]
-
-####DISTANCIA GOVER
-
-#install.packages("cluster")
+#Crear el clasificador KNN utilizando la distancia de Gower
+library(caret)
 library(cluster)
 
-# Calcular la matriz de distancias Gower
-distancias <- daisy(datasetKnnTwitter, metric = "gower")
+k_folds <- 5
+accuracy <- vector("numeric", k_folds)  # Vector para almacenar las precisiones
 
-# Imprimir la matriz de distancias
-length(distancias)
+# Obtener los índices de los folds
+indices <- createFolds(y = datasetKnnTwitter$claseTwitter, k = k_folds)
 
-distanciasGover <- matrix(distancias, nrow = nrow(datasetKnnTwitter), ncol = nrow(datasetKnnTwitter))
-
-distanciasTw <- matrix(0, nrow = nrow(datasetKnnTwitterNorm), ncol = nrow(datasetKnnTwitterNorm))
-
-for (i in 1:(nrow(datasetKnnTwitterNorm) - 1)) {
-  for (j in (i + 1):nrow(datasetKnnTwitterNorm)) {
-    suma_distancias <- 0
-    for (k in 1:ncol(datasetKnnTwitterNorm)) {
-      # Compara el valor de la característica entre los dos objetos
-      if (datasetKnnTwitterNorm[i, k] == datasetKnnTwitterNorm[j, k]) {
-        distancia <- 0
-      } else if (k == 1) {
-        # Si la característica es "dia_mayor_cantidad_twitts", usa una distancia de 1
-        distancia <- 1
-      } else if (k == 2) {
-        # Si la característica es "comenta_publicaciones", usa una distancia de 1
-        distancia <- 1
-      } else {
-        # Si la característica es "perfiles_seguidos", usa una distancia de 0.5
-        distancia <- 0.5
-      }
-      suma_distancias <- suma_distancias + distancia
-    }
-    # Asigna la suma de las distancias ponderadas a la matriz de distancias
-    distanciasTw[i, j] <- suma_distancias
-    distanciasTw[j, i] <- suma_distancias
-  }
+for (i in 1:k_folds) {
+  # Crear los dataframes de Train y Test
+  train_indices <- indices[[i]]  # Índices para el conjunto de entrenamiento
+  test_indices <- indices[[i]]  # Índices para el conjunto de prueba
+  
+  train_df <- datasetKnnTwitter[train_indices, ]  # Dataframe de entrenamiento
+  test_df <- datasetKnnTwitter[test_indices, ]  # Dataframe de prueba
+  
+  # Calcular la matriz de distancia de Gower para el fold de entrenamiento
+  dist_matrix <- proxy::dist(train_df, method = "Gower")
+  
+  # Calcular la matriz de distancia de Gower para el fold de prueba
+  test_dist_matrix <- proxy::dist(test_df, train_df, method = "Gower")
+  
+  # Realizar el clasificador KNN utilizando la distancia de Gower
+  k <- 3  # Número de vecinos
+  knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$claseTwitter, k = k)
+  knn_result <- factor(knn_result, levels = levels(test_df$claseTwitter))
+  cat("---------------------------------------------------------------\n")
+  cat("Fold", i, ":\n")
+  print(confusionMatrix(knn_result,test_df$claseTwitter))
+  print(confusionMatrix(knn_result,test_df$claseTwitter)$byClass)
+  # Calcular la precisión para el fold actual
+  accuracy[i] <- sum(knn_result == test_df$claseTwitter) / nrow(test_df)
+  
 }
-print(distanciasTw)
-distanciasTw <- as.matrix(distanciasTw)
 
-###CLASIFICADOR BAYESIANO
+# Calcular la precisión promedio
+mean_accuracy <- mean(accuracy)
 
-library(e1071)
+# Imprimir la precisión promedio
+print(mean_accuracy)
 
-datasetBayesTwitter <- data.frame(dia_mayor_cantidad_twitts,comenta_publicaciones,perfiles_seguidos,clase)
-summary(datasetBayesTwitter)
+
+
+###KNN LEAVE ONE OUT
+library(FNN)
+library(cluster)
+
+df_encoded <- data.frame(model.matrix(~.-1, data = datasetKnnTwitter))
+
+distances <- daisy(df_encoded, metric = "gower")
+
+precisions <- c()
+confusion_matrices <- list()
+for (i in 1:nrow(datasetKnnTwitter)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- df_encoded[-i, ]
+  test_data <- df_encoded[i, ]
+  
+  # Divide las etiquetas de clase en conjunto de entrenamiento y prueba
+  train_labels <- datasetKnnTwitter$claseTwitter[-i]
+  test_label <- datasetKnnTwitter$claseTwitter[i]
+  
+  # Realiza la clasificación k-NN con distancia de Gower y k = 3
+  predicted_label <- knn(train_data, test_data, train_labels, k = 3)
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_label == test_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = test_label, Predicted = predicted_label)
+  confusion_matrices[[i]] <- confusion_matrix
+}
+
+# Calcula el promedio de la precisión y la matriz de confusión final
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
+
+# Imprime los resultados
+print(average_precision)
+print(final_confusion_matrix)
+
+
+
+
+
+
+
+################# BAYESIANO
+
+datasetBayesTwitter <- data.frame(twitts_por_dia,seguidores,perfiles_seguidos,claseTwitter)
+dim(datasetBayesTwitter)
 datasetBayesTwitter <- as.data.frame(datasetBayesTwitter)
 
-
 # Codificar las variables categóricas como factores
-datasetBayesTwitter$dia_mayor_cantidad_twitts <- factor(datasetBayesTwitter$dia_mayor_cantidad_twitts)
-datasetBayesTwitter$comenta_publicaciones <- factor(datasetBayesTwitter$comenta_publicaciones)
+datasetBayesTwitter$twitts_por_dia <- factor(datasetBayesTwitter$twitts_por_dia)
 datasetBayesTwitter$perfiles_seguidos <- factor(datasetBayesTwitter$perfiles_seguidos)
+datasetBayesTwitter$perfiles_seguidos <- factor(datasetBayesTwitter$perfiles_seguidos)
+#  Definir los parámetros de K-Fold Cross Validation
+k_folds <- 5
 
-# Entrenar el modelo de clasificación bayesiana
-modelo_bayesiano <- naiveBayes(clase ~ ., data = datasetBayesTwitter)
+# Realizar la validación cruzada
+set.seed(123)  # Establecer una semilla para reproducibilidad
+folds <- sample(1:k_folds, nrow(datasetBayesTwitter), replace = TRUE)  # Asignar aleatoriamente los folds
 
-# Imprimir el resumen del modelo
-print(modelo_bayesiano)
+accuracy <- vector("numeric", k_folds)  # Vector para almacenar las precisiones
+matriz <- vector("list", k_folds)  # Vector para almacenar las precisiones
 
-# Realizar predicciones en nuevos datos
-nuevos_datos <- data.frame(dia_mayor_cantidad_twitts = c("Publica", "No Publica"),
-                           comenta_publicaciones = c("Sí", "No"),
-                           perfiles_seguidos = c("Pocos", "Normal"))
-
-predicciones <- predict(modelo_bayesiano, nuevos_datos)
-
-# Imprimir las predicciones
-print(predicciones)
-
-
-
-
-
-####
-# Instala los paquetes 'dbscan' y 'class' si no están instalados
-if (!require(dbscan)) {
-  install.packages("dbscan")
+for (i in 1:k_folds) {
+  # Separar los datos en conjunto de entrenamiento y prueba para el fold actual
+  train_df <- datasetBayesTwitter[folds != i, ]
+  test_df <- datasetBayesTwitter[folds == i, ]
+  
+  # Entrenar el clasificador bayesiano
+  model <- naiveBayes(claseTwitter ~ ., data = train_df)
+  
+  # Realizar predicciones en el conjunto de prueba
+  predictions <- predict(model, test_df)
+  matriz[[i]] <- confusionMatrix(predictions, test_df$claseTwitter)
+  cat("---------------------------------------------------------------\n")
+  cat("Fold", i, ":\n")
+  print(confusionMatrix(predictions,test_df$claseTwitter))
+  print(confusionMatrix(predictions,test_df$claseTwitter)$byClass)
+  # Calcular la precisión para el fold actual
+  accuracy[i] <- sum(predictions == test_df$claseTwitter) / nrow(test_df)
+  
+  # Imprimir resultados del fold actual
+  #cat("Fold", i, ":\n")
+  #cat("Predicciones:", predictions, "\n")
+  #cat("Clases verdaderas:", test_df$claseTwitter, "\n")
+  #cat("Precisión:", accuracy[i], "\n\n")
 }
 
-if (!require(class)) {
-  install.packages("class")
+# Calcular la precisión promedio
+mean_accuracy <- mean(accuracy)
+cat("Precisión promedio:", mean_accuracy, "\n")
+
+
+
+
+
+#APLICANDO LEAVE ONE OUT
+# Crear el modelo de clasificador bayesiano
+
+library(e1071)
+precisions <- c()
+confusion_matrices <- list()
+modelo <- naive_bayes(x = X, y = y)
+for (i in 1:nrow(datasetBayesTwitter)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- datasetBayesTwitter[-i, ]
+  test_data <- datasetBayesTwitter[i, ]
+  
+  # Crea el modelo de clasificación Naive Bayes
+  model <- naiveBayes(claseTwitter ~ ., data = train_data)
+  
+  # Realiza las predicciones en el objeto de prueba
+  predicted_labels <- predict(model, test_data)
+  
+  # Obtiene la etiqueta de clase verdadera del objeto de prueba
+  true_label <- test_data$claseTwitter
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_labels == true_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = true_label, Predicted = predicted_labels)
+  confusion_matrices[[i]] <- confusion_matrix
 }
-
-library(dbscan)
-library(class)
-datasetKNNTwitter <- datasetBayesTwitter
-summary(datasetKNNTwitter)
-# Codificar las variables categóricas como factores
-datasetKNNTwitter$dia_mayor_cantidad_twitts <- factor(datasetKNNTwitter$dia_mayor_cantidad_twitts)
-datasetKNNTwitter$comenta_publicaciones <- factor(datasetKNNTwitter$comenta_publicaciones)
-datasetKNNTwitter$perfiles_seguidos <- factor(datasetKNNTwitter$perfiles_seguidos)
-
-# Calcular la matriz de distancias de Gower utilizando la función 'classInt' del paquete 'dbscan'
-#distancias <- classInt(datasetKNNTwitter[, 1:3], method = "gower")
-
-# Realizar la clasificación k-NN utilizando la función 'knn' del paquete 'class'
-clasificacion_knn <- knn(train = distancias, test = distancias, cl = datasetKNNTwitter$clase, k = 5)
-
-# Imprimir las predicciones
-print(clasificacion_knn)
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
+print(paste("Precisión promedio:", average_precision))
+print(final_confusion_matrix)
 

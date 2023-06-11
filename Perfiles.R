@@ -2,6 +2,7 @@
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv";
 namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
+library(dplyr) 
 
 dataPerfiles <- read.table(namefile, header = TRUE, sep =',')
 
@@ -48,13 +49,13 @@ sd_features <- sapply(FeatNames, function(x) sd(dataPerfiles_cuanti[[x]]))
 #sd_features
 #Identificación de valores extremos
 dataPerfiles_SE<-filter(dataPerfiles_cuanti,dataPerfiles_cuanti$Edad<(mean_features[1]+3*sd_features[1]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Promedio.Preparatoria<(mean_features[2]+3*sd_features[2]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Materias.Cursadas.Primer.Semestre<(mean_features[3]+3*sd_features[3]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Promedio.Primer.Semestre<(mean_features[4]+3*sd_features[4]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Materias.Aprobadas.Primer.Semestre<(mean_features[5]+3*sd_features[5]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Horas.Promedio.Estudio.Examenes<(mean_features[6]+3*sd_features[6]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Horas.Promedio.Estudio.Actividades.Escolares<(mean_features[7]+3*sd_features[7]))
-dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_cuanti$Horas.Semana.Divertirse.con.sus.amigos<(mean_features[8]+3*sd_features[8]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Promedio.Preparatoria<(mean_features[2]+3*sd_features[2]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Materias.Cursadas.Primer.Semestre<(mean_features[3]+3*sd_features[3]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Promedio.Primer.Semestre<(mean_features[4]+3*sd_features[4]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Materias.Aprobadas.Primer.Semestre<(mean_features[5]+3*sd_features[5]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Horas.Promedio.Estudio.Examenes<(mean_features[6]+3*sd_features[6]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Horas.Promedio.Estudio.Actividades.Escolares<(mean_features[7]+3*sd_features[7]))
+dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Horas.Semana.Divertirse.con.sus.amigos<(mean_features[8]+3*sd_features[8]))
 #summary(dataPerfiles_SE)
 #Normalización de datos
 mean_features <- sapply(FeatNames, function(x) mean(dataPerfiles_cuanti[[x]]))
@@ -927,26 +928,17 @@ library(dismo)
 library(proxy)
 
 #install.packages("proxy")
-Horas.Semana.Divertirse.con.sus.amigos <- dataPerfiles_Final$Horas.Semana.Divertirse.con.sus.amigos
-Materias.Aprobadas.Primer.Semestre <- dataPerfiles_Final$Materias.Aprobadas.Primer.Semestre
-Edad <- dataPerfiles_Final$Edad
-clasePerfiles <- dataPerfiles_Final$Clase
+Horas.Semana.Divertirse.con.sus.amigos <- factor(dataPerfiles_Final$Horas.Semana.Divertirse.con.sus.amigos)
+Materias.Aprobadas.Primer.Semestre <- factor(dataPerfiles_Final$Materias.Aprobadas.Primer.Semestre)
+Edad <- factor(dataPerfiles_Final$Edad)
+clasePerfiles <- factor(dataPerfiles_Final$Clase)
+
 datasetKnnPerfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos,Materias.Aprobadas.Primer.Semestre,Edad,clasePerfiles)
 summary(datasetKnnPerfiles)
 
 
 X <- datasetKnnPerfiles[, c("Horas.Semana.Divertirse.con.sus.amigos", "Materias.Aprobadas.Primer.Semestre", "Edad")]
 y <- datasetKnnPerfiles$clasePerfiles
-#  Crear los índices para K-Fold Cross Validation
-k <- 5
-indices <- createFolds(y = y, k = k)
-
-#  Crear los dataframes de Train y Test
-train_indices <- indices[[1]]  # Índices para el conjunto de entrenamiento
-test_indices <- indices[[1]]  # Índices para el conjunto de prueba
-
-train_df <- datasetKnnPerfiles[train_indices, ]  # Dataframe de entrenamiento
-test_df <- datasetKnnPerfiles[test_indices, ]  # Dataframe de prueba
 
 #Crear el clasificador KNN utilizando la distancia de Gower
 library(caret)
@@ -960,11 +952,13 @@ indices <- createFolds(y = datasetKnnPerfiles$clasePerfiles, k = k_folds)
 
 for (i in 1:k_folds) {
   # Crear los dataframes de Train y Test
-  train_indices <- unlist(indices[-i])  # Índices para el conjunto de entrenamiento
+  train_indices <- indices[[i]]  # Índices para el conjunto de entrenamiento
   test_indices <- indices[[i]]  # Índices para el conjunto de prueba
   
   train_df <- datasetKnnPerfiles[train_indices, ]  # Dataframe de entrenamiento
   test_df <- datasetKnnPerfiles[test_indices, ]  # Dataframe de prueba
+  
+  dim(train_df)
   
   # Calcular la matriz de distancia de Gower para el fold de entrenamiento
   dist_matrix <- proxy::dist(train_df, method = "Gower")
@@ -975,9 +969,11 @@ for (i in 1:k_folds) {
   # Realizar el clasificador KNN utilizando la distancia de Gower
   k <- 3  # Número de vecinos
   knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$clasePerfiles, k = k)
-  
+  knn_result <- factor(knn_result, levels = levels(test_df$clasePerfiles))
+  print(confusionMatrix(knn_result,test_df$clasePerfiles))
   # Calcular la precisión para el fold actual
   accuracy[i] <- sum(knn_result == test_df$clasePerfiles) / nrow(test_df)
+  
 }
 
 # Calcular la precisión promedio
@@ -988,42 +984,46 @@ print(mean_accuracy)
 
 
 
+###KNN LEAVE ONE OUT
+library(FNN)
+library(cluster)
 
-library(dplyr)
-gower_distance <- function(df) {
-  dist_matrix <- proxy::dist(df, method = "Gower")
-  return(dist_matrix)
+df_encoded <- data.frame(model.matrix(~.-1, data = datasetKnnPerfiles))
+
+distances <- daisy(df_encoded, metric = "gower")
+
+precisions <- c()
+confusion_matrices <- list()
+for (i in 1:nrow(datasetKnnPerfiles)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- df_encoded[-i, ]
+  test_data <- df_encoded[i, ]
+  
+  # Divide las etiquetas de clase en conjunto de entrenamiento y prueba
+  train_labels <- df$clasePerfiles[-i]
+  test_label <- df$clasePerfiles[i]
+  
+  # Realiza la clasificación k-NN con distancia de Gower y k = 3
+  predicted_label <- knn(train_data, test_data, train_labels, k = 3)
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_label == test_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = test_label, Predicted = predicted_label)
+  confusion_matrices[[i]] <- confusion_matrix
 }
 
-k <- 3  # Número de vecinos
+# Calcula el promedio de la precisión y la matriz de confusión final
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
 
-# Crear los dataframes de entrenamiento y prueba con LOO
-train_dfs <- datasetKnnPerfiles %>% group_split(., .keep = FALSE)
-test_dfs <- datasetKnnPerfiles %>% group_split(., .keep = TRUE)
+# Imprime los resultados
+print(average_precision)
+print(final_confusion_matrix)
 
 
-# Aplicar el clasificador k-NN en cada fold
-for (i in seq_along(train_dfs)) {
-  train_df <- train_dfs[[i]]
-  test_df <- test_dfs[[i]]
-  
-  # Calcular la matriz de distancia de Gower para el conjunto de entrenamiento
-  dist_matrix <- gower_distance(train_df[, -4])
-  
-  # Calcular la matriz de distancia de Gower para el conjunto de prueba
-  test_dist_matrix <- gower_distance(test_df[, -4])
-  
-  # Realizar el clasificador k-NN utilizando la distancia de Gower
-  knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$clasePerfiles, k = k)
-  
-  
-  # Imprimir los resultados del clasificador k-NN para el fold actual
-  cat("Fold", i, ":\n")
-  cat("Clases verdaderas:", test_df$clasePerfiles, "\n")
-  cat("Clases predichas:", knn_result, "\n\n")
-}
-
-confusionMatrix(knn_result,test_df$clasePerfiles)
 
 
 
@@ -1039,21 +1039,7 @@ datasetBayesPerfiles$Horas.Semana.Divertirse.con.sus.amigos <- factor(datasetBay
 datasetBayesPerfiles$Materias.Aprobadas.Primer.Semestre <- factor(datasetBayesPerfiles$Materias.Aprobadas.Primer.Semestre)
 datasetBayesPerfiles$Edad <- factor(datasetBayesPerfiles$Edad)
 #  Definir los parámetros de K-Fold Cross Validation
-k <- 5
-#  Crear el objeto de control para K-Fold Cross Validation
-ctrl <- trainControl(method = "cv", number = k)
-
-#  Crear el modelo de clasificador bayesiano
-X <- datasetBayesPerfiles[, c("Horas.Semana.Divertirse.con.sus.amigos", "Materias.Aprobadas.Primer.Semestre", "Edad")]
-y <- datasetBayesPerfiles$clasePerfiles
-
-modelo <- train(x = X, y = y, method = "nb", trControl = ctrl)
-
-# Evaluar el modelo
-predicciones <- predict(modelo, newdata = X)
-confusionMatrix(predicciones, y)
-
-
+k_folds <- 5
 
 # Realizar la validación cruzada
 set.seed(123)  # Establecer una semilla para reproducibilidad
@@ -1073,7 +1059,9 @@ for (i in 1:k_folds) {
   # Realizar predicciones en el conjunto de prueba
   predictions <- predict(model, test_df)
   matriz[[i]] <- confusionMatrix(predictions, test_df$clasePerfiles)
-  
+  cat("---------------------------------------------------------------\n")
+  cat("Fold", i, ":\n")
+  print(confusionMatrix(predictions,test_df$clasePerfiles))
   # Calcular la precisión para el fold actual
   accuracy[i] <- sum(predictions == test_df$clasePerfiles) / nrow(test_df)
   
@@ -1088,20 +1076,40 @@ for (i in 1:k_folds) {
 mean_accuracy <- mean(accuracy)
 cat("Precisión promedio:", mean_accuracy, "\n")
 
-matriz[1][1]
 
 
 
 
 #APLICANDO LEAVE ONE OUT
 # Crear el modelo de clasificador bayesiano
+
+library(e1071)
+precisions <- c()
+confusion_matrices <- list()
 modelo <- naive_bayes(x = X, y = y)
-
-# Realizar Leave-One-Out Cross Validation con train()
-loocv <- train(x = X, y = y, method = "nb", trControl = trainControl(method = "LOOCV"))
-
-# Evaluar el modelo
-predicciones <- predict(loocv, newdata = X)
-
-confusionMatrix(predicciones, y)
-
+for (i in 1:nrow(datasetBayesPerfiles)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- datasetBayesPerfiles[-i, ]
+  test_data <- datasetBayesPerfiles[i, ]
+  
+  # Crea el modelo de clasificación Naive Bayes
+  model <- naiveBayes(clasePerfiles ~ ., data = train_data)
+  
+  # Realiza las predicciones en el objeto de prueba
+  predicted_labels <- predict(model, test_data)
+  
+  # Obtiene la etiqueta de clase verdadera del objeto de prueba
+  true_label <- test_data$clasePerfiles
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_labels == true_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = true_label, Predicted = predicted_labels)
+  confusion_matrices[[i]] <- confusion_matrix
+}
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
+print(paste("Precisión promedio:", average_precision))
+print(final_confusion_matrix)

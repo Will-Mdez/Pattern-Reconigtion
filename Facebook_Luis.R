@@ -340,7 +340,7 @@ chichisFB<-c(chi1,chi2,chi3,chi4)
 max(EntropiasFB)
 FSFB<-(-0.5*EntropiasFB[2:5])-0.5*(abs(chichisFB))
 FSFB
-#F2 <-Num Caracteres
+#F2 <-Amigos
 max(FSFB)
 
 
@@ -374,7 +374,7 @@ sort(EntropiasFB)
 k<-1
 FS2<-(-0.5*(EntropiasFB[3:5]))-(0.5/k)*(abs(chichisFB2))
 FS2
-#F3 <-Foto PErfil
+#F3 <-Foto de Perfil
 max(FS2)
 
 
@@ -382,140 +382,213 @@ max(FS2)
 
 ######KNN
 
-Nro_Caracteres <- dataFaceDiscretizado$`Nro Caracteres del nombre`
-Amigos <- dataFaceDiscretizado$Amigos
-Foto_Perfil <- dataFaceDiscretizado$`Foto de Perfil`
-claseFB <- dataFaceDiscretizado$clase
-datasetKnnFB <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil)
-dim(datasetKnnFB)
-datasetKnnFB <- as.data.frame(datasetKnnFB)
-#install.packages("cluster")
+
+
+
+
+
+
+
+######KNN
+library(e1071)
+library(naivebayes)
+library(caret)
+library(FNN)
+library(sp)
+library(raster)
+library(dismo)
+library(proxy)
+
+#install.packages("proxy")
+
+Nro_Caracteres <- factor(dataFaceDiscretizado$`Nro Caracteres del nombre`)
+Amigos <- factor(dataFaceDiscretizado$Amigos)
+Foto_Perfil <- factor(dataFaceDiscretizado$`Foto de Perfil`)
+claseFace <- factor(dataFaceDiscretizado$clase)
+
+datasetKnnFacebook <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil,claseFace)
+summary(datasetKnnFacebook)
+
+
+X <- datasetKnnFacebook[, c("Nro_Caracteres", "Amigos", "Foto_Perfil")]
+y <- datasetKnnFacebook$claseFace
+
+#Crear el clasificador KNN utilizando la distancia de Gower
+library(caret)
 library(cluster)
 
-# Calcular la matriz de distancias Gower
-distancias <- daisy(datasetKnnFB, metric = "gower")
+k_folds <- 5
+accuracy <- vector("numeric", k_folds)  # Vector para almacenar las precisiones
 
-# Imprimir la matriz de distancias
-length(distancias)
-distanciasGover <- matrix(distancias, nrow = nrow(datasetKnnFB), ncol = nrow(datasetKnnFB))
+# Obtener los índices de los folds
+indices <- createFolds(y = datasetKnnFacebook$claseFace, k = k_folds)
 
-
-
-datasetKnnFB$Nro_Caracteres <- ifelse(datasetKnnFB$Nro_Caracteres == "Muchas", 1, ifelse(datasetKnnFB$Nro_Caracteres == "Normal", 2, 3))
-
-# Codificar la columna "Amigos"
-datasetKnnFB$Amigos <- ifelse(datasetKnnFB$Amigos == "Muchas", 1, ifelse(datasetKnnFB$Amigos == "Normal", 2, 3))
-
-# Codificar la columna "Foto_Perfil"
-datasetKnnFB$Foto_Perfil <- ifelse(datasetKnnFB$Foto_Perfil == "No", 1, 2)
-
-
-
-FeatNames<-colnames(datasetKnnFB)
-mean_features <- sapply(FeatNames, function(x) mean(datasetKnnFB[[x]]))
-sd_features <- sapply(FeatNames, function(x) sd(datasetKnnFB[[x]]))
-mean_features
-sd_features
-
-163/3
-
-#Normalizar datos 
-normalizeDataL <- function(dataF,meanF,stdF){
-  dataFN <- dataF
-  dataFN <- (dataF - meanF)/stdF
-  return(dataFN)
+for (i in 1:k_folds) {
+  # Crear los dataframes de Train y Test
+  train_indices <- indices[[i]]  # Índices para el conjunto de entrenamiento
+  test_indices <- indices[[i]]  # Índices para el conjunto de prueba
+  
+  train_df <- datasetKnnFacebook[train_indices, ]  # Dataframe de entrenamiento
+  test_df <- datasetKnnFacebook[test_indices, ]  # Dataframe de prueba
+  
+  # Calcular la matriz de distancia de Gower para el fold de entrenamiento
+  dist_matrix <- proxy::dist(train_df, method = "Gower")
+  
+  # Calcular la matriz de distancia de Gower para el fold de prueba
+  test_dist_matrix <- proxy::dist(test_df, train_df, method = "Gower")
+  
+  # Realizar el clasificador KNN utilizando la distancia de Gower
+  k <- 3  # Número de vecinos
+  knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$claseFace, k = k)
+  knn_result <- factor(knn_result, levels = levels(test_df$claseFace))
+  cat("---------------------------------------------------------------\n")
+  cat("Fold", i, ":\n")
+  print(confusionMatrix(knn_result,test_df$claseFace))
+  print(confusionMatrix(knn_result,test_df$claseFace)$byClass)
+  # Calcular la precisión para el fold actual
+  accuracy[i] <- sum(knn_result == test_df$claseFace) / nrow(test_df)
+  
 }
 
-datasetKnnFBNorm <- lapply(FeatNames, function (x) normalizeDataL(datasetKnnFB[[x]], mean_features[x], sd_features[x]))
-names(datasetKnnFBNorm) <- FeatNames
-datasetKnnFBNorm <- as.data.frame(datasetKnnFBNorm)
-summary(datasetKnnFBNorm)
+# Calcular la precisión promedio
+mean_accuracy <- mean(accuracy)
+
+# Imprimir la precisión promedio
+print(mean_accuracy)
 
 
 
-datasetKnnFBTrain <- datasetKnnFBNorm[1:109,]
-datasetKnnFBTest <- datasetKnnFBNorm[110:163,]
+###KNN LEAVE ONE OUT
+library(FNN)
+library(cluster)
 
-####DISTANCIA GOVER
+df_encoded <- data.frame(model.matrix(~.-1, data = datasetKnnFacebook))
 
-# Calcular la matriz de distancias Gower manualmente
-distanciasFB <- matrix(0, nrow = nrow(datasetKnnFBNorm), ncol = nrow(datasetKnnFBNorm))
+distances <- daisy(df_encoded, metric = "gower")
 
-for (i in 1:(nrow(datasetKnnFBNorm) - 1)) {
-  for (j in (i + 1):nrow(datasetKnnFBNorm)) {
-    suma_distancias <- 0
-    for (k in 1:ncol(datasetKnnFBNorm)) {
-      # Compara el valor de la característica entre los dos objetos
-      if (datasetKnnFBNorm[i, k] == datasetKnnFBNorm[j, k]) {
-        distancia <- 0
-      } else if (k == 1 || k == 2) {
-        # Si la característica es "Nro_Caracteres" o "Amigos", usa una distancia de 0.5
-        distancia <- 0.5
-      } else {
-        # Si la característica es "Foto_Perfil", usa una distancia de 1
-        distancia <- 1
-      }
-      suma_distancias <- suma_distancias + distancia
-    }
-    # Asigna la suma de las distancias ponderadas a la matriz de distancias
-    distanciasFB[i, j] <- suma_distancias
-    distanciasFB[j, i] <- suma_distancias
-  }
+precisions <- c()
+confusion_matrices <- list()
+for (i in 1:nrow(datasetKnnFacebook)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- df_encoded[-i, ]
+  test_data <- df_encoded[i, ]
+  
+  # Divide las etiquetas de clase en conjunto de entrenamiento y prueba
+  train_labels <- datasetKnnFacebook$claseFace[-i]
+  test_label <- datasetKnnFacebook$claseFace[i]
+  
+  # Realiza la clasificación k-NN con distancia de Gower y k = 3
+  predicted_label <- knn(train_data, test_data, train_labels, k = 3)
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_label == test_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = test_label, Predicted = predicted_label)
+  confusion_matrices[[i]] <- confusion_matrix
 }
-print(distanciasFB)
+
+# Calcula el promedio de la precisión y la matriz de confusión final
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
+
+# Imprime los resultados
+print(average_precision)
+print(final_confusion_matrix)
 
 
 
-###CLASIFICADOR BAYESIANO
+
+
+
+
+################# BAYESIANO
+
+datasetBayesFacebook <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil,claseFace)
+dim(datasetBayesFacebook)
+datasetBayesFacebook <- as.data.frame(datasetBayesFacebook)
+
+# Codificar las variables categóricas como factores
+datasetBayesFacebook$twitts_por_dia <- factor(datasetBayesFacebook$twitts_por_dia)
+datasetBayesFacebook$perfiles_seguidos <- factor(datasetBayesFacebook$perfiles_seguidos)
+datasetBayesFacebook$perfiles_seguidos <- factor(datasetBayesFacebook$perfiles_seguidos)
+#  Definir los parámetros de K-Fold Cross Validation
+k_folds <- 5
+
+# Realizar la validación cruzada
+set.seed(123)  # Establecer una semilla para reproducibilidad
+folds <- sample(1:k_folds, nrow(datasetBayesFacebook), replace = TRUE)  # Asignar aleatoriamente los folds
+
+accuracy <- vector("numeric", k_folds)  # Vector para almacenar las precisiones
+matriz <- vector("list", k_folds)  # Vector para almacenar las precisiones
+
+for (i in 1:k_folds) {
+  # Separar los datos en conjunto de entrenamiento y prueba para el fold actual
+  train_df <- datasetBayesFacebook[folds != i, ]
+  test_df <- datasetBayesFacebook[folds == i, ]
+  
+  # Entrenar el clasificador bayesiano
+  model <- naiveBayes(claseFace ~ ., data = train_df)
+  
+  # Realizar predicciones en el conjunto de prueba
+  predictions <- predict(model, test_df)
+  matriz[[i]] <- confusionMatrix(predictions, test_df$claseFace)
+  cat("---------------------------------------------------------------\n")
+  cat("Fold", i, ":\n")
+  print(confusionMatrix(predictions,test_df$claseFace))
+  print(confusionMatrix(predictions,test_df$claseFace)$byClass)
+  # Calcular la precisión para el fold actual
+  accuracy[i] <- sum(predictions == test_df$claseFace) / nrow(test_df)
+  
+  # Imprimir resultados del fold actual
+  #cat("Fold", i, ":\n")
+  #cat("Predicciones:", predictions, "\n")
+  #cat("Clases verdaderas:", test_df$claseFace, "\n")
+  #cat("Precisión:", accuracy[i], "\n\n")
+}
+
+# Calcular la precisión promedio
+mean_accuracy <- mean(accuracy)
+cat("Precisión promedio:", mean_accuracy, "\n")
+
+
+
+
+
+#APLICANDO LEAVE ONE OUT
+# Crear el modelo de clasificador bayesiano
+
 library(e1071)
-
-datasetBayesFb <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil,claseFB)
-summary(datasetBayesFb)
-datasetBayesFb <- as.data.frame(datasetBayesFb)
-
-
-# Codificar las variables categóricas como factores
-datasetBayesFb$Nro_Caracteres <- factor(datasetBayesFb$Nro_Caracteres)
-datasetBayesFb$Amigos <- factor(datasetBayesFb$Amigos)
-datasetBayesFb$Foto_Perfil <- factor(datasetBayesFb$Foto_Perfil)
-
-# Entrenar el modelo de clasificación bayesiana
-modelo_bayesiano_Fb <- naiveBayes(claseFB ~ ., data = datasetBayesFb)
-
-# Imprimir el resumen del modelo
-print(modelo_bayesiano_Fb)
-
-# Realizar predicciones en nuevos datos
-nuevos_datos_Fb <- data.frame(Horas.Semana.Divertirse.con.sus.amigos = c("Muchas", "Muchas"),
-                                    Materias.Aprobadas.Primer.Semestre = c("Regular", "Irregular"),
-                                    Edad = c("Group2", "Group1"))
-
-prediccionesFb <- predict(modelo_bayesiano_Fb, nuevos_datos_Fb)
-
-# Imprimir las predicciones
-print(prediccionesFb)
-
-
-
-
-library(dbscan)
-library(class)
-datasetFb <- datasetBayesFb
-summary(datasetKNNTwitter)
-# Codificar las variables categóricas como factores
-datasetKNNTwitter$dia_mayor_cantidad_twitts <- factor(datasetKNNTwitter$dia_mayor_cantidad_twitts)
-datasetKNNTwitter$comenta_publicaciones <- factor(datasetKNNTwitter$comenta_publicaciones)
-datasetKNNTwitter$perfiles_seguidos <- factor(datasetKNNTwitter$perfiles_seguidos)
-
-# Calcular la matriz de distancias de Gower utilizando la función 'classInt' del paquete 'dbscan'
-#distancias <- classInt(datasetKNNTwitter[, 1:3], method = "gower")
-
-# Realizar la clasificación k-NN utilizando la función 'knn' del paquete 'class'
-clasificacion_knn <- knn(train = distancias, test = distancias, cl = datasetKNNTwitter$clase, k = 5)
-
-# Imprimir las predicciones
-print(clasificacion_knn)
-
+precisions <- c()
+confusion_matrices <- list()
+modelo <- naive_bayes(x = X, y = y)
+for (i in 1:nrow(datasetBayesFacebook)) {
+  # Divide los datos en conjunto de entrenamiento y prueba para leave-one-out
+  train_data <- datasetBayesFacebook[-i, ]
+  test_data <- datasetBayesFacebook[i, ]
+  
+  # Crea el modelo de clasificación Naive Bayes
+  model <- naiveBayes(claseFace ~ ., data = train_data)
+  
+  # Realiza las predicciones en el objeto de prueba
+  predicted_labels <- predict(model, test_data)
+  
+  # Obtiene la etiqueta de clase verdadera del objeto de prueba
+  true_label <- test_data$claseFace
+  
+  # Calcula la precisión
+  precision <- ifelse(predicted_labels == true_label, 1, 0)
+  precisions <- c(precisions, precision)
+  
+  # Crea la matriz de confusión
+  confusion_matrix <- table(Actual = true_label, Predicted = predicted_labels)
+  confusion_matrices[[i]] <- confusion_matrix
+}
+average_precision <- mean(precisions)
+final_confusion_matrix <- Reduce(`+`, confusion_matrices)
+print(paste("Precisión promedio:", average_precision))
+print(final_confusion_matrix)
 
 
 
