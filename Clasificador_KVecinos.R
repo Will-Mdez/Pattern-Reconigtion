@@ -1,6 +1,8 @@
 #nameFile <- "C://Users//Alumnos//Downloads//datasets-20230323T150811Z-001//datasets//wine.data";
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTraining.data";
-namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTest.data";
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTraining.data";
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTest.data";
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTraining.data"
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//datasets-20230307T150614Z-001//datasets//wineTest.data"
 
 dataWineTraining <- read.table(namefile, header = FALSE, sep = ",");
 dataWineTest <- read.table(namefile2, header = FALSE, sep = ",");
@@ -31,10 +33,17 @@ names(dataWineTrainingNorm)<-names(dataWineTraining)
 dataWineTrainingNorm<-as.data.frame(dataWineTrainingNorm)
 #head(dataWineNorm)
 
+dataWineTest <- lapply(seq(1:14),function(x) normalizeDataL(dataWineTest[[x]],mean_features[x],sd_features[x]))
+names(dataWineTest)<-names(dataWineTraining)
+dataWineTest<-as.data.frame(dataWineTest)
+
+summary(dataWineTest)
+dim(dataWineTest)
 summary(dataWineTrainingNorm)
 dim(dataWineTrainingNorm)
 
-euclidiana <- function(a,b) (sqrt ( sum ((a - b) ^ 2)))
+euclidiana <- function(a,b) sqrt( sum((a-b) ^ 2))
+
 dataWineTest$class <- factor(dataWineTest$class)
 dataWineTraining$class <- factor(dataWineTraining$class)
 summary(dataWineTraining)
@@ -45,6 +54,41 @@ distancia_new_index
 distancia_new_index$ix[1]
 dataWineTest[distancia_new_index$ix[1:3],1]
 dataWineTest[distancia_new_index$ix[1:3],1]
+
+dataWineTrainingNorm
+mean_df <- colMeans(dataWineTrainingNorm)
+sd_df <- apply(dataWineTrainingNorm, 2, sd)
+
+
+mean_df <- colMeans(dataWineTrainingNorm)
+
+N <- dim(dataWineTrainingNorm)[1]
+indObj <- seq(1:N)
+
+distancias <- sapply(indObj,function(x) sapply(indObj, function(y) euclidiana(dataWineTrainingNorm[y,],dataWineTest[x,])))
+
+k <- 3
+sort_with_indices <- function(x) {
+  sorted <- sort(x)
+  indices <- order(x)
+  list(sorted = sorted, indices = indices)
+}
+
+distancias_index <- apply(distancias, MARGIN = 1, FUN = sort_with_indices)
+valores_ordenados <- t(sapply(distancias_index, "[[", "sorted"))
+index_ordenados <- t(sapply(distancias_index, "[[", "indices"))
+
+index_ordenados
+dim(index_ordenados)
+k_cercanos <- t(apply(index_ordenados, 1, function(row) row[1:k]))
+k_cercanos
+
+for (i in 1:nrow(k_cercanos)) {
+  row_indices <- k_cercanos[i, ]
+  class_counts <- table(dataWineTraining$class[row_indices])
+  most_frequent_class <- names(class_counts)[which.max(class_counts)]
+  print(most_frequent_class)
+}
 
 
 
