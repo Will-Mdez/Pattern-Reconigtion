@@ -652,3 +652,167 @@ final_confusion_matrix <- Reduce(`+`, confusion_matrices)
 print(paste("Precisión promedio:", average_precision))
 print(final_confusion_matrix)
 
+
+
+
+input_df <- data.frame(twitts_por_dia = "Muchos",
+                       seguidores = "Pocos",
+                       perfiles_seguidos = "Normal")
+input_df$twitts_por_dia <- factor(input_df$twitts_por_dia)
+input_df$seguidores <- factor(input_df$seguidores)
+input_df$perfiles_seguidos <- factor(input_df$perfiles_seguidos)
+
+dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+
+# Calcular la matriz de distancia de Gower para el fold de prueba
+test_dist_matrix <- proxy::dist(input_df, datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+
+# Realizar el clasificador KNN utilizando la distancia de Gower
+k <- 3  # Número de vecinos
+knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$claseTwitter, k = k)
+knn_result <- factor(knn_result, levels = levels(test_df$claseTwitter))
+
+
+
+
+
+
+
+
+
+
+library(shiny)
+library(cluster)
+library(class)  # Necesario para la función knn()
+
+count <- 0
+dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+
+# Definir la interfaz de usuario
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("twitts", "Número de twitts por día:",
+                  choices = levels(twitts_por_dia)),
+      selectInput("seguidores", "Número de seguidores:",
+                  choices = levels(seguidores)),
+      selectInput("perfiles", "Número de perfiles seguidos:",
+                  choices = levels(perfiles_seguidos)),
+      actionButton("predictButton", "Predecir"),
+      verbatimTextOutput("predictionOutput")
+    ),
+    mainPanel(
+      # Aquí puedes agregar elementos adicionales en el panel principal si lo deseas
+    )
+  )
+)
+
+
+# Definir la función para realizar la predicción
+predictClass <- function(twitts, seguidores, perfiles) {
+  # Crear el dataframe con los valores de entrada
+  input_df <- data.frame(twitts_por_dia = "Muchos",
+                         seguidores = "Muchos",
+                         perfiles_seguidos = "Muchos")
+  input_df$twitts_por_dia <- factor(input_df$twitts_por_dia)
+  input_df$seguidores <- factor(input_df$seguidores)
+  input_df$perfiles_seguidos <- factor(input_df$perfiles_seguidos)
+  levels(input_df$twitts_por_dia) <- levels(datasetKnnTwitter$twitts_por_dia)
+  levels(input_df$seguidores) <- levels(datasetKnnTwitter$seguidores)
+  levels(input_df$perfiles_seguidos) <- levels(datasetKnnTwitter$perfiles_seguidos)
+  
+  
+  
+  # Calcular la matriz de distancia de Gower para el fold de prueba
+  test_dist_matrix <- proxy::dist(input_df, datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+  
+  # Realizar el clasificador KNN utilizando la distancia de Gower
+  k <- 3  # Número de vecinos
+  prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnTwitter$claseTwitter, k = k)
+ 
+  return(prediction)
+}
+
+# Definir el servidor
+server <- function(input, output){
+  observeEvent(input$predictButton, {
+    twitts <- input$twitts
+    seguidores <- input$seguidores
+    perfiles <- input$perfiles
+    
+    prediction <- predictClass(twitts, seguidores, perfiles)
+    count <- count + 1
+    print(count)
+    output$predictionOutput <- renderText({
+      paste("Predicción:", prediction)
+    })
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+
+
+library(shiny)
+library(e1071)  # Paquete para naiveBayes
+
+# Define la interfaz de usuario (UI)
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("twitts", "Número de twitts por día:",
+                  choices = levels(twitts_por_dia)),
+      selectInput("seguidores", "Número de seguidores:",
+                  choices = levels(seguidores)),
+      selectInput("perfiles", "Número de perfiles seguidos:",
+                  choices = levels(perfiles_seguidos)),
+      actionButton("predictButton", "Predecir"),
+      verbatimTextOutput("predictionOutput")
+    ),
+    mainPanel(
+      # Aquí puedes agregar elementos adicionales en el panel principal si lo deseas
+    )
+  )
+)
+
+# Define el servidor (server)
+server <- function(input, output) {
+  
+
+  
+  # Entrenar el modelo de clasificación bayesiano
+  model <- naiveBayes(claseTwitter ~ ., data = datasetBayesTwitter)
+  
+  # Función para realizar predicciones y devolver el resultado
+  predictResult <- function(twitts, seguidores, perfiles) {
+    # Crear un nuevo conjunto de datos con los valores introducidos por el usuario
+    new_data <- data.frame(
+      twitts_por_dia = twitts,
+      seguidores = seguidores,
+      perfiles_seguidos = perfiles
+    )
+    
+    # Realizar la predicción utilizando el modelo entrenado
+    prediction <- predict(model, newdata = new_data)
+    
+    # Devolver la predicción
+    return(prediction)
+  }
+  
+  # Realizar la predicción cuando se hace clic en el botón
+  observeEvent(input$predictButton, {
+    twitts <- input$twitts
+    seguidores <- input$seguidores
+    perfiles <- input$perfiles
+    
+    prediction <- predictResult(twitts, seguidores, perfiles)
+    
+    output$predictionOutput <- renderText({
+      paste("Predicción:", prediction)
+    })
+  })
+}
+
+# Ejecutar la aplicación shiny
+shinyApp(ui, server)
+
