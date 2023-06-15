@@ -506,13 +506,13 @@ print(final_confusion_matrix)
 ################# BAYESIANO
 
 datasetBayesFacebook <- data.frame(Nro_Caracteres,Amigos,Foto_Perfil,claseFace)
-dim(datasetBayesFacebook)
+summary(datasetBayesFacebook)
 datasetBayesFacebook <- as.data.frame(datasetBayesFacebook)
 
 # Codificar las variables categóricas como factores
-datasetBayesFacebook$twitts_por_dia <- factor(datasetBayesFacebook$twitts_por_dia)
-datasetBayesFacebook$perfiles_seguidos <- factor(datasetBayesFacebook$perfiles_seguidos)
-datasetBayesFacebook$perfiles_seguidos <- factor(datasetBayesFacebook$perfiles_seguidos)
+datasetBayesFacebook$Nro_Caracteres <- factor(datasetBayesFacebook$Nro_Caracteres)
+datasetBayesFacebook$Amigos <- factor(datasetBayesFacebook$Amigos)
+datasetBayesFacebook$Foto_Perfil <- factor(datasetBayesFacebook$Foto_Perfil)
 #  Definir los parámetros de K-Fold Cross Validation
 k_folds <- 5
 
@@ -590,6 +590,137 @@ final_confusion_matrix <- Reduce(`+`, confusion_matrices)
 print(paste("Precisión promedio:", average_precision))
 print(final_confusion_matrix)
 
+
+
+library(shiny)
+library(cluster)
+library(class)  # Necesario para la función knn()
+
+count <- 0
+dist_matrix <- proxy::dist(datasetKnnFacebook [, c("Nro_Caracteres", "Amigos", "Foto_Perfil")], method = "Gower")
+
+# Definir la interfaz de usuario
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("Nro_Caracteres", "Número de Caracteres en el nombre:",
+                  choices = levels(Nro_Caracteres)),
+      selectInput("Amigos", "Número de Amigos:",
+                  choices = levels(Amigos)),
+      selectInput("Foto_Perfil", "Tiene Foto_Perfil:",
+                  choices = levels(Foto_Perfil)),
+      actionButton("predictButton", "Predecir"),
+      verbatimTextOutput("predictionOutput")
+    ),
+    mainPanel(
+      # Aquí puedes agregar elementos adicionales en el panel principal si lo deseas
+    )
+  )
+)
+
+
+# Definir la función para realizar la predicción
+predictClass <- function(Nro_Caracteres, Amigos, Foto_Perfil) {
+  # Crear el dataframe con los valores de entrada
+  input_df <- data.frame(Nro_Caracteres = factor(Nro_Caracteres,
+                                                 levels = levels(datasetKnnFacebook$Nro_Caracteres)),
+                         Amigos = factor(Amigos,
+                                             levels = levels(datasetKnnFacebook$Amigos)),
+                         Foto_Perfil = factor(Foto_Perfil,
+                                                    levels = levels(datasetKnnFacebook$Foto_Perfil)))
+
+  # Calcular la matriz de distancia de Gower para el fold de prueba
+  test_dist_matrix <- proxy::dist(input_df, datasetKnnFacebook[, c("Nro_Caracteres", "Amigos", "Foto_Perfil")], method = "Gower")
+  
+  # Realizar el clasificador KNN utilizando la distancia de Gower
+  k <- 3  # Número de vecinos
+  prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnFacebook$claseFace, k = k)
+  
+  return(prediction)
+}
+
+# Definir el servidor
+server <- function(input, output){
+  observeEvent(input$predictButton, {
+    Nro_Caracteres <- input$Nro_Caracteres
+    Amigos <- input$Amigos
+    Foto_Perfil <- input$Foto_Perfil
+    
+    prediction <- predictClass(Nro_Caracteres, Amigos, Foto_Perfil)
+    count <- count + 1
+    print(count)
+    output$predictionOutput <- renderText({
+      paste("Predicción:", prediction)
+    })
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+
+
+library(shiny)
+library(e1071)  # Paquete para naiveBayes
+
+# Define la interfaz de usuario (UI)
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("Nro_Caracteres", "Número de Caracteres en el nombre:",
+                  choices = levels(Nro_Caracteres)),
+      selectInput("Amigos", "Número de Amigos:",
+                  choices = levels(Amigos)),
+      selectInput("Foto_Perfil", "Tiene Foto_Perfil:",
+                  choices = levels(Foto_Perfil)),
+      actionButton("predictButton", "Predecir"),
+      verbatimTextOutput("predictionOutput")
+    ),
+    mainPanel(
+      # Aquí puedes agregar elementos adicionales en el panel principal si lo deseas
+    )
+  )
+)
+
+# Define el servidor (server)
+server <- function(input, output) {
+  
+  
+  
+  # Entrenar el modelo de clasificación bayesiano
+  model <- naiveBayes(claseFace ~ ., data = datasetBayesFacebook)
+  
+  # Función para realizar predicciones y devolver el resultado
+  predictResult <- function(Nro_Caracteres, Amigos, Foto_Perfil) {
+    # Crear un nuevo conjunto de datos con los valores introducidos por el usuario
+    new_data <- data.frame(
+      Nro_Caracteres = Nro_Caracteres,
+      Amigos = Amigos,
+      perfiles_seguidos = Foto_Perfil
+    )
+    
+    # Realizar la predicción utilizando el modelo entrenado
+    prediction <- predict(model, newdata = new_data)
+    
+    # Devolver la predicción
+    return(prediction)
+  }
+  
+  # Realizar la predicción cuando se hace clic en el botón
+  observeEvent(input$predictButton, {
+    Nro_Caracteres <- input$Nro_Caracteres
+    Amigos <- input$Amigos
+    Foto_Perfil <- input$Foto_Perfil
+    
+    prediction <- predictResult(Nro_Caracteres, Amigos, Foto_Perfil)
+    
+    output$predictionOutput <- renderText({
+      paste("Predicción:", prediction)
+    })
+  })
+}
+
+# Ejecutar la aplicación shiny
+shinyApp(ui, server)
 
 
 

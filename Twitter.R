@@ -683,21 +683,18 @@ knn_result <- factor(knn_result, levels = levels(test_df$claseTwitter))
 
 library(shiny)
 library(cluster)
-library(class)  # Necesario para la función knn()
-
-count <- 0
-dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+library(class)
 
 # Definir la interfaz de usuario
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("twitts", "Número de twitts por día:",
-                  choices = levels(twitts_por_dia)),
+                  choices = levels(datasetKnnTwitter$twitts_por_dia)),
       selectInput("seguidores", "Número de seguidores:",
-                  choices = levels(seguidores)),
+                  choices = levels(datasetKnnTwitter$seguidores)),
       selectInput("perfiles", "Número de perfiles seguidos:",
-                  choices = levels(perfiles_seguidos)),
+                  choices = levels(datasetKnnTwitter$perfiles_seguidos)),
       actionButton("predictButton", "Predecir"),
       verbatimTextOutput("predictionOutput")
     ),
@@ -707,21 +704,15 @@ ui <- fluidPage(
   )
 )
 
-
 # Definir la función para realizar la predicción
 predictClass <- function(twitts, seguidores, perfiles) {
   # Crear el dataframe con los valores de entrada
-  input_df <- data.frame(twitts_por_dia = "Muchos",
-                         seguidores = "Muchos",
-                         perfiles_seguidos = "Muchos")
-  input_df$twitts_por_dia <- factor(input_df$twitts_por_dia)
-  input_df$seguidores <- factor(input_df$seguidores)
-  input_df$perfiles_seguidos <- factor(input_df$perfiles_seguidos)
-  levels(input_df$twitts_por_dia) <- levels(datasetKnnTwitter$twitts_por_dia)
-  levels(input_df$seguidores) <- levels(datasetKnnTwitter$seguidores)
-  levels(input_df$perfiles_seguidos) <- levels(datasetKnnTwitter$perfiles_seguidos)
-  
-  
+  sinput_df <- data.frame(twitts_por_dia = factor(twitts,
+                                                 levels = levels(datasetKnnTwitter$twitts_por_dia)),
+                         seguidores = factor(seguidores,
+                                             levels = levels(datasetKnnTwitter$seguidores)),
+                         perfiles_seguidos = factor(perfiles,
+                                                    levels = levels(datasetKnnTwitter$perfiles_seguidos)))
   
   # Calcular la matriz de distancia de Gower para el fold de prueba
   test_dist_matrix <- proxy::dist(input_df, datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
@@ -729,7 +720,7 @@ predictClass <- function(twitts, seguidores, perfiles) {
   # Realizar el clasificador KNN utilizando la distancia de Gower
   k <- 3  # Número de vecinos
   prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnTwitter$claseTwitter, k = k)
- 
+  
   return(prediction)
 }
 
@@ -741,8 +732,7 @@ server <- function(input, output){
     perfiles <- input$perfiles
     
     prediction <- predictClass(twitts, seguidores, perfiles)
-    count <- count + 1
-    print(count)
+    
     output$predictionOutput <- renderText({
       paste("Predicción:", prediction)
     })
