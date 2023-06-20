@@ -684,6 +684,8 @@ knn_result <- factor(knn_result, levels = levels(test_df$claseTwitter))
 library(shiny)
 library(cluster)
 library(class)
+dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+
 
 # Definir la interfaz de usuario
 ui <- fluidPage(
@@ -707,7 +709,7 @@ ui <- fluidPage(
 # Definir la función para realizar la predicción
 predictClass <- function(twitts, seguidores, perfiles) {
   # Crear el dataframe con los valores de entrada
-  sinput_df <- data.frame(twitts_por_dia = factor(twitts,
+  input_df <- data.frame(twitts_por_dia = factor(twitts,
                                                  levels = levels(datasetKnnTwitter$twitts_por_dia)),
                          seguidores = factor(seguidores,
                                              levels = levels(datasetKnnTwitter$seguidores)),
