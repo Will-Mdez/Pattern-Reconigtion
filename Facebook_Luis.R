@@ -1,11 +1,13 @@
+library(dplyr) 
+
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
-namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
-#namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
+#namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv";
+namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_LUIS.csv"
 
 #namefile <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
-namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
-#namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
+#namefile2 <- "C://Users//Alumnos//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv";
+namefile2 <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 #namefile2 <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//Facebook_ROCKET2.csv"
 dataFacebook <- read.table(namefile, header = TRUE, sep = ",")
 
@@ -85,6 +87,41 @@ dataFacebookFinal$`Páginas que siguen` <- as.numeric(dataFacebookFinal$`Página
 summary(dataFacebookFinal)
 dim(dataFacebookFinal)
 
+# Carga de la biblioteca ggplot2
+library(ggplot2)
+
+# Gráfico para "Nro Caracteres del nombre"
+ggplot(dataFacebookFinal, aes(x = `Nro Caracteres del nombre`)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+# Gráfico para "foto_de_perfil"
+ggplot(dataFacebookFinal, aes(x = `Foto de Perfil`)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de foto_de_perfil")
+
+# Gráfico para "Amigos"
+ggplot(dataFacebookFinal, aes(x = Amigos)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de Amigos")
+
+# Gráfico para "`Páginas que siguen`"
+ggplot(dataFacebookFinal, aes(x = `Páginas que siguen`)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de Páginas que siguen")
+
+# Gráfico para "Día de la semana con más actividad"
+ggplot(dataFacebookFinal, aes(x = `Día de la semana con más actividad`)) +
+  geom_bar(fill = "orange") +
+  labs(title = "Distribución de Día de la semana con más actividad")
+
+# Gráfico para "clase"
+ggplot(dataFacebookFinal, aes(x = clase)) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribución de clase")
+
+
+
 #Convertir los datos categóricos
 
 #Columnas con datos Cualitativos
@@ -100,15 +137,12 @@ names(dataFacebook_cualit) <- nombresTabla[cualitativos]
 dataFacebook_cualit <- as.data.frame(dataFacebook_cualit)
 
 summary(dataFacebook_cualit)
-dataFacebookFinal[375,3]
 #Datos cuantitativos
 dataFB_cuanti<-dataFacebookFinal[cuantitativos]
 summary(dataFB_cuanti)
 
 #Imputación de datos
-dataFacebookFinal$`Día de la semana con más actividad`[is.na(
-  dataFacebookFinal$`Día de la semana con más actividad`
-)] <- "No Publica"
+dataFacebookFinal$`Día de la semana con más actividad`[is.na( dataFacebookFinal$`Día de la semana con más actividad`)] <- "No Publica"
 summary(dataFacebookFinal)
 dim(dataFacebookFinal)
 
@@ -148,6 +182,7 @@ dataFacebookNorm <- as.data.frame(dataFacebookNorm)
 summary(dataFacebookNorm)
 
 #Identificación de valores extremos
+dataFB_cuanti<- as.data.frame(dataFB_cuanti)
 
 dataFBSE<-filter(dataFB_cuanti,dataFB_cuanti$`Nro Caracteres del nombre`<(mean_features[1]+3*sd_features[1]))
 dataFBSE<-filter(dataFBSE,dataFBSE$Amigos<(mean_features[2]+3*sd_features[2]))
@@ -206,6 +241,22 @@ dataCopy <- dataFacebookFinal[c(2,5)]
 
 summary(dataCopy)
 
+# Gráfico para "Nro Caracteres del nombre"
+ggplot(dataFB_ordenado, aes(x = `Nro Caracteres del nombre`)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+
+# Gráfico para "Amigos"
+ggplot(dataFB_ordenado, aes(x = Amigos)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de Amigos")
+
+# Gráfico para "`Páginas que siguen`"
+ggplot(dataFB_ordenado, aes(x = `Páginas que siguen`)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de Páginas que siguen")
+
 
 
 
@@ -220,6 +271,36 @@ dataFaceDiscretizado$clase <- factor(dataFaceDiscretizado$clase)
 summary(dataFaceDiscretizado)
 dim(dataFaceDiscretizado)
 #Frecuencias
+
+
+ggplot(dataFaceDiscretizado, aes(x = `Nro Caracteres del nombre`)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+# Gráfico para "foto_de_perfil"
+ggplot(dataFaceDiscretizado, aes(x = `Foto de Perfil`)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de foto_de_perfil")
+
+# Gráfico para "Amigos"
+ggplot(dataFaceDiscretizado, aes(x = Amigos)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de Amigos")
+
+# Gráfico para "`Páginas que siguen`"
+ggplot(dataFaceDiscretizado, aes(x = `Páginas que siguen`)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de Páginas que siguen")
+
+# Gráfico para "Día de la semana con más actividad"
+ggplot(dataFaceDiscretizado, aes(x = `Día de la semana con más actividad`)) +
+  geom_bar(fill = "orange") +
+  labs(title = "Distribución de Día de la semana con más actividad")
+
+# Gráfico para "clase"
+ggplot(dataFaceDiscretizado, aes(x = clase)) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribución de clase")
 #histograma de frecuencias
 
 freqClass <- table(dataFB_ordenado$Amigos)
@@ -298,6 +379,8 @@ EntropiasFB<-c(E2,E3,E4,E0,E1)
 EntropiasFB
 sort(EntropiasFB)
 
+plot( EntropiasFB, main = "Gráfico de dispersión ", xlab = "Valores", ylab = "Entropias")
+
 #La menor entropía es la de E1 que corresponde a Nro Caracteres del nombre`
 
 
@@ -338,8 +421,12 @@ chi4<-chi4$p.value
 
 chichisFB<-c(chi1,chi2,chi3,chi4)
 max(EntropiasFB)
+plot( chichisFB, main = "Gráfico de dispersión ", xlab = "Valores", ylab = "chi cuadrada")
+
 FSFB<-(-0.5*EntropiasFB[2:5])-0.5*(abs(chichisFB))
 FSFB
+plot( FSFB, main = "Gráfico de dispersión ", xlab = "Valores", ylab = "Factor Fisher")
+
 #F2 <-Amigos
 max(FSFB)
 
@@ -376,6 +463,8 @@ FS2<-(-0.5*(EntropiasFB[3:5]))-(0.5/k)*(abs(chichisFB2))
 FS2
 #F3 <-Foto de Perfil
 max(FS2)
+plot( FS2, main = "Gráfico de dispersión ", xlab = "Valores", ylab = "Factor Fisher")
+
 
 
 
@@ -499,6 +588,35 @@ print(final_confusion_matrix)
 
 
 
+### PROPORCION ENTRENAMIENTO
+proporcion_entrenamiento <- 0.7
+set.seed(123)
+indices_entrenamiento <- createDataPartition(datasetKnnFacebook$Nro_Caracteres, 
+                                             times = 1,
+                                             p = proporcion_entrenamiento,
+                                             list = FALSE)
+datos_entrenamiento <- datasetKnnFacebook[indices_entrenamiento, ]
+datos_prueba <- datasetKnnFacebook[-indices_entrenamiento, ]
+print("Conjunto de datos de entrenamiento:")
+print(datos_entrenamiento)
+
+print("Conjunto de datos de prueba:")
+print(datos_prueba)
+
+summary(datos_prueba)
+summary(datos_entrenamiento)
+names(datasetKnnFacebook)
+dist_matrix <- proxy::dist(datasetKnnFacebook[, c("Nro_Caracteres", "Amigos", "Foto_Perfil")], method = "Gower")
+test_dist_matrix <- proxy::dist(datos_prueba[-4], datasetKnnFacebook[, c("Nro_Caracteres", "Amigos", "Foto_Perfil")], method = "Gower")
+k <- 3  # Número de vecinos
+prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnFacebook$claseFace, k = k)
+prediction
+cm<-confusionMatrix(prediction,datos_prueba$claseFace)
+print(confusionMatrix(prediction,datos_prueba$claseFace))
+print(confusionMatrix(prediction,datos_prueba$claseFace)$byClass)
+
+plot(cm$table, col = cm$byClass, 
+     main = paste("Matriz de Confusión\nExactitud:", round(cm$overall['Accuracy'], 3)))
 
 
 
@@ -592,6 +710,16 @@ print(final_confusion_matrix)
 
 
 
+#Discretizacion Numero de Caracteres
+dfFB_caracteres <- dataFB_ordenado$`Nro Caracteres del nombre`
+dfFB_caracteres[1:125] <- "Poco"
+dfFB_caracteres[126:253]<- "Normal"
+dfFB_caracteres[254:377]<- "Muchos"
+dfFB_caracteres
+
+
+
+######ENTORNO GRAFICO
 library(shiny)
 library(cluster)
 library(class)  # Necesario para la función knn()
@@ -603,9 +731,9 @@ dist_matrix <- proxy::dist(datasetKnnFacebook [, c("Nro_Caracteres", "Amigos", "
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      selectInput("Nro_Caracteres", "Número de Caracteres en el nombre:",
+      selectInput("Nro_Caracteres", "Número de Caracteres en el nombre (  [1,125)-> Pocos, [125,253]->Normal, (254,infinito)-> Muchos  ):",
                   choices = levels(Nro_Caracteres)),
-      selectInput("Amigos", "Número de Amigos:",
+      selectInput("Amigos", "Número de Amigos   (  [0,400)-> Pocos, [400,1000]->Normal, (1000,infinito)-> Muchos  ):",
                   choices = levels(Amigos)),
       selectInput("Foto_Perfil", "Tiene Foto_Perfil:",
                   choices = levels(Foto_Perfil)),

@@ -4,6 +4,8 @@ namefile <- "C://Users//willm//Downloads//1002-A//Metaheuristicas//Pattern-Recon
 #namefile <- "//home//will-mdez//Documents//GitHub//Pattern-Reconigtion//DatasetsProyecto//ReconocimientoPerfiles_JD.csv"
 library(dplyr) 
 
+# Carga de la biblioteca ggplot2
+library(ggplot2)
 dataPerfiles <- read.table(namefile, header = TRUE, sep =',')
 
 #Descripción de los datos
@@ -17,9 +19,23 @@ dataPerfiles[dataPerfiles=="regularmente"]<-"a veces"
 dataPerfiles[dataPerfiles=="Pariente"]<-"Otra persona"
 dataPerfiles$Horas.DÃ.a.Dedicada.Redes.Sociales[dataPerfiles$Horas.DÃ.a.Dedicada.Redes.Sociales=="0"]<-"<1"
 #dimensiones
-dim(dataPerfiles)
+names(dataPerfiles)
 
 #summary(dataPerfiles)
+
+# Graficar cada característica
+for (col_name in colnames(dataPerfiles)) {
+  col_data <- dataPerfiles[[col_name]]
+  
+  # Determinar el tipo de variable y elegir la función de visualización adecuada
+  if (is.numeric(col_data)) {
+    # Variable numérica: Histograma
+    hist(col_data, main = col_name)
+  } else {
+    # Variable categórica: Gráfico de barras
+    barplot(table(col_data), main = col_name)
+  }
+}
 #names(dataPerfiles)
 
 #Columnas con datos Cualitativos
@@ -41,12 +57,16 @@ dim(dataPerfiles2)
 dataPerfiles_cuanti<-dataPerfiles[cuantitativos]
 #summary(dataPerfiles_cuanti)
 
+
+
+
 #Imputación de datos 
 FeatNames<-namesP[cuantitativos]
 mean_features <- sapply(FeatNames, function(x) mean(dataPerfiles_cuanti[[x]]))
 #mean_features
 sd_features <- sapply(FeatNames, function(x) sd(dataPerfiles_cuanti[[x]]))
 #sd_features
+
 #Identificación de valores extremos
 dataPerfiles_SE<-filter(dataPerfiles_cuanti,dataPerfiles_cuanti$Edad<(mean_features[1]+3*sd_features[1]))
 dataPerfiles_SE<-filter(dataPerfiles_SE,dataPerfiles_SE$Promedio.Preparatoria<(mean_features[2]+3*sd_features[2]))
@@ -71,7 +91,7 @@ dataPerfiles_Norm <- lapply(FeatNames, function (x) normalizeaDataL(dataPerfiles
 
 names(dataPerfiles_Norm)<- FeatNames  
 dataPerfiles_Norm <- as.data.frame(dataPerfiles_Norm)
-#summary(dataPerfiles_Norm)
+summary(dataPerfiles_Norm)
 
 #Discretizamos para clase con promedio
 dataP_Promedio <- dataPerfiles_cuanti$Promedio.Primer.Semestre
@@ -82,6 +102,8 @@ dataP_Promedio[dataPerfiles_cuanti$Promedio.Primer.Semestre>=8]<- "Bueno"
 
 #Aquí pasamos al df original
 dataPerfiles_cuanti['Clase'] <- dataP_Promedio
+
+
 
 #Ordenamos el df
 dataP_Ord <- dataPerfiles_cuanti
@@ -150,8 +172,17 @@ dataP_Ord$Horas.Promedio.Estudio.Examenes <- dataHrsEstudia
 dataP_Ord$Materias.Cursadas.Primer.Semestre <- dataMateriasCursa
 dataP_Ord$Horas.Promedio.Estudio.Actividades.Escolares <- dataHrsAct
 dataP_Ord$Horas.Semana.Divertirse.con.sus.amigos <- dataHrsDiversion
-#summary(dataP_Ord)
+summary(dataP_Ord)
 
+# Gráfico para "Promedio.Primer.Semestre"
+ggplot(dataP_Ord, aes(x = Clase )) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de Promedio.Primer.Semestre")
+
+# Gráfico para "Edad"
+ggplot(dataP_Ord, aes(x = Edad)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de Edad")
 
 ##Discretizacion Datos Cualitativos
 dataCopy <- dataPerfiles2
@@ -217,6 +248,10 @@ dataCopy$Horas.Semana.Dedicada.Actividades.Entretenimiento <- match(dataCopy$Hor
 summary(dataCopy)
 
 
+
+
+
+
 #Frecuencias
 #histograma de frecuencias
 
@@ -243,6 +278,28 @@ p
 
 
 dataPerfiles_Final<-dataPerfilesDiscretizada
+
+colors <- rainbow(ncol(dataPerfiles_Final))  # Generar una secuencia de colores
+
+for (i in 1:ncol(dataPerfiles_Final)) {
+  col_data <- dataPerfiles_Final[[i]]
+  
+  # Determinar el tipo de variable y elegir la función de visualización adecuada
+  if (is.numeric(col_data)) {
+    # Variable numérica: Gráfico de puntos
+    plot(col_data, col = colors[i], main = colnames(dataPerfiles_Final)[i])
+  } else {
+    # Variable categórica: Gráfico de barras
+    barplot(table(col_data), col = colors[i], main = colnames(dataPerfiles_Final)[i])
+  }
+}
+
+
+
+
+
+
+
 summary(dataPerfiles_Final)
 #Rankeo
 #Entropia
@@ -490,6 +547,8 @@ E27<-((Pij270[1]+Pij271[1]+Pij272[1])*EVij270+(Pij270[2]+Pij271[2]+Pij272[2])*EV
 EntropiasP<-c(E0,E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22,E23,E24,E25,E26,E27)
 names(EntropiasP)<-names(dataPerfiles_Final[c(1:7,9:29)])
 EntropiasP
+plot( EntropiasP, main = "Gráfico de dispersión ", xlab = "Caracteristica", ylab = "Entropias")
+
 sort(EntropiasP,index.return=TRUE)
 #La entropía menor corresponde a E0 que es Horas.Semana.Divertirse.con.sus.amigos
 
@@ -709,6 +768,10 @@ names(EntropiasP[c(1:6,8:28)])
 FS<-(-0.5*EntropiasP[c(1:6,8:28)])-0.5*(abs(chichiPerfiles))
 sort(FS,index.return=TRUE)
 EntropiasP[4]
+
+plot( chichiPerfiles, main = "Gráfico de dispersión ", xlab = "Caracteristica", ylab = "chi cuadrada")
+plot( FS, main = "Gráfico de dispersión ", xlab = "Caracteristica", ylab = "Factor Fisher")
+
 #F2 <-Materias.Aprobadas.Primer.Semestre
 max(FS)
 
@@ -912,6 +975,8 @@ sort(FS,index.return=TRUE)
 EntropiasP[1]
 #Edad <-Edad
 max(FS)
+plot( FS, main = "Gráfico de dispersión ", xlab = "Caracteristica", ylab = "Factor Fisher")
+
 
 
 
@@ -1029,6 +1094,10 @@ print(final_confusion_matrix)
 
 
 
+
+
+
+
   ################# BAYESIANO
 datasetBayesPerfiles <- data.frame(Horas.Semana.Divertirse.con.sus.amigos,Materias.Aprobadas.Primer.Semestre,Edad,clasePerfiles)
 dim(datasetBayesPerfiles)
@@ -1132,11 +1201,11 @@ dist_matrix <- proxy::dist(datasetKnnPerfiles [, c("Horas.Semana.Divertirse.con.
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      selectInput("Horas.Semana.Divertirse.con.sus.amigos", "Número de Horas.Semana.Divertirse.con.sus.amigos:",
+      selectInput("Horas.Semana.Divertirse.con.sus.amigos", "Número de Horas.Semana.Divertirse.con.sus.amigos  (  [0,2)-> Pocos, [2,5]->Normal, (5,infinito)-> Muchos  ):",
                   choices = levels(Horas.Semana.Divertirse.con.sus.amigos)),
-      selectInput("Materias.Aprobadas.Primer.Semestre", "Número de Materias.Aprobadas.Primer.Semestre:",
+      selectInput("Materias.Aprobadas.Primer.Semestre", "Número de Materias.Aprobadas.Primer.Semestre  (Regular > 4, Irregular <=4):",
                   choices = levels(Materias.Aprobadas.Primer.Semestre)),
-      selectInput("Edad", "Edad:",
+      selectInput("Edad", "Edad (Grupo 1 (17-19 años), Grupo2 (20-21 años) y Grupo 3 ( >21 años)):",
                   choices = levels(Edad)),
       actionButton("predictButton", "Predecir"),
       verbatimTextOutput("predictionOutput")
@@ -1185,6 +1254,37 @@ server <- function(input, output){
 }
 
 shinyApp(ui = ui, server = server)
+
+
+### PROPORCION ENTRENAMIENTO
+proporcion_entrenamiento <- 0.7
+set.seed(123)
+indices_entrenamiento <- createDataPartition(datasetKnnPerfiles$Horas.Semana.Divertirse.con.sus.amigos, 
+                                             times = 1,
+                                             p = proporcion_entrenamiento,
+                                             list = FALSE)
+datos_entrenamiento <- datasetKnnPerfiles[indices_entrenamiento, ]
+datos_prueba <- datasetKnnPerfiles[-indices_entrenamiento, ]
+print("Conjunto de datos de entrenamiento:")
+print(datos_entrenamiento)
+
+print("Conjunto de datos de prueba:")
+print(datos_prueba)
+
+summary(datos_prueba)
+summary(datos_entrenamiento)
+names(datasetKnnPerfiles)
+test_dist_matrix <- proxy::dist(datos_prueba[-4], datasetKnnPerfiles[, c("Horas.Semana.Divertirse.con.sus.amigos", "Materias.Aprobadas.Primer.Semestre", "Edad")], method = "Gower")
+k <- 3  # Número de vecinos
+prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnPerfiles$clasePerfiles, k = k)
+
+cm<-confusionMatrix(prediction,datos_prueba$clasePerfiles)
+print(confusionMatrix(prediction,datos_prueba$clasePerfiles))
+print(confusionMatrix(prediction,datos_prueba$clasePerfiles)$byClass)
+
+plot(cm$table, col = cm$byClass, 
+     main = paste("Matriz de Confusión\nExactitud:", round(cm$overall['Accuracy'], 3)))
+
 
 
 

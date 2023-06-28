@@ -84,6 +84,57 @@ summary(dataTwitterFinal)
 #summary(dataTwitterFinal)
 #dim(dataTwitterFinal)
 
+
+
+
+# Carga de la biblioteca ggplot2
+library(ggplot2)
+
+# Gráfico para "num_caracteres_nombre_usuario"
+ggplot(dataTwitterFinal, aes(x = num_caracteres_nombre_usuario)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+# Gráfico para "foto_de_perfil"
+ggplot(dataTwitterFinal, aes(x = foto_de_perfil)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de foto_de_perfil")
+
+# Gráfico para "perfil_privado"
+ggplot(dataTwitterFinal, aes(x = perfil_privado)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de perfil_privado")
+
+# Gráfico para "seguidores"
+ggplot(dataTwitterFinal, aes(x = seguidores)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de seguidores")
+
+# Gráfico para "perfiles_seguidos"
+ggplot(dataTwitterFinal, aes(x = perfiles_seguidos)) +
+  geom_bar(fill = "orange") +
+  labs(title = "Distribución de perfiles_seguidos")
+
+# Gráfico para "twitts_por_dia"
+ggplot(dataTwitterFinal, aes(x = twitts_por_dia)) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribución de twitts_por_dia")
+
+# Gráfico para "dia_mayor_cantidad_twitts"
+ggplot(dataTwitterFinal, aes(x = dia_mayor_cantidad_twitts)) +
+  geom_bar(fill = "yellow") +
+  labs(title = "Distribución de dia_mayor_cantidad_twitts")
+
+# Gráfico para "comenta_publicaciones"
+ggplot(dataTwitterFinal, aes(x = comenta_publicaciones)) +
+  geom_bar(fill = "brown") +
+  labs(title = "Distribución de comenta_publicaciones")
+
+# Gráfico para la clase "clase"
+ggplot(dataTwitterFinal, aes(x = clase)) +
+  geom_bar(fill = "gray") +
+  labs(title = "Distribución de la clase")
+
 #names Cuantitativos
 namesCuali<-c("perfil_privado","seguidores","perfil_privado","dia_mayor_cantidad_twitts","comenta_publicaciones","clase")
 namesCuali
@@ -172,7 +223,7 @@ dfTW_Seguidores[dataTw_Ord$seguidores>500]<- "Muchos"
 dfTW_Seguidores
 
 
-#Discretizacion Seguidores
+#Discretizacion twitts_por_dia
 dataTw_Ord <- dataTwitterCuanti[order(dataTwitterCuanti$twitts_por_dia, decreasing = FALSE),]
 dataTw_Ord
 dfTW_TwxD <- dataTw_Ord$twitts_por_dia
@@ -193,6 +244,27 @@ dataTw_Ord$seguidores<-factor(dataTw_Ord$seguidores)
 dataTw_Ord$twitts_por_dia<-factor(dataTw_Ord$twitts_por_dia)
 dataTw_Ord$perfiles_seguidos<-factor(dataTw_Ord$perfiles_seguidos)
 summary(dataTw_Ord)
+
+
+# Gráfico para "num_caracteres_nombre_usuario"
+ggplot(dataTw_Ord, aes(x = num_caracteres_nombre_usuario)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+# Gráfico para "foto_de_perfil"
+ggplot(dataTw_Ord, aes(x = seguidores)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de seguidores")
+
+# Gráfico para "perfil_privado"
+ggplot(dataTw_Ord, aes(x = twitts_por_dia)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de twitts_por_dia")
+
+# Gráfico para "seguidores"
+ggplot(dataTw_Ord, aes(x = perfiles_seguidos)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de perfiles_seguidos")
 
 
 
@@ -238,8 +310,56 @@ library(ggplot2)
 p <- ggplot(data=freqClass_df,aes(x=foto_de_perfil, y=freq)) + geom_bar(stat="identity", fill="#95E4E6")
 p
 
+# Gráfico para "num_caracteres_nombre_usuario"
+ggplot(dataTw_Discretizada, aes(x = num_caracteres_nombre_usuario)) +
+  geom_bar(fill = "blue") +
+  labs(title = "Distribución de num_caracteres_nombre_usuario")
+
+# Gráfico para "foto_de_perfil"
+ggplot(dataTw_Discretizada, aes(x = foto_de_perfil)) +
+  geom_bar(fill = "green") +
+  labs(title = "Distribución de foto_de_perfil")
+
+# Gráfico para "perfil_privado"
+ggplot(dataTw_Discretizada, aes(x = perfil_privado)) +
+  geom_bar(fill = "red") +
+  labs(title = "Distribución de perfil_privado")
+
+# Gráfico para "seguidores"
+ggplot(dataTw_Discretizada, aes(x = seguidores)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Distribución de seguidores")
+
+# Gráfico para "perfiles_seguidos"
+ggplot(dataTw_Discretizada, aes(x = perfiles_seguidos)) +
+  geom_bar(fill = "orange") +
+  labs(title = "Distribución de perfiles_seguidos")
+
+# Gráfico para "twitts_por_dia"
+ggplot(dataTw_Discretizada, aes(x = twitts_por_dia)) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribución de twitts_por_dia")
+
+# Gráfico para "dia_mayor_cantidad_twitts"
+ggplot(dataTw_Discretizada, aes(x = dia_mayor_cantidad_twitts)) +
+  geom_bar(fill = "yellow") +
+  labs(title = "Distribución de dia_mayor_cantidad_twitts")
+
+# Gráfico para "comenta_publicaciones"
+ggplot(dataTw_Discretizada, aes(x = comenta_publicaciones)) +
+  geom_bar(fill = "brown") +
+  labs(title = "Distribución de comenta_publicaciones")
+
+# Gráfico para la clase "clase"
+ggplot(dataTw_Discretizada, aes(x = clase)) +
+  geom_bar(fill = "gray") +
+  labs(title = "Distribución de la clase")
+
+
+
 summary(dataTwitterCuanti)
 dim(dataTwitterCuanti)
+
 #Identificación de valores extremos
 dataTwitterEx<-filter(dataTwitterCuanti,dataTwitterCuanti$num_caracteres_nombre_usuario<(mean_features[1]+3*sd_features[1]))
 dataTwitterEx<-filter(dataTwitterEx,dataTwitterEx$seguidores<(mean_features[2]+3*sd_features[2]))
@@ -330,6 +450,7 @@ orden <- c("num_caracteres_nombre_usuario","dia_mayor_cantidad_twitts","seguidor
 EntropiasTW<-c(E4,E3,E5,E6,E0,E1,E2,E7)
 sort(EntropiasTW)
 
+plot( EntropiasTW, main = "Gráfico de dispersión con nombres de valores", xlab = "Valores", ylab = "Arreglo")
 
 ##CORRELACION PEARSON
 #Mayor Entropia
@@ -391,6 +512,9 @@ FS<-(-0.5*EntropiasTW[1:7])-(0.5/2)*(abs(chichis))
 FS
 #F2 <-Seguidores
 sort(FS)
+plot( chichis, main = "Gráfico de dispersión chi cuadrada", xlab = "Valores", ylab = "Arreglo")
+plot( FS, main = "Gráfico de dispersión Factor Fisher", xlab = "Valores", ylab = "Arreglo")
+
 
 #3ra CAracteristica
 
@@ -447,12 +571,39 @@ FS2<-(-0.5*(EntropiasTW[c(1,7,2,4,5,6)]))-(0.5/k)*(abs(chichis2))
 FS2
 #F3 <-twitts_por_dia
 max(FS2)
+plot( chichis2, main = "Gráfico de dispersión chi cuadrada", xlab = "Valores", ylab = "Arreglo")
+plot( FS2, main = "Gráfico de dispersión Factor Fisher", xlab = "Valores", ylab = "Arreglo")
 
 summary(dataTw_Discretizada)
 
+### TRAINING y TEST
+twitts_por_dia <- factor(dataTw_Discretizada$twitts_por_dia)
+seguidores <- factor(dataTw_Discretizada$seguidores)
+perfiles_seguidos <- factor(dataTw_Discretizada$perfiles_seguidos)
+claseTwitter <- factor(dataTw_Discretizada$clase)
 
+datasetTwitterFULL <- data.frame(twitts_por_dia,seguidores,perfiles_seguidos,claseTwitter)
+summary(datasetTwitterFULL)
 
-######KNN
+library(caret)
+proporcion_entrenamiento <- 0.7
+set.seed(123)
+indices_entrenamiento <- createDataPartition(datasetTwitterFULL$twitts_por_dia, 
+                                             times = 1,
+                                             p = proporcion_entrenamiento,
+                                             list = FALSE)
+datos_entrenamiento <- datasetTwitterFULL[indices_entrenamiento, ]
+datos_prueba <- datasetTwitterFULL[-indices_entrenamiento, ]
+print("Conjunto de datos de entrenamiento:")
+print(datos_entrenamiento)
+
+print("Conjunto de datos de prueba:")
+print(datos_prueba)
+
+summary(datos_prueba)
+summary(datos_entrenamiento)
+
+###########################################################KNN
 library(e1071)
 library(naivebayes)
 library(caret)
@@ -520,7 +671,7 @@ print(mean_accuracy)
 
 
 
-###KNN LEAVE ONE OUT
+##################################################    KNN LEAVE ONE OUT
 library(FNN)
 library(cluster)
 
@@ -560,12 +711,7 @@ print(average_precision)
 print(final_confusion_matrix)
 
 
-
-
-
-
-
-################# BAYESIANO
+#########################################################   BAYESIANO
 
 datasetBayesTwitter <- data.frame(twitts_por_dia,seguidores,perfiles_seguidos,claseTwitter)
 dim(datasetBayesTwitter)
@@ -618,7 +764,7 @@ cat("Precisión promedio:", mean_accuracy, "\n")
 
 
 
-#APLICANDO LEAVE ONE OUT
+#####################################    APLICANDO LEAVE ONE OUT
 # Crear el modelo de clasificador bayesiano
 
 library(e1071)
@@ -655,31 +801,8 @@ print(final_confusion_matrix)
 
 
 
-input_df <- data.frame(twitts_por_dia = "Muchos",
-                       seguidores = "Pocos",
-                       perfiles_seguidos = "Normal")
-input_df$twitts_por_dia <- factor(input_df$twitts_por_dia)
-input_df$seguidores <- factor(input_df$seguidores)
-input_df$perfiles_seguidos <- factor(input_df$perfiles_seguidos)
 
-dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
-
-# Calcular la matriz de distancia de Gower para el fold de prueba
-test_dist_matrix <- proxy::dist(input_df, datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
-
-# Realizar el clasificador KNN utilizando la distancia de Gower
-k <- 3  # Número de vecinos
-knn_result <- knn(train = dist_matrix, test = test_dist_matrix, cl = train_df$claseTwitter, k = k)
-knn_result <- factor(knn_result, levels = levels(test_df$claseTwitter))
-
-
-
-
-
-
-
-
-
+#################################     ENTORTNO GRAFICO MODELO KNN
 
 library(shiny)
 library(cluster)
@@ -691,11 +814,11 @@ dist_matrix <- proxy::dist(datasetKnnTwitter[, c("twitts_por_dia", "seguidores",
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      selectInput("twitts", "Número de twitts por día:",
+      selectInput("twitts", "Número de twitts por día (  [0,2)-> Pocos, [2,3]->Normal, (3,infinito)-> Muchos  ):",
                   choices = levels(datasetKnnTwitter$twitts_por_dia)),
-      selectInput("seguidores", "Número de seguidores:",
+      selectInput("seguidores", "Número de seguidores (  [0,200)-> Pocos, [200,500]->Normal, (500,infinito)-> Muchos  ):",
                   choices = levels(datasetKnnTwitter$seguidores)),
-      selectInput("perfiles", "Número de perfiles seguidos:",
+      selectInput("perfiles", "Número de perfiles seguidos (  [0,200)-> Pocos, [200,500]->Normal, (500,infinito)-> Muchos  ):",
                   choices = levels(datasetKnnTwitter$perfiles_seguidos)),
       actionButton("predictButton", "Predecir"),
       verbatimTextOutput("predictionOutput")
@@ -743,6 +866,23 @@ server <- function(input, output){
 
 shinyApp(ui = ui, server = server)
 
+########################################    PRUEBA CON TEST DATASET
+
+
+test_dist_matrix <- proxy::dist(datos_prueba[-4], datasetKnnTwitter[, c("twitts_por_dia", "seguidores", "perfiles_seguidos")], method = "Gower")
+k <- 3  # Número de vecinos
+prediction <- knn(train = dist_matrix, test = test_dist_matrix, cl = datasetKnnTwitter$claseTwitter, k = k)
+prediction
+cm<-confusionMatrix(prediction,datos_prueba$claseTwitter)
+print(confusionMatrix(prediction,datos_prueba$claseTwitter))
+print(confusionMatrix(prediction,datos_prueba$claseTwitter)$byClass)
+
+plot(cm$table, col = cm$byClass, 
+     main = paste("Matriz de Confusión\nExactitud:", round(cm$overall['Accuracy'], 3)))
+
+
+
+#########ENTORTNO GRAFICO MODELO BAYESIANO
 
 
 library(shiny)
